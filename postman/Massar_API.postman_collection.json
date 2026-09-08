@@ -39,7 +39,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"center_name\": \"Hope Medical Center\",\n  \"center_phone\": \"+201011112222\",\n  \"specialty\": \"Physical Therapy & Rehabilitation\",\n  \"country\": \"Egypt\",\n  \"city\": \"Cairo\",\n  \"name\": \"Dr. Tarek Admin\",\n  \"email\": \"tarek@hopemedical.com\",\n  \"phone\": \"+201011113333\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}"
+							"raw": "{\n  \"center_name\": \"Hope Medical Center\",\n  \"center_phone\": \"+201011112222\",\n  \"specialty\": \"Physical Therapy & Rehabilitation\",\n  \"country\": \"Egypt\",\n  \"city\": \"Cairo\",\n  \"therapists_count\": 5,\n  \"branches_count\": 2,\n  \"referral_source\": \"Facebook Ad\",\n  \"terms_accepted\": true,\n  \"name\": \"Dr. Tarek Admin\",\n  \"email\": \"tarek@hopemedical.com\",\n  \"phone\": \"+201011113333\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/register",

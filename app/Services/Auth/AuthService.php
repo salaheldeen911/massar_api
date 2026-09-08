@@ -4,7 +4,7 @@ namespace App\Services\Auth;
 
 use App\Models\Center;
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -18,6 +18,7 @@ class AuthService
     {
         return DB::transaction(function () use ($data) {
             $center = $this->createPendingCenter($data);
+            $this->attachLicenseDocumentIfProvided($center, $data);
             $user = $this->createPendingAdminUser($center, $data);
 
             return [
@@ -64,9 +65,24 @@ class AuthService
             'specialty' => $data['specialty'] ?? null,
             'country' => $data['country'] ?? 'Egypt',
             'city' => $data['city'] ?? 'Cairo',
+            'therapists_count' => $data['therapists_count'] ?? 1,
+            'branches_count' => $data['branches_count'] ?? 1,
+            'referral_source' => $data['referral_source'] ?? null,
+            'terms_accepted' => isset($data['terms_accepted']) ? filter_var($data['terms_accepted'], FILTER_VALIDATE_BOOLEAN) : true,
             'status' => 'pending',
             'subscription_status' => 'trialing',
         ]);
+    }
+
+    /**
+     * Helper: Attach license document to center via Spatie MediaLibrary if provided.
+     */
+    private function attachLicenseDocumentIfProvided(Center $center, array $data): void
+    {
+        if (isset($data['license_document']) && $data['license_document'] instanceof UploadedFile) {
+            $center->addMedia($data['license_document'])
+                ->toMediaCollection('license_document');
+        }
     }
 
     /**

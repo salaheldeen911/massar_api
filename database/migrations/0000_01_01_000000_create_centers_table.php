@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('specialty', 100)->nullable();
             $table->string('country', 100)->default('Egypt');
             $table->string('city', 100)->default('Cairo');
+            $table->unsignedInteger('therapists_count')->default(1);
+            $table->unsignedInteger('branches_count')->default(1);
+            $table->string('referral_source')->nullable();
+            $table->boolean('terms_accepted')->default(true);
             $table->enum('status', ['pending', 'active', 'suspended', 'rejected'])->default('pending');
 
             // Trial & Subscriptions

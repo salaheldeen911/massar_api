@@ -21,6 +21,10 @@ class CenterResource extends JsonResource
             'specialty' => $this->specialty,
             'country' => $this->country,
             'city' => $this->city,
+            'therapists_count' => $this->therapists_count,
+            'branches_count' => $this->branches_count,
+            'referral_source' => $this->referral_source,
+            'terms_accepted' => (bool) $this->terms_accepted,
             'status' => $this->status,
             'trial_starts_at' => $this->trial_starts_at?->toIso8601String(),
             'trial_ends_at' => $this->trial_ends_at?->toIso8601String(),
@@ -30,6 +34,7 @@ class CenterResource extends JsonResource
             'instagram' => $this->instagram,
             'linkedin' => $this->linkedin,
             'logo_url' => $this->hasMedia('logo') ? $this->getFirstMediaUrl('logo') : null,
+            'license_document_url' => $this->hasMedia('license_document') ? $this->getFirstMediaUrl('license_document') : null,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

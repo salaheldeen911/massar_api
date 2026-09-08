@@ -6,6 +6,8 @@ use App\Models\Center;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -18,13 +20,22 @@ class AuthTest extends TestCase
         $this->seed(RoleSeeder::class);
     }
 
-    public function test_center_admin_can_register_pending_application(): void
+    public function test_center_admin_can_register_pending_application_with_license_document(): void
     {
+        Storage::fake('public');
+
+        $licenseFile = UploadedFile::fake()->create('license_doc.pdf', 500, 'application/pdf');
+
         $response = $this->postJson('/api/register', [
             'center_name' => 'Healing Hands Center',
             'center_phone' => '+201011112222',
             'specialty' => 'Orthopedics',
             'city' => 'Cairo',
+            'therapists_count' => 5,
+            'branches_count' => 2,
+            'referral_source' => 'Google Search',
+            'terms_accepted' => true,
+            'license_document' => $licenseFile,
             'name' => 'Dr. Ahmed Admin',
             'email' => 'ahmed@healing.com',
             'phone' => '+201011113333',
@@ -34,11 +45,17 @@ class AuthTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJsonPath('center.status', 'pending')
+            ->assertJsonPath('center.therapists_count', 5)
+            ->assertJsonPath('center.branches_count', 2)
+            ->assertJsonPath('center.referral_source', 'Google Search')
+            ->assertJsonPath('center.terms_accepted', true)
             ->assertJsonPath('user.status', 'pending')
             ->assertJsonPath('user.roles.0', 'admin');
 
         $this->assertDatabaseHas('centers', [
             'name' => 'Healing Hands Center',
+            'therapists_count' => 5,
+            'branches_count' => 2,
             'status' => 'pending',
         ]);
 
@@ -46,6 +63,9 @@ class AuthTest extends TestCase
             'email' => 'ahmed@healing.com',
             'status' => 'pending',
         ]);
+
+        $center = Center::where('name', 'Healing Hands Center')->first();
+        $this->assertTrue($center->hasMedia('license_document'));
     }
 
     public function test_pending_center_admin_cannot_login(): void

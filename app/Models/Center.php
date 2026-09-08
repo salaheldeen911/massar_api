@@ -16,6 +16,9 @@ class Center extends Tenant implements HasMedia
 
     protected $attributes = [
         'country' => 'Egypt',
+        'therapists_count' => 1,
+        'branches_count' => 1,
+        'terms_accepted' => true,
         'status' => 'pending',
         'subscription_status' => 'trialing',
     ];
@@ -26,6 +29,10 @@ class Center extends Tenant implements HasMedia
         'specialty',
         'country',
         'city',
+        'therapists_count',
+        'branches_count',
+        'referral_source',
+        'terms_accepted',
         'status',
         'trial_starts_at',
         'trial_ends_at',
@@ -39,6 +46,9 @@ class Center extends Tenant implements HasMedia
     protected function casts(): array
     {
         return [
+            'therapists_count' => 'integer',
+            'branches_count' => 'integer',
+            'terms_accepted' => 'boolean',
             'trial_starts_at' => 'datetime',
             'trial_ends_at' => 'datetime',
         ];
@@ -47,6 +57,7 @@ class Center extends Tenant implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('logo')->singleFile();
+        $this->addMediaCollection('license_document')->singleFile();
     }
 
     public function users(): HasMany
