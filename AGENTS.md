@@ -106,3 +106,30 @@ app/
   - Prevent N+1 queries using eager loading (`with(...)`).
   - Wrap multi-step database operations in `DB::transaction(...)`.
 - **Testing Standard**: Every feature must include automated feature or unit tests (`php artisan test`).
+
+---
+
+## 7. Standardized API Responses & Exception Handling
+
+- **Base Controller Response Methods**: All Controllers MUST extend `App\Http\Controllers\Controller` and use the base response methods:
+  - `$this->success($data, $message, $code, $meta)`: Returns a unified success JSON structure (`success: true`, `message`, `data`, `meta`). Automatically handles normal data, API resources, and paginated datasets.
+  - `$this->failed($message, $code, $errors)`: Returns a unified error JSON structure (`success: false`, `message`, `errors`).
+- **Global Exception Interception**: Do NOT write ad-hoc `try-catch` blocks in controllers. All exceptions (`ValidationException`, `AuthenticationException`, `AccessDeniedHttpException`, `ModelNotFoundException`, `Throwable`) are intercepted globally in `bootstrap/app.php` and formatted into the unified `failed(...)` JSON structure.
+- **Security & Logging**: Unhandled server exceptions must log full trace details to the `daily` log channel without exposing internal backend trace details to the client response.
+
+---
+
+## 8. Git & Version Control Policy
+
+- **No Automatic Git Operations**: NEVER execute `git add`, `git commit`, or `git push` automatically without explicit user instruction. All git staging, committing, and pushing must only be performed when explicitly requested by the user.
+
+---
+
+## 9. Postman Collection Documentation Policy
+
+- **Mandatory Endpoint Documentation**: EVERY API endpoint added or updated in the project MUST be documented in `postman/Massar_API.postman_collection.json`.
+- **Endpoint Descriptions & Response Examples**: Each endpoint request in the collection MUST contain:
+  - Clear and descriptive `description` explaining the request's purpose, route access control, and parameters.
+  - Expected JSON response examples (`response` array in Postman collection) illustrating both success responses (`200`/`201`) and common error responses (`422 Validation Error`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`).
+- **Unified Schema Conformance**: All response examples in Postman MUST conform strictly to the application's unified JSON structure (`success`, `message`, `data`, `meta`, `errors`).
+

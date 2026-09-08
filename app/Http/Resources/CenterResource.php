@@ -35,6 +35,7 @@ class CenterResource extends JsonResource
             'linkedin' => $this->linkedin,
             'logo_url' => $this->hasMedia('logo') ? $this->getFirstMediaUrl('logo') : null,
             'license_document_url' => $this->hasMedia('license_document') ? $this->getFirstMediaUrl('license_document') : null,
+            'users' => UserResource::collection($this->whenLoaded('users')),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

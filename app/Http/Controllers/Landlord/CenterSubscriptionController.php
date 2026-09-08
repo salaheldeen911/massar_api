@@ -23,15 +23,10 @@ class CenterSubscriptionController extends Controller
     {
         $centers = $this->subscriptionService->getPendingCenters();
 
-        return response()->json([
-            'data' => CenterResource::collection($centers),
-            'meta' => [
-                'current_page' => $centers->currentPage(),
-                'last_page' => $centers->lastPage(),
-                'per_page' => $centers->perPage(),
-                'total' => $centers->total(),
-            ],
-        ]);
+        return $this->success(
+            CenterResource::collection($centers),
+            'Pending center applications retrieved successfully.'
+        );
     }
 
     /**
@@ -41,10 +36,10 @@ class CenterSubscriptionController extends Controller
     {
         $approvedCenter = $this->subscriptionService->approveCenter($center);
 
-        return response()->json([
-            'message' => 'Center subscription approved and activated successfully.',
-            'center' => new CenterResource($approvedCenter),
-        ]);
+        return $this->success(
+            new CenterResource($approvedCenter),
+            'Center subscription approved and activated successfully.'
+        );
     }
 
     /**
@@ -54,9 +49,9 @@ class CenterSubscriptionController extends Controller
     {
         $rejectedCenter = $this->subscriptionService->rejectCenter($center, $request->input('reason'));
 
-        return response()->json([
-            'message' => 'Center subscription request rejected.',
-            'center' => new CenterResource($rejectedCenter),
-        ]);
+        return $this->success(
+            new CenterResource($rejectedCenter),
+            'Center subscription request rejected.'
+        );
     }
 }

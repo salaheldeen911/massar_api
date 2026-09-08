@@ -25,11 +25,10 @@ class AuthController extends Controller
     {
         $result = $this->authService->registerCenterAdmin($request->validated());
 
-        return response()->json([
-            'message' => 'Registration request submitted successfully. Waiting for Landlord approval.',
+        return $this->success([
             'center' => new CenterResource($result['center']),
             'user' => new UserResource($result['user']),
-        ], 201);
+        ], 'Registration request submitted successfully. Waiting for Landlord approval.', 201);
     }
 
     /**
@@ -39,8 +38,9 @@ class AuthController extends Controller
     {
         $result = $this->authService->login($request->validated());
 
-        return response()->json(
-            new AuthResource($result['user'], $result['token'])
+        return $this->success(
+            new AuthResource($result['user'], $result['token']),
+            'Login successful.'
         );
     }
 
@@ -51,9 +51,7 @@ class AuthController extends Controller
     {
         $this->authService->logout($request->user());
 
-        return response()->json([
-            'message' => 'Successfully logged out.',
-        ]);
+        return $this->success(null, 'Successfully logged out.');
     }
 
     /**
@@ -63,8 +61,9 @@ class AuthController extends Controller
     {
         $user = $request->user()->load('center');
 
-        return response()->json([
-            'user' => new UserResource($user),
-        ]);
+        return $this->success(
+            new UserResource($user),
+            'Profile retrieved successfully.'
+        );
     }
 }

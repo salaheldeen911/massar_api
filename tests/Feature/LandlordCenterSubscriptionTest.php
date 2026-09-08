@@ -70,8 +70,8 @@ class LandlordCenterSubscriptionTest extends TestCase
             ->postJson("/api/landlord/centers/{$center->id}/approve");
 
         $response->assertStatus(200)
-            ->assertJsonPath('center.status', 'active')
-            ->assertJsonPath('center.subscription_status', 'active');
+            ->assertJsonPath('data.status', 'active')
+            ->assertJsonPath('data.subscription_status', 'active');
 
         $this->assertDatabaseHas('centers', [
             'id' => $center->id,
@@ -109,7 +109,7 @@ class LandlordCenterSubscriptionTest extends TestCase
             ]);
 
         $response->assertStatus(200)
-            ->assertJsonPath('center.status', 'rejected');
+            ->assertJsonPath('data.status', 'rejected');
 
         $this->assertDatabaseHas('centers', [
             'id' => $center->id,

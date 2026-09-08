@@ -44,13 +44,14 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertStatus(201)
-            ->assertJsonPath('center.status', 'pending')
-            ->assertJsonPath('center.therapists_count', 5)
-            ->assertJsonPath('center.branches_count', 2)
-            ->assertJsonPath('center.referral_source', 'Google Search')
-            ->assertJsonPath('center.terms_accepted', true)
-            ->assertJsonPath('user.status', 'pending')
-            ->assertJsonPath('user.roles.0', 'admin');
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.center.status', 'pending')
+            ->assertJsonPath('data.center.therapists_count', 5)
+            ->assertJsonPath('data.center.branches_count', 2)
+            ->assertJsonPath('data.center.referral_source', 'Google Search')
+            ->assertJsonPath('data.center.terms_accepted', true)
+            ->assertJsonPath('data.user.status', 'pending')
+            ->assertJsonPath('data.user.roles.0', 'admin');
 
         $this->assertDatabaseHas('centers', [
             'name' => 'Healing Hands Center',
@@ -93,6 +94,7 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertStatus(422)
+            ->assertJsonPath('success', false)
             ->assertJsonValidationErrors(['identity']);
     }
 
@@ -121,15 +123,17 @@ class AuthTest extends TestCase
         ]);
 
         $loginResponse->assertStatus(200)
-            ->assertJsonStructure(['token', 'token_type', 'user']);
+            ->assertJsonPath('success', true)
+            ->assertJsonStructure(['data' => ['token', 'token_type', 'user']]);
 
-        $token = $loginResponse->json('token');
+        $token = $loginResponse->json('data.token');
 
         $meResponse = $this->withHeader('Authorization', 'Bearer ' . $token)
             ->getJson('/api/me');
 
         $meResponse->assertStatus(200)
-            ->assertJsonPath('user.email', 'active@center.com');
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.email', 'active@center.com');
     }
 
     public function test_user_can_logout(): void
@@ -148,6 +152,7 @@ class AuthTest extends TestCase
             ->postJson('/api/logout');
 
         $response->assertStatus(200)
+            ->assertJsonPath('success', true)
             ->assertJson(['message' => 'Successfully logged out.']);
     }
 }
