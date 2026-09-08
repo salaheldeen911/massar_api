@@ -433,6 +433,88 @@
 			]
 		},
 		{
+			"name": "Landlord - Dashboard",
+			"description": "Landlord-only dashboard overview endpoint providing stats, quick actions, activity stream, and recent centers widget.",
+			"item": [
+				{
+					"name": "Get Dashboard Overview",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/landlord/dashboard?search=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"landlord",
+								"dashboard"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "",
+									"description": "Optional search filter for recent centers list"
+								}
+							]
+						},
+						"description": "Retrieves the Landlord Dashboard overview data including summary stats (pending requests, total centers, total users with percentage change from yesterday), quick action counts, recent activity logs stream, and recent centers preview table."
+					},
+					"response": [
+						{
+							"name": "200 OK - Dashboard Data",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/landlord/dashboard",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"landlord",
+										"dashboard"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"success\": true,\n  \"message\": \"Landlord dashboard data retrieved successfully.\",\n  \"data\": {\n    \"stats\": {\n      \"pending_requests\": {\n        \"count\": 8,\n        \"change_percentage\": 4.3,\n        \"period\": \"from yesterday\"\n      },\n      \"total_centers\": {\n        \"count\": 21,\n        \"change_percentage\": 4.3,\n        \"period\": \"from yesterday\"\n      },\n      \"total_users\": {\n        \"count\": 44,\n        \"change_percentage\": 4.3,\n        \"period\": \"from yesterday\"\n      }\n    },\n    \"quick_actions\": {\n      \"add_new_center\": {\n        \"title\": \"Add New Center\",\n        \"description\": \"Create a new center from any city\"\n      },\n      \"review_requests\": {\n        \"title\": \"Review Requests\",\n        \"count\": 8,\n        \"label\": \"8 pending requests\"\n      },\n      \"center_support\": {\n        \"title\": \"Center Support\",\n        \"count\": 0,\n        \"label\": \"0 new messages\"\n      }\n    },\n    \"recent_activities\": [\n      {\n        \"id\": \"center_1\",\n        \"type\": \"new_center_request\",\n        \"title\": \"New Center Request\",\n        \"description\": \"GreenTech Labs\",\n        \"created_at\": \"2026-09-08T17:00:00.000000Z\",\n        \"time_ago\": \"2 minutes ago\"\n      }\n    ],\n    \"recent_centers\": [\n      {\n        \"id\": 1,\n        \"name\": \"GreenTech Labs\",\n        \"contact\": \"Greentech@support.com\",\n        \"phone\": \"+201012345678\",\n        \"location\": \"Cairo, Egypt\",\n        \"city\": \"Cairo\",\n        \"country\": \"Egypt\",\n        \"speciality\": \"Bones\",\n        \"status\": \"active\",\n        \"logo_url\": null,\n        \"created_at\": \"2026-09-08T15:00:00.000000Z\"\n      }\n    ]\n  }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Landlord - Subscriptions",
 			"description": "Landlord-only management endpoints for center subscription approvals and rejections.",
 			"item": [

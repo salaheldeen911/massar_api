@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Landlord\CenterController;
 use App\Http\Controllers\Landlord\CenterSubscriptionController;
+use App\Http\Controllers\Landlord\DashboardController;
 use App\Http\Controllers\Landlord\PatientController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,8 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'role:landlord'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/centers/pending', [CenterSubscriptionController::class, 'pending'])->name('centers.pending');
     Route::post('/centers/{center}/approve', [CenterSubscriptionController::class, 'approve'])->name('centers.approve');
     Route::post('/centers/{center}/reject', [CenterSubscriptionController::class, 'reject'])->name('centers.reject');
