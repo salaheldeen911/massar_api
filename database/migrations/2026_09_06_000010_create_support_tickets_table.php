@@ -15,10 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('center_id')->nullable()->constrained('centers')->nullOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('sender_name');
-            $table->string('sender_email');
-            $table->string('phone', 50)->nullable();
-            $table->string('referral_source', 100)->nullable();
             $table->string('subject');
             $table->text('message');
             $table->text('reply')->nullable();

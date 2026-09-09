@@ -17,6 +17,7 @@ class PatientProfile extends Model implements HasMedia
         'user_id',
         'center_id',
         'therapist_id',
+        'diagnosis_id',
         'birth_date',
         'current_week',
         'patient_history',
@@ -47,5 +48,10 @@ class PatientProfile extends Model implements HasMedia
     public function therapist(): BelongsTo
     {
         return $this->belongsTo(User::class, 'therapist_id');
+    }
+
+    public function diagnosisModel(): BelongsTo
+    {
+        return $this->belongsTo(Diagnosis::class, 'diagnosis_id');
     }
 }

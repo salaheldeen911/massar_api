@@ -27,14 +27,9 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(base_path('routes/landlord.php'));
 
             Route::middleware('api')
-                ->prefix('api/admin')
-                ->name('admin.')
-                ->group(base_path('routes/admin.php'));
-
-            Route::middleware('api')
-                ->prefix('api/therapist')
-                ->name('therapist.')
-                ->group(base_path('routes/therapist.php'));
+                ->prefix('api/business')
+                ->name('business.')
+                ->group(base_path('routes/business.php'));
 
             Route::middleware('api')
                 ->prefix('api/patient')

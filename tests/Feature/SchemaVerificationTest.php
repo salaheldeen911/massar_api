@@ -138,9 +138,6 @@ class SchemaVerificationTest extends TestCase
         $ticket = SupportTicket::create([
             'center_id' => $center->id,
             'user_id' => $patientUser->id,
-            'sender_name' => $patientUser->name,
-            'sender_email' => $patientUser->email,
-            'phone' => '+201022222222',
             'subject' => 'App Issue',
             'message' => 'Cannot view timer',
         ]);

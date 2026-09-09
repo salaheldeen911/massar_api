@@ -32,9 +32,13 @@ class PatientResource extends JsonResource
             'diagnosis' => $this->diagnosis,
             'special_tests_notes' => $this->special_tests_notes,
             'objective_findings' => $this->objective_findings,
-            'special_tests_file_url' => $this->hasMedia('special_tests') ? $this->getFirstMediaUrl('special_tests') : null,
             'center' => new CenterResource($this->whenLoaded('center')),
-            'therapist' => new UserResource($this->whenLoaded('therapist')),
+            'therapist' => $this->whenLoaded('therapist', fn () => [
+                'id' => $this->therapist->id,
+                'name' => $this->therapist->name,
+                'email' => $this->therapist->email,
+                'phone' => $this->therapist->phone,
+            ]),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

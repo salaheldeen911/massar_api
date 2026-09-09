@@ -28,6 +28,8 @@ class AuthController extends Controller
         return $this->success([
             'center' => new CenterResource($result['center']),
             'user' => new UserResource($result['user']),
+            'token' => $result['token'],
+            'token_type' => $result['token_type'],
         ], 'Registration request submitted successfully. Waiting for Landlord approval.', 201);
     }
 

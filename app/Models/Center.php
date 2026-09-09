@@ -26,6 +26,7 @@ class Center extends Tenant implements HasMedia
     protected $fillable = [
         'name',
         'phone',
+        'email',
         'specialty',
         'country',
         'city',
@@ -34,6 +35,7 @@ class Center extends Tenant implements HasMedia
         'referral_source',
         'terms_accepted',
         'status',
+        'rejection_reason',
         'trial_starts_at',
         'trial_ends_at',
         'subscription_status',

@@ -26,6 +26,7 @@ class CenterResource extends JsonResource
             'referral_source' => $this->referral_source,
             'terms_accepted' => (bool) $this->terms_accepted,
             'status' => $this->status,
+            'rejection_reason' => $this->rejection_reason,
             'trial_starts_at' => $this->trial_starts_at?->toIso8601String(),
             'trial_ends_at' => $this->trial_ends_at?->toIso8601String(),
             'subscription_status' => $this->subscription_status,

@@ -24,10 +24,10 @@ class RegisterCenterRequest extends FormRequest
         return [
             // Center Information
             'center_name' => ['required', 'string', 'max:191'],
-            'center_phone' => ['required', 'string', 'max:30'],
+            'center_phone' => ['nullable', 'string', 'max:30'],
             'specialty' => ['nullable', 'string', 'max:100'],
             'country' => ['nullable', 'string', 'max:100'],
-            'city' => ['required', 'string', 'max:100'],
+            'city' => ['nullable', 'string', 'max:100'],
             'therapists_count' => ['required', 'integer', 'min:1'],
             'branches_count' => ['required', 'integer', 'min:1'],
             'referral_source' => ['nullable', 'string', 'max:191'],

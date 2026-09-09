@@ -18,10 +18,6 @@ class SupportTicket extends Model
     protected $fillable = [
         'center_id',
         'user_id',
-        'sender_name',
-        'sender_email',
-        'phone',
-        'referral_source',
         'subject',
         'message',
         'reply',
@@ -35,6 +31,11 @@ class SupportTicket extends Model
         return [
             'replied_at' => 'datetime',
         ];
+    }
+
+    public function center(): BelongsTo
+    {
+        return $this->belongsTo(Center::class);
     }
 
     public function user(): BelongsTo

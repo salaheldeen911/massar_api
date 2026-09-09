@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\BelongsToCenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -15,6 +16,7 @@ class Exercise extends Model implements HasMedia
 
     protected $fillable = [
         'center_id',
+        'therapist_id',
         'title',
         'default_sets',
         'default_repeats',
@@ -34,6 +36,11 @@ class Exercise extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('video')->singleFile();
+    }
+
+    public function therapist(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'therapist_id');
     }
 
     public function patientExercises(): HasMany

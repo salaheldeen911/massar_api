@@ -15,13 +15,9 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'center_id' => $this->center_id,
             'name' => $this->name,
-            'username' => $this->username,
             'phone' => $this->phone,
             'email' => $this->email,
-            'locale' => $this->locale,
             'status' => $this->status,
             'roles' => $this->getRoleNames(),
             'avatar_url' => $this->hasMedia('avatar') ? $this->getFirstMediaUrl('avatar') : null,

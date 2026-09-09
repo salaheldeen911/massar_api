@@ -51,7 +51,10 @@ class AuthTest extends TestCase
             ->assertJsonPath('data.center.referral_source', 'Google Search')
             ->assertJsonPath('data.center.terms_accepted', true)
             ->assertJsonPath('data.user.status', 'pending')
-            ->assertJsonPath('data.user.roles.0', 'admin');
+            ->assertJsonPath('data.user.roles.0', 'admin')
+            ->assertJsonPath('data.token_type', 'Bearer');
+
+        $this->assertNotNull($response->json('data.token'));
 
         $this->assertDatabaseHas('centers', [
             'name' => 'Healing Hands Center',
@@ -69,27 +72,52 @@ class AuthTest extends TestCase
         $this->assertTrue($center->hasMedia('license_document'));
     }
 
-    public function test_pending_center_admin_cannot_login(): void
+    public function test_center_admin_can_register_using_figma_payload_without_center_phone_or_city(): void
+    {
+        $response = $this->postJson('/api/register', [
+            'center_name' => 'Kinetic Physical Therapy Center',
+            'name' => 'Full Admin Name',
+            'specialty' => 'Orthopedic',
+            'phone' => '+201112223344',
+            'email' => 'kinetic@center.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+            'branches_count' => 1,
+            'therapists_count' => 5,
+            'referral_source' => 'Social Media',
+            'terms_accepted' => true,
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.center.name', 'Kinetic Physical Therapy Center')
+            ->assertJsonPath('data.center.phone', '+201112223344')
+            ->assertJsonPath('data.user.name', 'Full Admin Name');
+
+        $this->assertNotNull($response->json('data.token'));
+    }
+
+    public function test_inactive_center_admin_cannot_login(): void
     {
         $center = Center::create([
-            'name' => 'Pending Center',
+            'name' => 'Inactive Center',
             'phone' => '+201000000001',
             'city' => 'Cairo',
-            'status' => 'pending',
+            'status' => 'suspended',
         ]);
 
         $user = User::create([
             'center_id' => $center->id,
-            'name' => 'Pending User',
+            'name' => 'Inactive User',
             'phone' => '+201000000002',
-            'email' => 'pending@center.com',
+            'email' => 'inactive@center.com',
             'password' => bcrypt('password123'),
-            'status' => 'pending',
+            'status' => 'inactive',
         ]);
         $user->assignRole('admin');
 
         $response = $this->postJson('/api/login', [
-            'identity' => 'pending@center.com',
+            'identity' => 'inactive@center.com',
             'password' => 'password123',
         ]);
 

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone', 30);
+            $table->string('email')->nullable();
             $table->string('specialty', 100)->nullable();
             $table->string('country', 100)->default('Egypt');
             $table->string('city', 100)->default('Cairo');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->string('referral_source')->nullable();
             $table->boolean('terms_accepted')->default(true);
             $table->enum('status', ['pending', 'active', 'suspended', 'rejected'])->default('pending');
+            $table->text('rejection_reason')->nullable();
 
             // Trial & Subscriptions
             $table->timestamp('trial_starts_at')->nullable();

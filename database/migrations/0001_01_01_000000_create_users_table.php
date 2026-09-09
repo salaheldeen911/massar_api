@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('center_id')->nullable()->constrained('centers')->cascadeOnDelete();
             $table->string('name');
-            $table->string('username', 100)->nullable()->unique();
             $table->string('phone', 30)->unique();
             $table->string('email')->nullable()->unique();
             $table->string('password');
-            $table->string('locale', 5)->default('ar');
             $table->string('fcm_token')->nullable();
             $table->enum('status', ['active', 'inactive', 'pending'])->default('active');
             $table->rememberToken();

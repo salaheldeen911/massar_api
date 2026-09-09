@@ -117,7 +117,7 @@ class DashboardService
                     'id' => 'ticket_' . $ticket->id,
                     'type' => 'support_ticket',
                     'title' => 'New Support Ticket',
-                    'description' => $ticket->subject ?? $ticket->sender_name ?? 'Support Inquiry',
+                    'description' => $ticket->subject ?? 'Support Inquiry',
                     'created_at' => $ticket->created_at?->toISOString(),
                     'time_ago' => $ticket->created_at?->diffForHumans(),
                 ];

@@ -20,10 +20,13 @@ class AuthService
             $center = $this->createPendingCenter($data);
             $this->attachLicenseDocumentIfProvided($center, $data);
             $user = $this->createPendingAdminUser($center, $data);
+            $token = $this->createSanctumToken($user);
 
             return [
                 'center' => $center,
                 'user' => $user,
+                'token' => $token,
+                'token_type' => 'Bearer',
             ];
         });
     }
@@ -61,7 +64,7 @@ class AuthService
     {
         return Center::create([
             'name' => $data['center_name'],
-            'phone' => $data['center_phone'],
+            'phone' => $data['center_phone'] ?? $data['phone'],
             'specialty' => $data['specialty'] ?? null,
             'country' => $data['country'] ?? 'Egypt',
             'city' => $data['city'] ?? 'Cairo',
@@ -111,7 +114,6 @@ class AuthService
     {
         $user = User::where('email', $identity)
             ->orWhere('phone', $identity)
-            ->orWhere('username', $identity)
             ->first();
 
         if (! $user) {
@@ -140,7 +142,7 @@ class AuthService
      */
     private function verifyUserAndCenterStatus(User $user): void
     {
-        if ($user->status !== 'active') {
+        if (in_array($user->status, ['inactive', 'suspended', 'rejected'])) {
             throw ValidationException::withMessages([
                 'identity' => ['Your account is currently ' . $user->status . '. Please contact support.'],
             ]);
@@ -148,7 +150,7 @@ class AuthService
 
         if ($user->center_id && $user->center) {
             $centerStatus = $user->center->status;
-            if ($centerStatus !== 'active') {
+            if (in_array($centerStatus, ['inactive', 'suspended', 'rejected'])) {
                 throw ValidationException::withMessages([
                     'identity' => ['Your center is currently ' . $centerStatus . '. Please contact administrator.'],
                 ]);

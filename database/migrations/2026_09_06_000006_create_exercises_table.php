@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
             $table->foreignId('center_id')->nullable()->constrained('centers')->cascadeOnDelete();
+            $table->foreignId('therapist_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->string('title');
             $table->unsignedInteger('default_sets')->default(3);
             $table->unsignedInteger('default_repeats')->default(12);

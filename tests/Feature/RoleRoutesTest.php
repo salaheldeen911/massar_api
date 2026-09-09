@@ -14,20 +14,12 @@ class RoleRoutesTest extends TestCase
             ->assertJson(['message' => 'Landlord API Service']);
     }
 
-    public function test_admin_route_is_accessible(): void
+    public function test_business_route_is_accessible(): void
     {
-        $response = $this->getJson('/api/admin');
+        $response = $this->getJson('/api/business');
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Admin API Service']);
-    }
-
-    public function test_therapist_route_is_accessible(): void
-    {
-        $response = $this->getJson('/api/therapist');
-
-        $response->assertStatus(200)
-            ->assertJson(['message' => 'Therapist API Service']);
+            ->assertJson(['message' => 'Business API Service']);
     }
 
     public function test_patient_route_is_accessible(): void

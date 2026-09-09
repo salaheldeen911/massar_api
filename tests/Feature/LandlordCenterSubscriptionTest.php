@@ -109,17 +109,41 @@ class LandlordCenterSubscriptionTest extends TestCase
             ]);
 
         $response->assertStatus(200)
-            ->assertJsonPath('data.status', 'rejected');
+            ->assertJsonPath('data.status', 'rejected')
+            ->assertJsonPath('data.rejection_reason', 'Incomplete center verification.');
 
         $this->assertDatabaseHas('centers', [
             'id' => $center->id,
             'status' => 'rejected',
+            'rejection_reason' => 'Incomplete center verification.',
         ]);
 
         $this->assertDatabaseHas('users', [
             'id' => $admin->id,
             'status' => 'inactive',
         ]);
+    }
+
+    public function test_cannot_approve_or_reject_already_active_or_rejected_center(): void
+    {
+        $activeCenter = Center::create([
+            'name' => 'Active Center',
+            'phone' => '+201011118888',
+            'city' => 'Cairo',
+            'status' => 'active',
+        ]);
+
+        $responseApprove = $this->actingAs($this->landlordUser, 'sanctum')
+            ->postJson("/api/landlord/centers/{$activeCenter->id}/approve");
+
+        $responseApprove->assertStatus(422);
+
+        $responseReject = $this->actingAs($this->landlordUser, 'sanctum')
+            ->postJson("/api/landlord/centers/{$activeCenter->id}/reject", [
+                'reason' => 'Should fail',
+            ]);
+
+        $responseReject->assertStatus(422);
     }
 
     public function test_non_landlord_cannot_access_landlord_subscription_routes(): void

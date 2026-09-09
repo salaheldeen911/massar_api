@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('treatment_plans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('therapist_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('therapist_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('manual_therapy')->nullable();
             $table->date('manual_therapy_date')->nullable();
             $table->text('electrotherapy')->nullable();

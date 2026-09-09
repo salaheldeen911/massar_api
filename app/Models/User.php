@@ -20,18 +20,15 @@ class User extends Authenticatable implements HasMedia
     use HasApiTokens, HasFactory, HasRoles, InteractsWithMedia, Notifiable;
 
     protected $attributes = [
-        'locale' => 'ar',
         'status' => 'active',
     ];
 
     protected $fillable = [
         'center_id',
         'name',
-        'username',
         'phone',
         'email',
         'password',
-        'locale',
         'fcm_token',
         'status',
     ];

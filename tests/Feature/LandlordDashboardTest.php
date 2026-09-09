@@ -86,8 +86,6 @@ class LandlordDashboardTest extends TestCase
         SupportTicket::create([
             'center_id' => $center1->id,
             'user_id' => $this->landlordUser->id,
-            'sender_name' => 'John Doe',
-            'sender_email' => 'john@example.com',
             'subject' => 'Integration Assistance Needed',
             'message' => 'Need help setting up Reverb.',
             'status' => 'open',

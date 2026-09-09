@@ -26,6 +26,12 @@ class CenterSubscriptionService
      */
     public function approveCenter(Center $center): Center
     {
+        if ($center->status !== 'pending') {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'center' => ['Only pending center applications can be approved.'],
+            ]);
+        }
+
         return DB::transaction(function () use ($center) {
             $this->activateCenterRecord($center);
             $this->activateCenterUsers($center);
@@ -39,8 +45,14 @@ class CenterSubscriptionService
      */
     public function rejectCenter(Center $center, ?string $reason = null): Center
     {
-        return DB::transaction(function () use ($center) {
-            $this->rejectCenterRecord($center);
+        if ($center->status !== 'pending') {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'center' => ['Only pending center applications can be rejected.'],
+            ]);
+        }
+
+        return DB::transaction(function () use ($center, $reason) {
+            $this->rejectCenterRecord($center, $reason);
             $this->deactivateCenterUsers($center);
 
             return $center->fresh(['users']);
@@ -73,10 +85,11 @@ class CenterSubscriptionService
     /**
      * Helper: Set center status to rejected.
      */
-    private function rejectCenterRecord(Center $center): void
+    private function rejectCenterRecord(Center $center, ?string $reason = null): void
     {
         $center->update([
             'status' => 'rejected',
+            'rejection_reason' => $reason,
             'subscription_status' => 'canceled',
         ]);
     }

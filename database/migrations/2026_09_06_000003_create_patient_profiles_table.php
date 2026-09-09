@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->unique()->constrained('users')->cascadeOnDelete();
             $table->foreignId('center_id')->constrained('centers')->cascadeOnDelete();
-            $table->foreignId('therapist_id')->constrained('users')->restrictOnDelete();
+            $table->foreignId('therapist_id')->nullable()->constrained('users')->nullOnDelete();
             $table->date('birth_date');
             $table->unsignedInteger('current_week')->default(1);
             $table->text('patient_history')->nullable();
