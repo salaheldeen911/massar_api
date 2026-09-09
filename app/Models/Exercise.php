@@ -22,6 +22,7 @@ class Exercise extends Model implements HasMedia
         'default_repeats',
         'default_duration',
         'therapist_notes',
+        'is_system',
     ];
 
     protected function casts(): array
@@ -30,6 +31,7 @@ class Exercise extends Model implements HasMedia
             'default_sets' => 'integer',
             'default_repeats' => 'integer',
             'default_duration' => 'integer',
+            'is_system' => 'boolean',
         ];
     }
 

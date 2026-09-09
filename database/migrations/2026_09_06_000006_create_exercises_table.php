@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('default_repeats')->default(12);
             $table->unsignedInteger('default_duration')->default(90);
             $table->text('therapist_notes')->nullable();
+            $table->boolean('is_system')->default(false);
             $table->timestamps();
         });
     }

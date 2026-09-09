@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             LandlordSeeder::class,
             DiagnosisSeeder::class,
+            ExerciseSeeder::class,
         ]);
     }
 }
