@@ -2951,7 +2951,117 @@
                     "description": "CRUD operations for patients, medical history, diagnosis selection, treatment plans, and nutrition programs.",
                     "item": [
                         {
-                            "name": "List Patients",
+                            "name": "List My Assigned Patients (Admin & Therapist)",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/business/my-patients?search=&per_page=10",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "business",
+                                        "my-patients"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "search",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "per_page",
+                                            "value": "10"
+                                        }
+                                    ]
+                                },
+                                "description": "Retrieves only the patients assigned to the currently authenticated user (Therapist or Admin). Accessible to both Admin and Therapist roles (role: admin|therapist)."
+                            },
+                            "response": [
+                                {
+                                    "name": "200 OK - My Assigned Patients",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/my-patients",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "my-patients"
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": true,\n  \"message\": \"My assigned patients retrieved successfully.\",\n  \"data\": [\n    {\n      \"id\": 10,\n      \"name\": \"Mohamed Ahmed\",\n      \"phone\": \"+201011114444\",\n      \"email\": \"mohamed@example.com\",\n      \"status\": \"active\",\n      \"patient_profile\": {\n        \"id\": 5,\n        \"birth_date\": \"1995-05-15\",\n        \"current_week\": 4,\n        \"chief_complain\": \"Lower back pain\",\n        \"assigned_therapist\": {\n          \"id\": 3,\n          \"name\": \"Dr. Ahmed Ali\"\n        }\n      },\n      \"avatar_url\": null,\n      \"created_at\": \"2026-09-08T10:00:00.000000Z\"\n    }\n  ],\n  \"meta\": {\n    \"current_page\": 1,\n    \"last_page\": 1,\n    \"per_page\": 10,\n    \"total\": 1\n  }\n}"
+                                },
+                                {
+                                    "name": "401 Unauthorized",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/my-patients",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "my-patients"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Unauthorized",
+                                    "code": 401,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": false,\n  \"message\": \"Unauthenticated.\",\n  \"errors\": null\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "List All Center Patients (Admin Only)",
                             "request": {
                                 "auth": {
                                     "type": "bearer",
@@ -2995,9 +3105,184 @@
                                         }
                                     ]
                                 },
-                                "description": "Lists center patients with filters."
+                                "description": "Retrieves all patients registered in the active center. Accessible exclusively to Center Admins (role: admin). Therapists calling this endpoint receive a 403 Forbidden response."
                             },
-                            "response": []
+                            "response": [
+                                {
+                                    "name": "200 OK - All Center Patients",
+                                    "originalRequest": {
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
+                                        },
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/patients?search=&therapist_id=&per_page=10",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "patients"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "search",
+                                                    "value": ""
+                                                },
+                                                {
+                                                    "key": "therapist_id",
+                                                    "value": ""
+                                                },
+                                                {
+                                                    "key": "per_page",
+                                                    "value": "10"
+                                                }
+                                            ]
+                                        },
+                                        "description": "Retrieves all patients registered in the active center. Accessible exclusively to Center Admins (role: admin). Therapists calling this endpoint receive a 403 Forbidden response."
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": true,\n  \"message\": \"Center patient list retrieved successfully.\",\n  \"data\": [\n    {\n      \"id\": 10,\n      \"name\": \"Mohamed Ahmed\",\n      \"phone\": \"+201011114444\",\n      \"email\": \"mohamed@example.com\",\n      \"status\": \"active\",\n      \"patient_profile\": {\n        \"id\": 5,\n        \"birth_date\": \"1995-05-15\",\n        \"current_week\": 4,\n        \"patient_history\": \"No previous surgeries\",\n        \"chief_complain\": \"Lower back pain\",\n        \"diagnosis\": \"Muscle strain\",\n        \"assigned_therapist\": {\n          \"id\": 3,\n          \"name\": \"Dr. Ahmed Ali\"\n        }\n      },\n      \"avatar_url\": null,\n      \"created_at\": \"2026-09-08T10:00:00.000000Z\"\n    }\n  ],\n  \"meta\": {\n    \"current_page\": 1,\n    \"last_page\": 1,\n    \"per_page\": 10,\n    \"total\": 1\n  }\n}"
+                                },
+                                {
+                                    "name": "403 Forbidden - Access Denied for Therapist",
+                                    "originalRequest": {
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
+                                        },
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/patients?search=&therapist_id=&per_page=10",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "patients"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "search",
+                                                    "value": ""
+                                                },
+                                                {
+                                                    "key": "therapist_id",
+                                                    "value": ""
+                                                },
+                                                {
+                                                    "key": "per_page",
+                                                    "value": "10"
+                                                }
+                                            ]
+                                        },
+                                        "description": "Retrieves all patients registered in the active center. Accessible exclusively to Center Admins (role: admin). Therapists calling this endpoint receive a 403 Forbidden response."
+                                    },
+                                    "status": "Forbidden",
+                                    "code": 403,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": false,\n  \"message\": \"User does not have the right roles.\",\n  \"errors\": null\n}"
+                                },
+                                {
+                                    "name": "401 Unauthorized",
+                                    "originalRequest": {
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
+                                        },
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/patients?search=&therapist_id=&per_page=10",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "patients"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "search",
+                                                    "value": ""
+                                                },
+                                                {
+                                                    "key": "therapist_id",
+                                                    "value": ""
+                                                },
+                                                {
+                                                    "key": "per_page",
+                                                    "value": "10"
+                                                }
+                                            ]
+                                        },
+                                        "description": "Retrieves all patients registered in the active center. Accessible exclusively to Center Admins (role: admin). Therapists calling this endpoint receive a 403 Forbidden response."
+                                    },
+                                    "status": "Unauthorized",
+                                    "code": 401,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": false,\n  \"message\": \"Unauthenticated.\",\n  \"errors\": null\n}"
+                                }
+                            ]
                         },
                         {
                             "name": "Create Patient",
@@ -3353,7 +3638,62 @@
                                 },
                                 "description": "Retrieves exercises visible to the active user (Global system exercises, Center public exercises, and Therapist private exercises)."
                             },
-                            "response": []
+                            "response": [
+                                {
+                                    "name": "200 OK - Exercise Library List",
+                                    "originalRequest": {
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
+                                        },
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/exercises?search=&per_page=10",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "exercises"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "search",
+                                                    "value": ""
+                                                },
+                                                {
+                                                    "key": "per_page",
+                                                    "value": "10"
+                                                }
+                                            ]
+                                        },
+                                        "description": "Retrieves exercises visible to the active user (Global system exercises, Center public exercises, and Therapist private exercises)."
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": true,\n  \"message\": \"Exercise library retrieved successfully.\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Abdominal Exercise With Both Leg Ex\",\n      \"default_sets\": 3,\n      \"default_repeats\": 12,\n      \"default_duration\": 90,\n      \"therapist_notes\": \"Standard system-approved exercise.\",\n      \"is_system\": true,\n      \"is_center_public\": true,\n      \"center_id\": null,\n      \"therapist_id\": null,\n      \"video_url\": \"http://localhost/storage/1/Abdominal_exercise.MOV\",\n      \"created_at\": \"2026-09-09T23:59:00.000000Z\"\n    }\n  ],\n  \"meta\": {\n    \"current_page\": 1,\n    \"last_page\": 3,\n    \"per_page\": 10,\n    \"total\": 30\n  }\n}"
+                                }
+                            ]
                         },
                         {
                             "name": "Create Exercise in Library",

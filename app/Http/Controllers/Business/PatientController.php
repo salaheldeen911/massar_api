@@ -20,11 +20,21 @@ class PatientController extends Controller
 
     public function index(GetPatientsRequest $request): JsonResponse
     {
-        $patients = $this->patientService->listPatients($request->validated());
+        $patients = $this->patientService->listCenterPatients($request->validated());
 
         return $this->success(
             PatientResource::collection($patients),
-            'Patient list retrieved successfully.'
+            'Center patient list retrieved successfully.'
+        );
+    }
+
+    public function myPatients(GetPatientsRequest $request): JsonResponse
+    {
+        $patients = $this->patientService->listMyPatients($request->validated());
+
+        return $this->success(
+            PatientResource::collection($patients),
+            'My assigned patients retrieved successfully.'
         );
     }
 

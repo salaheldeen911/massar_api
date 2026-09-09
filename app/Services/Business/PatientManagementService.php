@@ -11,10 +11,34 @@ use Illuminate\Validation\ValidationException;
 
 class PatientManagementService
 {
-    public function listPatients(array $filters = []): LengthAwarePaginator
+    public function listCenterPatients(array $filters = []): LengthAwarePaginator
     {
         $perPage = isset($filters['per_page']) ? (int) $filters['per_page'] : 10;
-        $query = $this->queryCenterPatients();
+        $centerId = currentCenterId();
+
+        $query = User::query()
+            ->where('center_id', $centerId)
+            ->role('patient')
+            ->with(['patientProfile.therapist', 'patientProfile.diagnosisModel', 'media']);
+
+        $this->applyFilters($query, $filters);
+
+        return $query->latest('created_at')->paginate($perPage);
+    }
+
+    public function listMyPatients(array $filters = []): LengthAwarePaginator
+    {
+        $perPage = isset($filters['per_page']) ? (int) $filters['per_page'] : 10;
+        $centerId = currentCenterId();
+        $currentUser = currentUser();
+
+        $query = User::query()
+            ->where('center_id', $centerId)
+            ->role('patient')
+            ->whereHas('patientProfile', function (Builder $pq) use ($currentUser) {
+                $pq->where('therapist_id', $currentUser?->id);
+            })
+            ->with(['patientProfile.therapist', 'patientProfile.diagnosisModel', 'media']);
 
         $this->applyFilters($query, $filters);
 
@@ -112,15 +136,7 @@ class PatientManagementService
         });
     }
 
-    private function queryCenterPatients(): Builder
-    {
-        $centerId = currentCenterId();
 
-        return User::query()
-            ->where('center_id', $centerId)
-            ->role('patient')
-            ->with(['patientProfile.therapist', 'patientProfile.diagnosisModel', 'media']);
-    }
 
     private function applyFilters(Builder $query, array $filters): void
     {

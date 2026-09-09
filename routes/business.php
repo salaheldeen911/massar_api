@@ -26,21 +26,26 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'role:admin|therapist'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Exclusive Admin Only Center Details Route
+    // Exclusive Admin Only Routes
     Route::middleware('role:admin')->group(function () {
         Route::get('/center-details', [CenterDetailsController::class, 'show'])->name('center-details.show');
         Route::post('/center-details', [CenterDetailsController::class, 'update'])->name('center-details.update');
         Route::put('/center-details', [CenterDetailsController::class, 'update'])->name('center-details.update.put');
+
+        // Admin Only: All Center Patients List
+        Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
     });
 
     // Shared Business Operations (Admin & Therapist)
+    Route::get('/my-patients', [PatientController::class, 'myPatients'])->name('patients.my-patients');
+
     Route::post('/patients/{patient}/treatment-plan', [PatientPlanController::class, 'storeTreatmentPlan'])->name('patients.treatment-plan');
     Route::post('/patients/{patient}/nutrition-plan', [PatientPlanController::class, 'storeNutritionPlan'])->name('patients.nutrition-plan');
 
     Route::post('/patients/{patient}/exercises', [ExerciseController::class, 'assign'])->name('patients.exercises.assign');
     Route::delete('/patients/{patient}/exercises/{patientExercise}', [ExerciseController::class, 'unassign'])->name('patients.exercises.unassign');
 
-    Route::apiResource('patients', PatientController::class);
+    Route::apiResource('patients', PatientController::class)->except(['index']);
     Route::apiResource('therapists', TherapistController::class);
     Route::apiResource('exercises', ExerciseController::class);
     Route::apiResource('support-tickets', SupportTicketController::class)->only(['index', 'store', 'show']);
