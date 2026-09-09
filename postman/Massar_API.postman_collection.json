@@ -3652,8 +3652,376 @@
         },
         {
             "name": "Patient",
-            "description": "Patient role endpoints for home exercise programs and communication.",
-            "item": []
+            "description": "Patient Portal Endpoints for viewing treatment plans, diet programs, exercise lists, and logging progress.",
+            "item": [
+                {
+                    "name": "Get Personalized Treatment Plan",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/patient/treatment-plan",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "patient",
+                                "treatment-plan"
+                            ]
+                        },
+                        "description": "Retrieves patient header info, week number, assigned therapist, medical history, diagnosis info, and treatment plan (medications, manual therapy, electrotherapy, goals)."
+                    },
+                    "response": [
+                        {
+                            "name": "200 OK - Patient Treatment Plan",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/patient/treatment-plan",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "patient",
+                                        "treatment-plan"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"success\": true,\n    \"message\": \"Patient treatment plan retrieved successfully.\",\n    \"data\": {\n        \"header_info\": {\n            \"name\": \"Seif Mohamed\",\n            \"current_week\": 4,\n            \"no_of_weeks\": 4,\n            \"date\": \"23\\/07\\/2026\",\n            \"therapist_name\": \"Dr. Mohamed Ahmed\",\n            \"assigned_therapist\": {\n                \"name\": \"Dr. Mohamed Ahmed\",\n                \"phone\": \"+201012345678\",\n                \"email\": \"therapist@massar.com\",\n                \"specialization\": \"Physical Therapy\"\n            },\n            \"patient_history\": \"Sports injury during football match\",\n            \"chief_complain\": \"Knee instability and swelling\",\n            \"diagnosis_id\": 1,\n            \"diagnosis\": \"ACL Injury\",\n            \"diagnosis_info\": {\n                \"id\": 1,\n                \"name\": \"Anterior Cruciate Ligament Injury\",\n                \"code\": \"ACL\",\n                \"category_letter\": \"A\"\n            },\n            \"special_tests_notes\": \"Lachman test positive\",\n            \"objective_findings\": \"Moderate effusion noted\",\n            \"special_tests_file_url\": null\n        },\n        \"treatment_plan\": {\n            \"id\": 1,\n            \"medications\": \"Painkillers as prescribed\",\n            \"manual_therapy\": \"Spine mobilization and knee flex\",\n            \"electrotherapy\": \"TENS 20 mins daily\",\n            \"goals\": \"Full range of motion in 4 weeks\",\n            \"updated_at\": \"2026-09-09T14:00:00.000000Z\"\n        }\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Personalized Diet Plan",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/patient/nutrition-plan",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "patient",
+                                "nutrition-plan"
+                            ]
+                        },
+                        "description": "Retrieves patient diet plan meals (breakfast, lunch, dinner, snacks, supplements, foods to avoid)."
+                    },
+                    "response": [
+                        {
+                            "name": "200 OK - Patient Diet Plan",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/patient/nutrition-plan",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "patient",
+                                        "nutrition-plan"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"success\": true,\n    \"message\": \"Patient nutrition program retrieved successfully.\",\n    \"data\": {\n        \"nutrition_program\": {\n            \"id\": 1,\n            \"breakfast\": \"Oatmeal & boiled eggs\",\n            \"lunch\": \"Grilled chicken breast with green salad\",\n            \"dinner\": \"Greek yogurt & berries\",\n            \"snacks\": \"Almonds & green tea\",\n            \"supplements\": \"Omega-3 & Vitamin D3\",\n            \"foods_to_avoid\": \"Refined sugars & soda\",\n            \"updated_at\": \"2026-09-09T14:00:00.000000Z\"\n        }\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Exercise Program & Weekly Progress",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/patient/exercises",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "patient",
+                                "exercises"
+                            ]
+                        },
+                        "description": "Retrieves patient assigned exercises program with completion percentage and weekly stats."
+                    },
+                    "response": [
+                        {
+                            "name": "200 OK - Exercise Progress Overview",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/patient/exercises",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "patient",
+                                        "exercises"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"success\": true,\n    \"message\": \"Patient exercise program retrieved successfully.\",\n    \"data\": {\n        \"header_summary\": {\n            \"completion_percentage\": 50,\n            \"completed_this_week_count\": 2,\n            \"total_assigned_count\": 4\n        },\n        \"exercises_list\": [\n            {\n                \"id\": 10,\n                \"exercise_id\": 1,\n                \"title\": \"Quadriceps Setting\",\n                \"video_url\": null,\n                \"target_sets\": 3,\n                \"target_repeats\": 12,\n                \"target_duration\": 90,\n                \"therapist_notes\": \"Hold for 10 seconds each repeat.\",\n                \"status\": \"in_progress\",\n                \"sort_order\": 1,\n                \"today_progress\": {\n                    \"completed_sets\": 1,\n                    \"completed_repeats\": 5,\n                    \"duration_spent\": 90,\n                    \"is_completed\": false,\n                    \"logged_at\": \"2026-09-09\"\n                }\n            }\n        ]\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Log Exercise Progress (Count Repeat / Sets)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"completed_sets\": 2,\n    \"completed_repeats\": 12,\n    \"duration_spent\": 90,\n    \"is_completed\": false\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/patient/exercises/10/log",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "patient",
+                                "exercises",
+                                "10",
+                                "log"
+                            ]
+                        },
+                        "description": "Logs sets and repeats execution for today (\"Count Repeat\"). Updates exercise status to in_progress or completed."
+                    },
+                    "response": [
+                        {
+                            "name": "200 OK - Exercise Progress Logged",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/patient/exercises/10/log",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "patient",
+                                        "exercises",
+                                        "10",
+                                        "log"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"success\": true,\n    \"message\": \"Exercise progress logged successfully.\",\n    \"data\": {\n        \"id\": 10,\n        \"exercise_id\": 1,\n        \"title\": \"Quadriceps Setting\",\n        \"status\": \"in_progress\",\n        \"today_progress\": {\n            \"completed_sets\": 2,\n            \"completed_repeats\": 12,\n            \"duration_spent\": 90,\n            \"is_completed\": false,\n            \"logged_at\": \"2026-09-09\"\n        }\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Mark Exercise as Complete",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/patient/exercises/10/complete",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "patient",
+                                "exercises",
+                                "10",
+                                "complete"
+                            ]
+                        },
+                        "description": "Marks assigned exercise as 100% completed for today."
+                    },
+                    "response": [
+                        {
+                            "name": "200 OK - Exercise Completed",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/patient/exercises/10/complete",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "patient",
+                                        "exercises",
+                                        "10",
+                                        "complete"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"success\": true,\n    \"message\": \"Exercise marked as completed.\",\n    \"data\": {\n        \"id\": 10,\n        \"exercise_id\": 1,\n        \"title\": \"Quadriceps Setting\",\n        \"status\": \"completed\",\n        \"today_progress\": {\n            \"completed_sets\": 3,\n            \"completed_repeats\": 12,\n            \"duration_spent\": 90,\n            \"is_completed\": true,\n            \"logged_at\": \"2026-09-09\"\n        }\n    }\n}"
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "variable": [
