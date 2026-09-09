@@ -1,0 +1,112 @@
+name: massar_api
+
+services:
+  # PHP Application Server
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: massar_app
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    env_file:
+      - .env
+    networks:
+      - massar-network
+    depends_on:
+      - db
+      - redis
+
+  # Nginx Web Server
+  web:
+    image: nginx:alpine
+    container_name: massar_web
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - massar-network
+    depends_on:
+      - app
+
+  # MySQL Database Server
+  db:
+    image: mysql:8.0
+    container_name: massar_db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: massar
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - massar-network
+
+  # Redis Cache & Queue Server
+  redis:
+    image: redis:alpine
+    container_name: massar_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - massar-network
+
+  # Laravel Queue Worker
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: massar_queue
+    restart: unless-stopped
+    command: php artisan queue:work --tries=3 --timeout=90
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    env_file:
+      - .env
+    networks:
+      - massar-network
+    depends_on:
+      - app
+      - db
+      - redis
+
+  # Laravel Reverb WebSocket Server
+  reverb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: massar_reverb
+    restart: unless-stopped
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080
+    working_dir: /var/www/html
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/var/www/html
+    env_file:
+      - .env
+    networks:
+      - massar-network
+    depends_on:
+      - app
+      - redis
+
+networks:
+  massar-network:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local

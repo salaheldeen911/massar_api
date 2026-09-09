@@ -53,6 +53,39 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+## Docker Setup
+
+Massar API includes a containerized Docker setup out-of-the-box powered by `docker-compose`.
+
+### Quickstart
+
+1. **Copy Docker Environment File**:
+   ```bash
+   cp .env.docker .env
+   ```
+
+2. **Build & Start Containers**:
+   ```bash
+   docker-compose up -d --build
+   ```
+
+3. **Run Database Migrations & Seeders**:
+   ```bash
+   docker-compose exec app php artisan migrate:fresh --seed
+   ```
+
+4. **Container Services**:
+   - **API Web Server**: `http://localhost:8000/api`
+   - **MySQL Database**: `localhost:3306` (Database: `massar`, User: `root`, Password: `root`)
+   - **Redis Cache & Queue**: `localhost:6379`
+   - **Reverb WebSockets**: `ws://localhost:8080`
+
+5. **Running Commands in Container**:
+   - Run tests: `docker-compose exec app php artisan test`
+   - Run tinker: `docker-compose exec app php artisan tinker`
+   - View logs: `docker-compose logs -f app`
+
 ## License
+
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
