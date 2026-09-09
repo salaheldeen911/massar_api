@@ -3647,6 +3647,369 @@
                             "response": []
                         }
                     ]
+                },
+                {
+                    "name": "Chat Operations",
+                    "description": "Real-time multi-tenant chat management for Therapists and Admins with assigned patients.",
+                    "item": [
+                        {
+                            "name": "Get Conversations List",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/business/chat/conversations",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "business",
+                                        "chat",
+                                        "conversations"
+                                    ]
+                                },
+                                "description": "Retrieves the list of active chat conversations with assigned patients in the current center, including last message and unread count."
+                            },
+                            "response": [
+                                {
+                                    "name": "200 OK - Conversations List Retrieved",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Authorization",
+                                                "value": "Bearer {{token}}"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/chat/conversations",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "chat",
+                                                "conversations"
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "body": "{\n    \"success\": true,\n    \"message\": \"Conversations retrieved successfully.\",\n    \"data\": [\n        {\n            \"patient\": {\n                \"id\": 5,\n                \"name\": \"Seif Mohamed\",\n                \"email\": \"seif@patient.com\",\n                \"phone\": \"+201087654321\",\n                \"avatar_url\": null\n            },\n            \"unread_count\": 2,\n            \"last_message\": \"Hello Doctor, I completed my knee exercises.\",\n            \"last_message_has_attachment\": false,\n            \"last_message_at\": \"2026-09-09T22:30:00.000000Z\"\n        }\n    ]\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Get Patient Message History",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/business/chat/messages/5?per_page=20",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "business",
+                                        "chat",
+                                        "messages",
+                                        "5"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "per_page",
+                                            "value": "20"
+                                        }
+                                    ]
+                                },
+                                "description": "Retrieves paginated chat history with a specific assigned patient. Automatically marks unread incoming messages as read."
+                            },
+                            "response": [
+                                {
+                                    "name": "200 OK - Message History Retrieved",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Authorization",
+                                                "value": "Bearer {{token}}"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/chat/messages/5?per_page=20",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "chat",
+                                                "messages",
+                                                "5"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "per_page",
+                                                    "value": "20"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "body": "{\n    \"success\": true,\n    \"message\": \"Messages retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": 12,\n            \"center_id\": 1,\n            \"sender_id\": 5,\n            \"receiver_id\": 2,\n            \"message\": \"Hello Doctor, I completed my knee exercises.\",\n            \"read_at\": \"2026-09-09T22:35:00.000000Z\",\n            \"created_at\": \"2026-09-09T22:30:00.000000Z\",\n            \"attachment_url\": null,\n            \"attachment_type\": null,\n            \"sender\": {\n                \"name\": \"Seif Mohamed\",\n                \"phone\": \"+201087654321\",\n                \"email\": \"seif@patient.com\",\n                \"status\": \"active\",\n                \"roles\": [\n                    \"patient\"\n                ]\n            }\n        }\n    ],\n    \"meta\": {\n        \"current_page\": 1,\n        \"last_page\": 1,\n        \"per_page\": 20,\n        \"total\": 1,\n        \"from\": 1,\n        \"to\": 1\n    }\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Send Message to Patient",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"receiver_id\": 5,\n    \"message\": \"Great job Seif! Keep up the good work.\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/business/chat/messages",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "business",
+                                        "chat",
+                                        "messages"
+                                    ]
+                                },
+                                "description": "Sends a text or media attachment message to an assigned patient. Triggers real-time broadcast event MessageSent."
+                            },
+                            "response": [
+                                {
+                                    "name": "201 Created - Message Sent Successfully",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Authorization",
+                                                "value": "Bearer {{token}}"
+                                            },
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"receiver_id\": 5,\n  \"message\": \"Great job Seif! Keep up the good work.\"\n}"
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/chat/messages",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "chat",
+                                                "messages"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "body": "{\n    \"success\": true,\n    \"message\": \"Message sent successfully.\",\n    \"data\": {\n        \"id\": 13,\n        \"center_id\": 1,\n        \"sender_id\": 2,\n        \"receiver_id\": 5,\n        \"message\": \"Great job Seif! Keep up the good work.\",\n        \"read_at\": null,\n        \"created_at\": \"2026-09-09T22:36:00.000000Z\",\n        \"attachment_url\": null,\n        \"attachment_type\": null\n    }\n}"
+                                },
+                                {
+                                    "name": "403 Forbidden - Cross Center or Unassigned Patient",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Authorization",
+                                                "value": "Bearer {{token}}"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"receiver_id\": 99,\n  \"message\": \"Hello\"\n}"
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/chat/messages",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "chat",
+                                                "messages"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Forbidden",
+                                    "code": 403,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "body": "{\n    \"success\": false,\n    \"message\": \"You are not authorized to message this patient.\"\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mark Patient Conversation as Read",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/business/chat/messages/5/read",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "business",
+                                        "chat",
+                                        "messages",
+                                        "5",
+                                        "read"
+                                    ]
+                                },
+                                "description": "Marks all unread messages from the specified patient as read."
+                            },
+                            "response": [
+                                {
+                                    "name": "200 OK - Messages Marked Read",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Authorization",
+                                                "value": "Bearer {{token}}"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/chat/messages/5/read",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "chat",
+                                                "messages",
+                                                "5",
+                                                "read"
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "body": "{\n    \"success\": true,\n    \"message\": \"Messages marked as read successfully.\",\n    \"data\": {\n        \"updated_count\": 2\n    }\n}"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
@@ -4018,6 +4381,251 @@
                             ],
                             "cookie": [],
                             "body": "{\n    \"success\": true,\n    \"message\": \"Exercise marked as completed.\",\n    \"data\": {\n        \"id\": 10,\n        \"exercise_id\": 1,\n        \"title\": \"Quadriceps Setting\",\n        \"status\": \"completed\",\n        \"today_progress\": {\n            \"completed_sets\": 3,\n            \"completed_repeats\": 12,\n            \"duration_spent\": 90,\n            \"is_completed\": true,\n            \"logged_at\": \"2026-09-09\"\n        }\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Chat Operations",
+                    "description": "Real-time chat endpoints for Patients to communicate with their assigned caregiver (Therapist or Admin).",
+                    "item": [
+                        {
+                            "name": "Get Caregiver Message History",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/patient/chat/messages?per_page=20",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "patient",
+                                        "chat",
+                                        "messages"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "per_page",
+                                            "value": "20"
+                                        }
+                                    ]
+                                },
+                                "description": "Retrieves paginated chat history with assigned caregiver. Automatically marks unread caregiver messages as read."
+                            },
+                            "response": [
+                                {
+                                    "name": "200 OK - Caregiver Messages Retrieved",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Authorization",
+                                                "value": "Bearer {{token}}"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/patient/chat/messages?per_page=20",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "patient",
+                                                "chat",
+                                                "messages"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "per_page",
+                                                    "value": "20"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "body": "{\n    \"success\": true,\n    \"message\": \"Messages retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": 13,\n            \"center_id\": 1,\n            \"sender_id\": 2,\n            \"receiver_id\": 5,\n            \"message\": \"Great job Seif! Keep up the good work.\",\n            \"read_at\": \"2026-09-09T22:37:00.000000Z\",\n            \"created_at\": \"2026-09-09T22:36:00.000000Z\",\n            \"attachment_url\": null,\n            \"attachment_type\": null\n        }\n    ],\n    \"meta\": {\n        \"current_page\": 1,\n        \"last_page\": 1,\n        \"per_page\": 20,\n        \"total\": 1,\n        \"from\": 1,\n        \"to\": 1\n    }\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Send Message to Caregiver",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"message\": \"Thank you Doctor!\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/patient/chat/messages",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "patient",
+                                        "chat",
+                                        "messages"
+                                    ]
+                                },
+                                "description": "Sends a text message or file attachment to the assigned caregiver. Target caregiver is automatically resolved from patient profile."
+                            },
+                            "response": [
+                                {
+                                    "name": "201 Created - Patient Message Sent",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Authorization",
+                                                "value": "Bearer {{token}}"
+                                            },
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"message\": \"Thank you Doctor!\"\n}"
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/patient/chat/messages",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "patient",
+                                                "chat",
+                                                "messages"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "body": "{\n    \"success\": true,\n    \"message\": \"Message sent successfully.\",\n    \"data\": {\n        \"id\": 14,\n        \"center_id\": 1,\n        \"sender_id\": 5,\n        \"receiver_id\": 2,\n        \"message\": \"Thank you Doctor!\",\n        \"read_at\": null,\n        \"created_at\": \"2026-09-09T22:38:00.000000Z\",\n        \"attachment_url\": null,\n        \"attachment_type\": null\n    }\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mark Caregiver Messages as Read",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/patient/chat/read",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "patient",
+                                        "chat",
+                                        "read"
+                                    ]
+                                },
+                                "description": "Marks all unread messages from assigned caregiver as read."
+                            },
+                            "response": [
+                                {
+                                    "name": "200 OK - Caregiver Messages Marked Read",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Authorization",
+                                                "value": "Bearer {{token}}"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/patient/chat/read",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "patient",
+                                                "chat",
+                                                "read"
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "body": "{\n    \"success\": true,\n    \"message\": \"Messages marked as read successfully.\",\n    \"data\": {\n        \"updated_count\": 1\n    }\n}"
+                                }
+                            ]
                         }
                     ]
                 }

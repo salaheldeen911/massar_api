@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Patient\ChatController;
 use App\Http\Controllers\Patient\PatientExerciseController;
 use App\Http\Controllers\Patient\PatientNutritionPlanController;
 use App\Http\Controllers\Patient\PatientTreatmentPlanController;
@@ -25,4 +26,10 @@ Route::middleware(['auth:sanctum', 'role:patient'])->group(function () {
     Route::get('/exercises', [PatientExerciseController::class, 'index'])->name('exercises.index');
     Route::post('/exercises/{patientExercise}/log', [PatientExerciseController::class, 'log'])->name('exercises.log');
     Route::post('/exercises/{patientExercise}/complete', [PatientExerciseController::class, 'complete'])->name('exercises.complete');
+
+    // Patient Chat Operations
+    Route::get('/chat/messages', [ChatController::class, 'messages'])->name('chat.messages');
+    Route::post('/chat/messages', [ChatController::class, 'store'])->name('chat.store');
+    Route::post('/chat/read', [ChatController::class, 'markRead'])->name('chat.mark-read');
 });
+

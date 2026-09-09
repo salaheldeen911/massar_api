@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Business\CenterDetailsController;
+use App\Http\Controllers\Business\ChatController;
 use App\Http\Controllers\Business\DashboardController;
 use App\Http\Controllers\Business\ExerciseController;
 use App\Http\Controllers\Business\PatientController;
@@ -43,4 +44,11 @@ Route::middleware(['auth:sanctum', 'role:admin|therapist'])->group(function () {
     Route::apiResource('therapists', TherapistController::class);
     Route::apiResource('exercises', ExerciseController::class);
     Route::apiResource('support-tickets', SupportTicketController::class)->only(['index', 'store', 'show']);
+
+    // Business Chat Operations
+    Route::get('/chat/conversations', [ChatController::class, 'conversations'])->name('chat.conversations');
+    Route::get('/chat/messages/{patient}', [ChatController::class, 'messages'])->name('chat.messages');
+    Route::post('/chat/messages', [ChatController::class, 'store'])->name('chat.store');
+    Route::post('/chat/messages/{patient}/read', [ChatController::class, 'markRead'])->name('chat.mark-read');
 });
+
