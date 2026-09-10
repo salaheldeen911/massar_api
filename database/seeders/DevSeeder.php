@@ -3,8 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Center;
+use App\Models\Exercise;
+use App\Models\NutritionPlan;
+use App\Models\PatientExercise;
 use App\Models\PatientProfile;
 use App\Models\TherapistProfile;
+use App\Models\TreatmentPlan;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -21,25 +25,13 @@ class DevSeeder extends Seeder
             return;
         }
 
-        // 1. Ensure Roles are seeded
-        $this->call(RoleSeeder::class);
+        // 1. Ensure Roles & Landlord are seeded
+        $this->call([
+            RoleSeeder::class,
+            LandlordSeeder::class,
+        ]);
 
-        // 2. Landlord User
-        $landlord = User::firstOrCreate(
-            ['email' => 'landlord@massar.com'],
-            [
-                'name' => 'Massar Landlord Admin',
-                'phone' => '+201000000000',
-                'password' => Hash::make('password123'),
-                'status' => 'active',
-                'center_id' => null,
-            ]
-        );
-        if (! $landlord->hasRole('landlord')) {
-            $landlord->assignRole('landlord');
-        }
-
-        // 3. Primary Center
+        // 2. Primary Center
         $center = Center::firstOrCreate(
             ['name' => 'Massar Physical Therapy Center'],
             [
@@ -55,7 +47,7 @@ class DevSeeder extends Seeder
             ]
         );
 
-        // 4. Center Admin User
+        // 3. Center Admin User
         $admin = User::firstOrCreate(
             ['email' => 'admin@massar.com'],
             [
@@ -70,7 +62,7 @@ class DevSeeder extends Seeder
             $admin->assignRole('admin');
         }
 
-        // 5. Center Therapist User
+        // 4. Center Therapist User
         $therapist = User::firstOrCreate(
             ['email' => 'therapist@massar.com'],
             [
@@ -93,7 +85,7 @@ class DevSeeder extends Seeder
             ]
         );
 
-        // 6. Patient User
+        // 5. Patient User (Belongs to Center AND Assigned to Dr. Ahmed)
         $patient = User::firstOrCreate(
             ['email' => 'patient@massar.com'],
             [
@@ -122,5 +114,50 @@ class DevSeeder extends Seeder
                 'objective_findings' => 'Limited lumbar flexion.',
             ]
         );
+
+        // 6. Sample Treatment Plan for Patient
+        TreatmentPlan::firstOrCreate(
+            ['patient_id' => $patient->id],
+            [
+                'therapist_id' => $therapist->id,
+                'manual_therapy' => 'Spine mobilization and soft tissue release twice weekly.',
+                'electrotherapy' => 'TENS application for 20 minutes.',
+                'medications' => 'Anti-inflammatory as prescribed by doctor.',
+                'goals' => 'Achieve full pain-free lumbar range of motion in 4 weeks.',
+            ]
+        );
+
+        // 7. Sample Nutrition Plan for Patient
+        NutritionPlan::firstOrCreate(
+            ['patient_id' => $patient->id],
+            [
+                'therapist_id' => $therapist->id,
+                'breakfast' => 'Oatmeal with honey and boiled eggs.',
+                'lunch' => 'Grilled chicken breast with green salad and brown rice.',
+                'dinner' => 'Greek yogurt with almonds.',
+                'snacks' => 'Fresh fruit and green tea.',
+                'supplements' => 'Omega-3 and Vitamin D3.',
+                'foods_to_avoid' => 'Refined sugars and fried foods.',
+            ]
+        );
+
+        // 8. Sample Assigned Exercise for Patient
+        $systemExercise = Exercise::withoutGlobalScope('center_scope')->first();
+        if ($systemExercise) {
+            PatientExercise::firstOrCreate(
+                [
+                    'patient_id' => $patient->id,
+                    'exercise_id' => $systemExercise->id,
+                ],
+                [
+                    'assigned_by' => $therapist->id,
+                    'sets' => 3,
+                    'repeats' => 12,
+                    'duration' => 90,
+                    'notes' => 'Perform slowly every morning.',
+                    'status' => 'pending',
+                ]
+            );
+        }
     }
 }

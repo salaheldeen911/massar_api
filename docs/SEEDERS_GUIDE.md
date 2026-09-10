@@ -32,7 +32,15 @@ Running `DevSeeder` generates ready-to-use accounts for immediate API testing ac
 | **Landlord Admin** | `landlord@massar.com` | `password123` | *N/A (Global)* | Global system admin |
 | **Center Admin** | `admin@massar.com` | `password123` | Massar Physical Therapy Center | Center Admin User |
 | **Therapist** | `therapist@massar.com` | `password123` | Massar Physical Therapy Center | `TherapistProfile` |
-| **Patient** | `patient@massar.com` | `password123` | Massar Physical Therapy Center | `PatientProfile` (assigned to Dr. Ahmed) |
+| **Patient** | `patient@massar.com` | `password123` | Massar Physical Therapy Center | `PatientProfile` (assigned to Dr. Ahmed) + Treatment Plan + Nutrition Plan + Assigned Exercise |
+
+### 🔗 Pre-populated Data & Relationships:
+- **Center Scoping**: Admin (`admin@massar.com`), Therapist (`therapist@massar.com`), and Patient (`patient@massar.com`) belong to `Massar Physical Therapy Center`.
+- **Therapist Assignment**: `patient@massar.com` has `therapist_id` set to `therapist@massar.com` (`Dr. Ahmed Specialist`).
+- **Sample Clinical Data**:
+  - `TreatmentPlan`: Spine mobilization, TENS 20 mins, goals.
+  - `NutritionPlan`: Complete 4-meal daily program + supplements + food avoidance.
+  - `PatientExercise`: Assigned baseline exercise with sets (3), repeats (12), duration (90s).
 
 ---
 

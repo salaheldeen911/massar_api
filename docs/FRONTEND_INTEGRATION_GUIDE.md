@@ -27,6 +27,29 @@
 
 ---
 
+## 3. حسابات وبيانات الاختبار الجاهزة للتطوير (Development Test Environment & Credentials)
+
+عند تشغيل الأوامر القياسية في البيئة التطويرية (`php artisan migrate:fresh --seed`) يتم تجهيز بيئة كاملة بحسابات وعلاقات حقيقية اختبارية فورية لفريق الفرونت إند:
+
+### أ. جدول الحسابات الاختبارية (Test Accounts Credentials)
+
+| الدور (Role) | البريد الإلكتروني (Email) | كلمة المرور (Password) | اسم المركز الطبي (Center) | العلاقات والبيانات المرتبطة |
+| --- | --- | --- | --- | --- |
+| **Super Admin (`landlord`)** | `landlord@massar.com` | `password123` | *N/A (Global)* | مسؤول النظام العام |
+| **Center Admin (`admin`)** | `admin@massar.com` | `password123` | Massar Physical Therapy Center | مسؤول المركز الطبي |
+| **Therapist (`therapist`)** | `therapist@massar.com` | `password123` | Massar Physical Therapy Center | معالج مركز مسار (`Dr. Ahmed Specialist`) |
+| **Patient (`patient`)** | `patient@massar.com` | `password123` | Massar Physical Therapy Center | **مربوط بالمعالج د. أحمد** ومسجل له خطة علاجية وتغذوية وتمرين |
+
+### ب. هيكلية العلاقات المنشأة (Data Relationships Overview):
+1. **المركز والمستخدمون**: ينتمي كل من الأدمن المعالج `therapist@massar.com` والمريض `patient@massar.com` لنفس المركز الطبي `Massar Physical Therapy Center`.
+2. **ربط المريض بالمعالج**: الملف الشخصي للمريض `patient@massar.com` يحتوي على `therapist_id` يشير مباشرة إلى المعالج `therapist@massar.com`.
+3. **الداتا الجاهزة**:
+   - عند طلب `GET /api/business/my-patients` بحساب المعالج (`therapist@massar.com`) سيظهر المريض `patient@massar.com` فوراً.
+   - عند طلب `GET /api/business/patients` بحساب الأدمن (`admin@massar.com`) سيظهر جميع مرادفى المركز.
+   - عند طلب `GET /api/patient/treatment-plan` أو `GET /api/patient/nutrition-plan` أو `GET /api/patient/exercises` بحساب المريض ستظهر البيانات ممتلئة وجاهزة للعرض في الشاشات.
+
+---
+
 ## 3. بادئات المسارات وهيكلية الـ APIs (Route Structure)
 
 ### أ. المسارات العامة للجميع (Public & Auth Routes)
