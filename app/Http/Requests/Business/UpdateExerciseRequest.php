@@ -4,7 +4,7 @@ namespace App\Http\Requests\Business;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreExerciseRequest extends FormRequest
+class UpdateExerciseRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,7 @@ class StoreExerciseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['sometimes', 'required', 'string', 'max:255'],
             'default_sets' => ['nullable', 'integer', 'min:1'],
             'default_repeats' => ['nullable', 'integer', 'min:1'],
             'default_duration' => ['nullable', 'integer', 'min:1'],

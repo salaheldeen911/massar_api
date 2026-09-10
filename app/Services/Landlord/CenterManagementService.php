@@ -114,7 +114,7 @@ class CenterManagementService
             'phone' => $data['phone'],
             'specialty' => $data['specialty'] ?? null,
             'country' => $data['country'] ?? 'Egypt',
-            'city' => $data['city'] ?? null,
+            'city' => $data['city'] ?? 'Cairo',
             'therapists_count' => $data['therapists_count'] ?? 1,
             'branches_count' => $data['branches_count'] ?? 1,
             'referral_source' => $data['referral_source'] ?? null,

@@ -37,6 +37,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(base_path('routes/patient.php'));
         },
     )
+    ->withBroadcasting(
+        __DIR__.'/../routes/channels.php',
+        ['middleware' => ['auth:sanctum']]
+    )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,

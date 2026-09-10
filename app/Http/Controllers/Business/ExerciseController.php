@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Business;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Business\AssignExerciseRequest;
 use App\Http\Requests\Business\StoreExerciseRequest;
+use App\Http\Requests\Business\UpdateExerciseRequest;
 use App\Http\Resources\Business\ExerciseResource;
 use App\Http\Resources\Business\PatientExerciseResource;
 use App\Models\Exercise;
@@ -46,6 +47,16 @@ class ExerciseController extends Controller
         return $this->success(
             new ExerciseResource($exercise->load(['media', 'therapist'])),
             'Exercise details retrieved successfully.'
+        );
+    }
+
+    public function update(UpdateExerciseRequest $request, Exercise $exercise): JsonResponse
+    {
+        $updatedExercise = $this->exerciseService->updateExercise($exercise, $request->validated());
+
+        return $this->success(
+            new ExerciseResource($updatedExercise),
+            'Exercise updated successfully.'
         );
     }
 

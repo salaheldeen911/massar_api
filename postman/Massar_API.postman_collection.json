@@ -2,7 +2,7 @@
     "info": {
         "_postman_id": "massar-api-v1-collection",
         "name": "Massar API - Postman Collection",
-        "description": "API Documentation, test requests, and expected JSON response examples for Massar API backend system.",
+        "description": "API Documentation, test requests, and expected JSON response examples for Massar API backend system.\n\n### Development Test Accounts (DevSeeder)\n- **Landlord**: `landlord@massar.com` / `password123`\n- **Admin**: `admin@massar.com` / `password123`\n- **Therapist**: `therapist@massar.com` / `password123`\n- **Patient**: `patient@massar.com` / `password123`\n",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
@@ -3721,7 +3721,7 @@
                                     "formdata": [
                                         {
                                             "key": "title",
-                                            "value": "Quadriceps Stretch",
+                                            "value": "Custom Shoulder Rehabilitation",
                                             "type": "text"
                                         },
                                         {
@@ -3731,7 +3731,7 @@
                                         },
                                         {
                                             "key": "default_repeats",
-                                            "value": "10",
+                                            "value": "12",
                                             "type": "text"
                                         },
                                         {
@@ -3741,19 +3741,18 @@
                                         },
                                         {
                                             "key": "therapist_notes",
-                                            "value": "Keep back straight during stretch.",
+                                            "value": "Maintain proper alignment during movement.",
                                             "type": "text"
                                         },
                                         {
                                             "key": "is_center_public",
                                             "value": "1",
-                                            "type": "text",
-                                            "description": "1 for center public, 0 for therapist private"
+                                            "type": "text"
                                         },
                                         {
                                             "key": "video",
                                             "type": "file",
-                                            "src": []
+                                            "src": ""
                                         }
                                     ]
                                 },
@@ -3767,9 +3766,94 @@
                                         "exercises"
                                     ]
                                 },
-                                "description": "Creates a new exercise in the library with optional video demonstration upload."
+                                "description": "Creates a new exercise in the library. Accepts video files (mp4, mov, avi, webm, mkv, m4v), animated GIFs (gif), and images (jpeg, png, jpg, webp) up to 100MB under keys: video, media, or file."
                             },
                             "response": []
+                        },
+                        {
+                            "name": "Update Exercise in Library",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"title\": \"Updated Shoulder Stretch\",\n  \"default_sets\": 4,\n  \"default_repeats\": 15,\n  \"default_duration\": 120,\n  \"therapist_notes\": \"Updated instructions for therapist.\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/business/exercises/:id",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "business",
+                                        "exercises",
+                                        ":id"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "id",
+                                            "value": "1"
+                                        }
+                                    ]
+                                },
+                                "description": "Updates an existing custom exercise record and/or replaces its attached media file (accepts mp4, mov, avi, webm, mkv, m4v, gif, jpeg, png, jpg, webp)."
+                            },
+                            "response": [
+                                {
+                                    "name": "200 OK - Exercise Updated",
+                                    "originalRequest": {
+                                        "method": "PUT",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/business/exercises/1",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "business",
+                                                "exercises",
+                                                "1"
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"success\": true,\n  \"message\": \"Exercise updated successfully.\",\n  \"data\": {\n    \"id\": 1,\n    \"title\": \"Updated Shoulder Stretch\",\n    \"default_sets\": 4,\n    \"default_repeats\": 15,\n    \"default_duration\": 120,\n    \"therapist_notes\": \"Updated instructions for therapist.\",\n    \"is_system\": false,\n    \"is_center_public\": true,\n    \"center_id\": 1,\n    \"therapist_id\": null,\n    \"video_url\": \"http://localhost/storage/2/shoulder_stretch.mp4\",\n    \"created_at\": \"2026-09-10T12:00:00.000000Z\"\n  }\n}"
+                                }
+                            ]
                         },
                         {
                             "name": "Assign Exercise to Patient",

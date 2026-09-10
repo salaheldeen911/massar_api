@@ -46,11 +46,33 @@ class ExerciseService
                 'therapist_notes' => $data['therapist_notes'] ?? null,
             ]);
 
-            if (isset($data['video']) && $data['video'] instanceof \Illuminate\Http\UploadedFile) {
-                $exercise->addMedia($data['video'])->toMediaCollection('video');
+            $mediaFile = $data['video'] ?? $data['media'] ?? $data['file'] ?? null;
+            if ($mediaFile && $mediaFile instanceof \Illuminate\Http\UploadedFile) {
+                $exercise->addMedia($mediaFile)->toMediaCollection('video');
             }
 
             return $exercise->load(['media', 'therapist']);
+        });
+    }
+
+    public function updateExercise(Exercise $exercise, array $data): Exercise
+    {
+        return DB::transaction(function () use ($exercise, $data) {
+            $exercise->update(array_filter([
+                'title' => $data['title'] ?? null,
+                'default_sets' => $data['default_sets'] ?? null,
+                'default_repeats' => $data['default_repeats'] ?? null,
+                'default_duration' => $data['default_duration'] ?? null,
+                'therapist_notes' => $data['therapist_notes'] ?? null,
+            ], fn ($val) => $val !== null));
+
+            $mediaFile = $data['video'] ?? $data['media'] ?? $data['file'] ?? null;
+            if ($mediaFile && $mediaFile instanceof \Illuminate\Http\UploadedFile) {
+                $exercise->clearMediaCollection('video');
+                $exercise->addMedia($mediaFile)->toMediaCollection('video');
+            }
+
+            return $exercise->fresh(['media', 'therapist']);
         });
     }
 
