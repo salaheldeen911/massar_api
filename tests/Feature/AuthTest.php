@@ -234,4 +234,63 @@ class AuthTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.user.therapist_name', 'Dr. Sara Mohamed');
     }
+
+    public function test_patient_can_login_with_phone_and_password(): void
+    {
+        $center = Center::create([
+            'name' => 'Active Center',
+            'phone' => '+201000000020',
+            'city' => 'Cairo',
+            'status' => 'active',
+        ]);
+
+        $therapist = User::create([
+            'center_id' => $center->id,
+            'name' => 'Dr. Khaled Physio',
+            'phone' => '+201000000021',
+            'email' => 'khaled@center.com',
+            'password' => bcrypt('password123'),
+            'status' => 'active',
+        ]);
+        $therapist->assignRole('therapist');
+
+        $patient = User::create([
+            'center_id' => $center->id,
+            'name' => 'Patient Phone User',
+            'phone' => '+201022223333',
+            'email' => 'patient.phone@massar.com',
+            'password' => bcrypt('patientpass123'),
+            'status' => 'active',
+        ]);
+        $patient->assignRole('patient');
+
+        \App\Models\PatientProfile::create([
+            'user_id' => $patient->id,
+            'center_id' => $center->id,
+            'therapist_id' => $therapist->id,
+            'birth_date' => '1995-05-05',
+        ]);
+
+        // 1. Test login using exact stored phone number (+201022223333)
+        $responseExact = $this->postJson('/api/login', [
+            'identity' => '+201022223333',
+            'password' => 'patientpass123',
+        ]);
+
+        $responseExact->assertStatus(200)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.user.phone', '+201022223333')
+            ->assertJsonPath('data.user.therapist_name', 'Dr. Khaled Physio');
+
+        // 2. Test login using local phone format (01022223333)
+        $responseLocal = $this->postJson('/api/login', [
+            'identity' => '01022223333',
+            'password' => 'patientpass123',
+        ]);
+
+        $responseLocal->assertStatus(200)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.user.phone', '+201022223333')
+            ->assertJsonPath('data.user.therapist_name', 'Dr. Khaled Physio');
+    }
 }

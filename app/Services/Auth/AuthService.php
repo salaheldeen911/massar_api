@@ -113,9 +113,23 @@ class AuthService
      */
     private function findUserByIdentity(string $identity): User
     {
-        $user = User::where('email', $identity)
-            ->orWhere('phone', $identity)
-            ->first();
+        $query = User::query()
+            ->where('email', $identity)
+            ->orWhere('phone', $identity);
+
+        try {
+            $formattedPhone = phone($identity, ['EG', 'AUTO'])->toE164();
+            $query->orWhere('phone', $formattedPhone);
+        } catch (\Throwable $e) {
+            // Ignore phone parsing exceptions
+        }
+
+        $digits = preg_replace('/\D/', '', $identity);
+        if (strlen($digits) >= 9) {
+            $query->orWhere('phone', 'like', '%' . substr($digits, -9));
+        }
+
+        $user = $query->first();
 
         if (! $user) {
             throw ValidationException::withMessages([
