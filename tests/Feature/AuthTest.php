@@ -188,4 +188,50 @@ class AuthTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJson(['message' => 'Successfully logged out.']);
     }
+
+    public function test_patient_login_returns_therapist_name(): void
+    {
+        $center = Center::create([
+            'name' => 'Active Center',
+            'phone' => '+201000000010',
+            'city' => 'Cairo',
+            'status' => 'active',
+        ]);
+
+        $therapist = User::create([
+            'center_id' => $center->id,
+            'name' => 'Dr. Sara Mohamed',
+            'phone' => '+201000000011',
+            'email' => 'sara@center.com',
+            'password' => bcrypt('password123'),
+            'status' => 'active',
+        ]);
+        $therapist->assignRole('therapist');
+
+        $patient = User::create([
+            'center_id' => $center->id,
+            'name' => 'Ali Patient',
+            'phone' => '+201000000012',
+            'email' => 'ali@patient.com',
+            'password' => bcrypt('password123'),
+            'status' => 'active',
+        ]);
+        $patient->assignRole('patient');
+
+        \App\Models\PatientProfile::create([
+            'user_id' => $patient->id,
+            'center_id' => $center->id,
+            'therapist_id' => $therapist->id,
+            'birth_date' => '1998-01-01',
+        ]);
+
+        $response = $this->postJson('/api/login', [
+            'identity' => 'ali@patient.com',
+            'password' => 'password123',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.user.therapist_name', 'Dr. Sara Mohamed');
+    }
 }

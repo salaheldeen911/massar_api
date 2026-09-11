@@ -2,6 +2,7 @@
 
 namespace App\Services\Landlord;
 
+use App\Enums\CenterStatus;
 use App\Models\Center;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ class CenterSubscriptionService
      */
     public function getPendingCenters(int $perPage = 15): LengthAwarePaginator
     {
-        return Center::where('status', 'pending')
+        return Center::where('status', CenterStatus::PENDING->value)
             ->with(['users' => function ($query) {
                 $query->role('admin');
             }])
@@ -26,7 +27,8 @@ class CenterSubscriptionService
      */
     public function approveCenter(Center $center): Center
     {
-        if ($center->status !== 'pending') {
+        $statusValue = $center->status instanceof CenterStatus ? $center->status->value : $center->status;
+        if ($statusValue !== CenterStatus::PENDING->value) {
             throw \Illuminate\Validation\ValidationException::withMessages([
                 'center' => ['Only pending center applications can be approved.'],
             ]);
@@ -45,7 +47,8 @@ class CenterSubscriptionService
      */
     public function rejectCenter(Center $center, ?string $reason = null): Center
     {
-        if ($center->status !== 'pending') {
+        $statusValue = $center->status instanceof CenterStatus ? $center->status->value : $center->status;
+        if ($statusValue !== CenterStatus::PENDING->value) {
             throw \Illuminate\Validation\ValidationException::withMessages([
                 'center' => ['Only pending center applications can be rejected.'],
             ]);

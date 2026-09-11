@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('repeats')->default(12);
             $table->unsignedInteger('duration')->default(90);
             $table->text('notes')->nullable();
-            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
+            $table->string('status')->default('pending');
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
 

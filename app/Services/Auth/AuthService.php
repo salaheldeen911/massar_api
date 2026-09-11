@@ -42,6 +42,7 @@ class AuthService
         $this->verifyUserAndCenterStatus($user);
 
         $token = $this->createSanctumToken($user);
+        $user->load(['patientProfile.therapist']);
 
         return [
             'user' => $user,
@@ -142,17 +143,18 @@ class AuthService
      */
     private function verifyUserAndCenterStatus(User $user): void
     {
-        if (in_array($user->status, ['inactive', 'suspended', 'rejected'])) {
+        $userStatusValue = $user->status instanceof \App\Enums\UserStatus ? $user->status->value : (string) $user->status;
+        if (in_array($userStatusValue, ['inactive', 'suspended', 'rejected'])) {
             throw ValidationException::withMessages([
-                'identity' => ['Your account is currently ' . $user->status . '. Please contact support.'],
+                'identity' => ['Your account is currently ' . $userStatusValue . '. Please contact support.'],
             ]);
         }
 
         if ($user->center_id && $user->center) {
-            $centerStatus = $user->center->status;
-            if (in_array($centerStatus, ['inactive', 'suspended', 'rejected'])) {
+            $centerStatusValue = $user->center->status instanceof \App\Enums\CenterStatus ? $user->center->status->value : (string) $user->center->status;
+            if (in_array($centerStatusValue, ['inactive', 'suspended', 'rejected'])) {
                 throw ValidationException::withMessages([
-                    'identity' => ['Your center is currently ' . $centerStatus . '. Please contact administrator.'],
+                    'identity' => ['Your center is currently ' . $centerStatusValue . '. Please contact administrator.'],
                 ]);
             }
         }

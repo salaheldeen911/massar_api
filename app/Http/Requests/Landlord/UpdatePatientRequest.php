@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Landlord;
 
+use App\Enums\UserStatus;
 use App\Models\PatientProfile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -44,7 +45,7 @@ class UpdatePatientRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($userId),
             ],
             'password' => ['nullable', 'string', 'min:8'],
-            'status' => ['nullable', 'string', 'in:active,inactive'],
+            'status' => ['nullable', Rule::enum(UserStatus::class)],
             'birth_date' => ['sometimes', 'required', 'date', 'before:today'],
             'current_week' => ['nullable', 'integer', 'min:1'],
             'patient_history' => ['nullable', 'string'],

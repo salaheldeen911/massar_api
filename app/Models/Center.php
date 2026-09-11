@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\CenterStatus;
+use App\Enums\CenterSubscriptionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
@@ -53,6 +55,8 @@ class Center extends Tenant implements HasMedia
             'terms_accepted' => 'boolean',
             'trial_starts_at' => 'datetime',
             'trial_ends_at' => 'datetime',
+            'status' => CenterStatus::class,
+            'subscription_status' => CenterSubscriptionStatus::class,
         ];
     }
 

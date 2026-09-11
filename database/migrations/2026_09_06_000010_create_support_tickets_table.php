@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('reply')->nullable();
             $table->foreignId('replied_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('replied_at')->nullable();
-            $table->enum('status', ['open', 'replied', 'closed'])->default('open');
+            $table->string('status')->default('open');
             $table->timestamps();
         });
     }

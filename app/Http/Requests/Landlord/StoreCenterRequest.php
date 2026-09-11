@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Landlord;
 
+use App\Enums\CenterStatus;
+use App\Enums\CenterSubscriptionStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCenterRequest extends FormRequest
 {
@@ -35,8 +38,8 @@ class StoreCenterRequest extends FormRequest
             'branches_count' => ['nullable', 'integer', 'min:1'],
             'referral_source' => ['nullable', 'string', 'max:255'],
             'terms_accepted' => ['nullable', 'boolean'],
-            'status' => ['nullable', 'string', 'in:pending,active,inactive,rejected'],
-            'subscription_status' => ['nullable', 'string', 'in:pending,trialing,active,past_due,canceled,expired'],
+            'status' => ['nullable', Rule::enum(CenterStatus::class)],
+            'subscription_status' => ['nullable', Rule::enum(CenterSubscriptionStatus::class)],
             'facebook' => ['nullable', 'url', 'max:255'],
             'whatsapp' => ['nullable', 'string', 'max:255'],
             'instagram' => ['nullable', 'url', 'max:255'],

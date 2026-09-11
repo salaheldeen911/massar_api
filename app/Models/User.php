@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserStatus;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -43,6 +44,7 @@ class User extends Authenticatable implements HasMedia
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => UserStatus::class,
         ];
     }
 

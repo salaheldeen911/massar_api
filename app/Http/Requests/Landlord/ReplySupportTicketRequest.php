@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Landlord;
 
+use App\Enums\SupportTicketStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ReplySupportTicketRequest extends FormRequest
 {
@@ -15,7 +17,7 @@ class ReplySupportTicketRequest extends FormRequest
     {
         return [
             'reply' => ['required', 'string'],
-            'status' => ['nullable', 'string', 'in:replied,closed'],
+            'status' => ['nullable', Rule::enum(SupportTicketStatus::class)],
         ];
     }
 }

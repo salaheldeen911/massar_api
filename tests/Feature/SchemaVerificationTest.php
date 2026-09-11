@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\AdvertisementStatus;
+use App\Enums\SupportTicketStatus;
 use App\Models\Advertisement;
 use App\Models\Center;
 use App\Models\ChatMessage;
@@ -141,7 +143,7 @@ class SchemaVerificationTest extends TestCase
             'subject' => 'App Issue',
             'message' => 'Cannot view timer',
         ]);
-        $this->assertEquals('open', $ticket->status);
+        $this->assertEquals(SupportTicketStatus::OPEN, $ticket->status);
 
         // 10. Advertisement
         $ad = Advertisement::create([
@@ -151,7 +153,7 @@ class SchemaVerificationTest extends TestCase
             'start_at' => now()->toDateString(),
             'expire_at' => now()->addDays(30)->toDateString(),
         ]);
-        $this->assertEquals('active', $ad->status);
+        $this->assertEquals(AdvertisementStatus::ACTIVE, $ad->status);
 
         // 11. Testimonial
         $testimonial = Testimonial::create([

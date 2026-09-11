@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'status' => $this->status,
             'roles' => $this->getRoleNames(),
             'avatar_url' => $this->hasMedia('avatar') ? $this->getFirstMediaUrl('avatar') : null,
+            'therapist_name' => $this->when($this->hasRole('patient'), fn () => $this->patientProfile?->therapist?->name),
             'center' => new CenterResource($this->whenLoaded('center')),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),

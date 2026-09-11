@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Business;
 
+use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,7 +25,7 @@ class UpdatePatientRequest extends FormRequest
             'password' => ['nullable', 'string', 'min:8'],
             'birth_date' => ['sometimes', 'required', 'date', 'before:today'],
             'therapist_id' => ['nullable', 'integer', 'exists:users,id'],
-            'status' => ['nullable', 'string', 'in:active,inactive'],
+            'status' => ['nullable', Rule::enum(UserStatus::class)],
             'current_week' => ['nullable', 'integer', 'min:1'],
             'patient_history' => ['nullable', 'string'],
             'chief_complain' => ['nullable', 'string'],

@@ -23,13 +23,13 @@ return new class extends Migration
             $table->unsignedInteger('branches_count')->default(1);
             $table->string('referral_source')->nullable();
             $table->boolean('terms_accepted')->default(true);
-            $table->enum('status', ['pending', 'active', 'suspended', 'rejected'])->default('pending');
+            $table->string('status')->default('pending');
             $table->text('rejection_reason')->nullable();
 
             // Trial & Subscriptions
             $table->timestamp('trial_starts_at')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
-            $table->enum('subscription_status', ['trialing', 'active', 'past_due', 'canceled'])->default('trialing');
+            $table->string('subscription_status')->default('trialing');
 
             // Social & Contact
             $table->string('facebook')->nullable();

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AdvertisementStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -28,6 +29,7 @@ class Advertisement extends Model implements HasMedia
         return [
             'start_at' => 'date',
             'expire_at' => 'date',
+            'status' => AdvertisementStatus::class,
         ];
     }
 

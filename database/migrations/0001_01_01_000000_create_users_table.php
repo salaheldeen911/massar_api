@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('password');
             $table->string('fcm_token')->nullable();
-            $table->enum('status', ['active', 'inactive', 'pending'])->default('active');
+            $table->string('status')->default('active');
             $table->rememberToken();
             $table->timestamps();
 

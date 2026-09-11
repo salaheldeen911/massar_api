@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Landlord;
 
+use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class GetPatientsRequest extends FormRequest
 {
@@ -25,7 +27,7 @@ class GetPatientsRequest extends FormRequest
             'center_id' => ['nullable', 'integer', 'exists:centers,id'],
             'therapist_id' => ['nullable', 'integer', 'exists:users,id'],
             'search' => ['nullable', 'string', 'max:255'],
-            'status' => ['nullable', 'string', 'in:active,inactive,pending'],
+            'status' => ['nullable', Rule::enum(UserStatus::class)],
             'date_from' => ['nullable', 'date'],
             'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],

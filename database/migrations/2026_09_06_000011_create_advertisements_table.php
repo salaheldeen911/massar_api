@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('start_at');
             $table->date('expire_at');
-            $table->enum('status', ['active', 'expired', 'disabled'])->default('active');
+            $table->string('status')->default('active');
             $table->timestamps();
 
             $table->index(['status', 'start_at', 'expire_at'], 'idx_ads_dates');

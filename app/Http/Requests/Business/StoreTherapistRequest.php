@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Business;
 
+use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTherapistRequest extends FormRequest
 {
@@ -18,7 +20,7 @@ class StoreTherapistRequest extends FormRequest
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'phone' => ['required', 'string', 'phone:AUTO,EG', 'unique:users,phone'],
             'password' => ['required', 'string', 'min:8'],
-            'status' => ['nullable', 'string', 'in:active,inactive'],
+            'status' => ['nullable', Rule::enum(UserStatus::class)],
             'specialization' => ['nullable', 'string', 'max:150'],
             'license_no' => ['nullable', 'string', 'max:100'],
             'bio' => ['nullable', 'string'],
