@@ -28,7 +28,6 @@ class AuthTest extends TestCase
 
         $response = $this->postJson('/api/register', [
             'center_name' => 'Healing Hands Center',
-            'center_phone' => '+201011112222',
             'specialty' => 'Orthopedics',
             'city' => 'Cairo',
             'therapists_count' => 5,
@@ -46,11 +45,13 @@ class AuthTest extends TestCase
         $response->assertStatus(201)
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.center.status', 'pending')
+            ->assertJsonPath('data.center.phone', '+201011113333')
             ->assertJsonPath('data.center.therapists_count', 5)
             ->assertJsonPath('data.center.branches_count', 2)
             ->assertJsonPath('data.center.referral_source', 'Google Search')
             ->assertJsonPath('data.center.terms_accepted', true)
             ->assertJsonPath('data.user.status', 'pending')
+            ->assertJsonPath('data.user.phone', '+201011113333')
             ->assertJsonPath('data.user.roles.0', 'admin')
             ->assertJsonPath('data.token_type', 'Bearer');
 
@@ -58,6 +59,7 @@ class AuthTest extends TestCase
 
         $this->assertDatabaseHas('centers', [
             'name' => 'Healing Hands Center',
+            'phone' => '+201011113333',
             'therapists_count' => 5,
             'branches_count' => 2,
             'status' => 'pending',
@@ -65,6 +67,7 @@ class AuthTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'ahmed@healing.com',
+            'phone' => '+201011113333',
             'status' => 'pending',
         ]);
 
@@ -92,6 +95,8 @@ class AuthTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.center.name', 'Kinetic Physical Therapy Center')
             ->assertJsonPath('data.center.phone', '+201112223344')
+            ->assertJsonPath('data.center.country', null)
+            ->assertJsonPath('data.center.city', null)
             ->assertJsonPath('data.user.name', 'Full Admin Name');
 
         $this->assertNotNull($response->json('data.token'));

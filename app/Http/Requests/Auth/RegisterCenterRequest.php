@@ -24,7 +24,6 @@ class RegisterCenterRequest extends FormRequest
         return [
             // Center Information
             'center_name' => ['required', 'string', 'max:191'],
-            'center_phone' => ['nullable', 'string', 'max:30'],
             'specialty' => ['nullable', 'string', 'max:100'],
             'country' => ['nullable', 'string', 'max:100'],
             'city' => ['nullable', 'string', 'max:100'],

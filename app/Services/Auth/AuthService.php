@@ -64,10 +64,10 @@ class AuthService
     {
         return Center::create([
             'name' => $data['center_name'],
-            'phone' => $data['center_phone'] ?? $data['phone'],
+            'phone' => $data['phone'],
             'specialty' => $data['specialty'] ?? null,
-            'country' => $data['country'] ?? 'Egypt',
-            'city' => $data['city'] ?? 'Cairo',
+            'country' => $data['country'] ?? null,
+            'city' => $data['city'] ?? null,
             'therapists_count' => $data['therapists_count'] ?? 1,
             'branches_count' => $data['branches_count'] ?? 1,
             'referral_source' => $data['referral_source'] ?? null,
