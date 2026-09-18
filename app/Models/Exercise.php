@@ -49,4 +49,11 @@ class Exercise extends Model implements HasMedia
     {
         return $this->hasMany(PatientExercise::class);
     }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return static::withoutGlobalScope('center_scope')
+            ->where($field ?? $this->getRouteKeyName(), $value)
+            ->firstOrFail();
+    }
 }

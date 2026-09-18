@@ -80,4 +80,14 @@ class ExerciseController extends Controller
             'Exercise unassigned from patient successfully.'
         );
     }
+
+    public function destroy(Exercise $exercise): JsonResponse
+    {
+        $this->exerciseService->deleteExercise($exercise);
+
+        return $this->success(
+            null,
+            'Exercise deleted from library successfully.'
+        );
+    }
 }

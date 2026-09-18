@@ -28,8 +28,8 @@ class GetPatientsRequest extends FormRequest
             'therapist_id' => ['nullable', 'integer', 'exists:users,id'],
             'search' => ['nullable', 'string', 'max:255'],
             'status' => ['nullable', Rule::enum(UserStatus::class)],
-            'date_from' => ['nullable', 'date'],
-            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
+            'date_from' => ['nullable', 'date_format:Y-m-d'],
+            'date_to' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:date_from'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
         ];
     }

@@ -42,7 +42,7 @@ class PatientExercise extends Model
 
     public function exercise(): BelongsTo
     {
-        return $this->belongsTo(Exercise::class);
+        return $this->belongsTo(Exercise::class)->withoutGlobalScope('center_scope');
     }
 
     public function assignedBy(): BelongsTo

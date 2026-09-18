@@ -184,4 +184,31 @@ class AdminTherapistCRUDTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    public function test_therapist_cannot_create_or_modify_other_therapists(): void
+    {
+        $therapist = User::create([
+            'center_id' => $this->centerA->id,
+            'name' => 'Dr. Normal Therapist',
+            'phone' => '+201012341234',
+            'email' => 'therapist@alpha.com',
+            'password' => bcrypt('password123'),
+            'status' => 'active',
+        ]);
+        $therapist->assignRole('therapist');
+
+        // Cannot list therapists
+        $this->actingAs($therapist, 'sanctum')
+            ->getJson('/api/business/therapists')
+            ->assertStatus(403);
+
+        // Cannot create therapist
+        $this->actingAs($therapist, 'sanctum')
+            ->postJson('/api/business/therapists', [
+                'name' => 'New Doctor',
+                'email' => 'newdoc@alpha.com',
+                'phone' => '+201099990000',
+                'password' => 'password123',
+            ])->assertStatus(403);
+    }
 }

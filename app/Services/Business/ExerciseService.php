@@ -111,6 +111,16 @@ class ExerciseService
         $patientExercise->delete();
     }
 
+    public function deleteExercise(Exercise $exercise): void
+    {
+        $this->ensureCanDeleteExercise($exercise);
+
+        DB::transaction(function () use ($exercise) {
+            $exercise->clearMediaCollection('video');
+            $exercise->delete();
+        });
+    }
+
     private function applyThreeTierScoping(Builder $query, ?int $centerId, ?int $therapistId): void
     {
         $query->where(function (Builder $q) use ($centerId, $therapistId) {
@@ -148,6 +158,38 @@ class ExerciseService
             throw ValidationException::withMessages([
                 'patient' => ['Patient record not found or does not belong to your center.'],
             ]);
+        }
+    }
+
+    private function ensureCanDeleteExercise(Exercise $exercise): void
+    {
+        $currentUser = currentUser();
+        $currentCenterId = currentCenterId();
+
+        // 1. Global exercise (center_id is null): Only Landlord can delete
+        if ($exercise->center_id === null) {
+            if (! isLandlord()) {
+                abort(403, 'Global system exercises can only be deleted by system administrators.');
+            }
+            return;
+        }
+
+        // Must belong to active center
+        if ($exercise->center_id !== $currentCenterId) {
+            abort(404, 'Exercise not found or does not belong to your center.');
+        }
+
+        // 2. Center public exercise (therapist_id is null): Only Admin can delete
+        if ($exercise->therapist_id === null) {
+            if (! $currentUser?->hasRole('admin') && ! isLandlord()) {
+                abort(403, 'Center public exercises can only be deleted by center administrators.');
+            }
+            return;
+        }
+
+        // 3. Therapist private exercise (therapist_id is set): Either creating therapist or Admin can delete
+        if ($exercise->therapist_id !== $currentUser?->id && ! $currentUser?->hasRole('admin') && ! isLandlord()) {
+            abort(403, 'Therapist private exercises can only be deleted by the creating therapist or center admin.');
         }
     }
 }

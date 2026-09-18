@@ -123,4 +123,23 @@ class AdminCenterDetailsTest extends TestCase
 
         $response->assertStatus(403);
     }
+
+    public function test_admin_can_clear_social_link_fields(): void
+    {
+        $payload = [
+            'facebook' => null,
+        ];
+
+        $response = $this->actingAs($this->adminUser, 'sanctum')
+            ->postJson('/api/business/center-details', $payload);
+
+        $response->assertStatus(200)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.facebook', null);
+
+        $this->assertDatabaseHas('centers', [
+            'id' => $this->center->id,
+            'facebook' => null,
+        ]);
+    }
 }

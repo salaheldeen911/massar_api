@@ -263,7 +263,7 @@ class PatientManagementService
         $currentCenterId = currentCenterId();
         if ($patient->center_id !== $currentCenterId || ! $patient->hasRole('patient')) {
             throw ValidationException::withMessages([
-                'patient' => ['Patient record not found or does not belong to your center.'],
+                'patient' => ['Patient record not found.'],
             ]);
         }
     }

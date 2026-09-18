@@ -23,7 +23,7 @@ class UpdatePatientRequest extends FormRequest
             'phone' => ['sometimes', 'required', 'string', 'phone:AUTO,EG', Rule::unique('users', 'phone')->ignore($patientUserId)],
             'email' => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($patientUserId)],
             'password' => ['nullable', 'string', 'min:8'],
-            'birth_date' => ['sometimes', 'required', 'date', 'before:today'],
+            'birth_date' => ['sometimes', 'required', 'date_format:Y-m-d', 'before:today'],
             'therapist_id' => ['nullable', 'integer', 'exists:users,id'],
             'status' => ['nullable', Rule::enum(UserStatus::class)],
             'current_week' => ['nullable', 'integer', 'min:1'],

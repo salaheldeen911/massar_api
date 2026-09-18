@@ -2745,7 +2745,7 @@
                 },
                 {
                     "name": "Therapists Management",
-                    "description": "CRUD operations for center specialists and therapists.",
+                    "description": "Admin-only CRUD operations for center specialists and therapists (Role Access: admin only).",
                     "item": [
                         {
                             "name": "List Therapists",

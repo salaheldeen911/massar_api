@@ -28,7 +28,7 @@ class StorePatientRequest extends FormRequest
             'phone' => ['required', 'string', 'phone:AUTO,EG', 'unique:users,phone'],
             'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
-            'birth_date' => ['required', 'date', 'before:today'],
+            'birth_date' => ['required', 'date_format:Y-m-d', 'before:today'],
             'current_week' => ['nullable', 'integer', 'min:1'],
             'patient_history' => ['nullable', 'string'],
             'chief_complain' => ['nullable', 'string'],

@@ -46,7 +46,7 @@ class UpdatePatientRequest extends FormRequest
             ],
             'password' => ['nullable', 'string', 'min:8'],
             'status' => ['nullable', Rule::enum(UserStatus::class)],
-            'birth_date' => ['sometimes', 'required', 'date', 'before:today'],
+            'birth_date' => ['sometimes', 'required', 'date_format:Y-m-d', 'before:today'],
             'current_week' => ['nullable', 'integer', 'min:1'],
             'patient_history' => ['nullable', 'string'],
             'chief_complain' => ['nullable', 'string'],

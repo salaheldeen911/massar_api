@@ -32,8 +32,9 @@ Route::middleware(['auth:sanctum', 'role:admin|therapist'])->group(function () {
         Route::post('/center-details', [CenterDetailsController::class, 'update'])->name('center-details.update');
         Route::put('/center-details', [CenterDetailsController::class, 'update'])->name('center-details.update.put');
 
-        // Admin Only: All Center Patients List
+        // Admin Only: All Center Patients List & Therapists Management
         Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
+        Route::apiResource('therapists', TherapistController::class);
     });
 
     // Shared Business Operations (Admin & Therapist)
@@ -46,7 +47,6 @@ Route::middleware(['auth:sanctum', 'role:admin|therapist'])->group(function () {
     Route::delete('/patients/{patient}/exercises/{patientExercise}', [ExerciseController::class, 'unassign'])->name('patients.exercises.unassign');
 
     Route::apiResource('patients', PatientController::class)->except(['index']);
-    Route::apiResource('therapists', TherapistController::class);
     Route::apiResource('exercises', ExerciseController::class);
     Route::apiResource('support-tickets', SupportTicketController::class)->only(['index', 'store', 'show']);
 

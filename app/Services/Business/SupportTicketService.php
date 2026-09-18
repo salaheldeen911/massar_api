@@ -66,9 +66,7 @@ class SupportTicketService
     {
         $centerId = currentCenterId();
         if ($ticket->center_id !== $centerId) {
-            throw ValidationException::withMessages([
-                'support_ticket' => ['Support ticket not found or does not belong to your center.'],
-            ]);
+            abort(404, 'Support ticket not found or does not belong to your center.');
         }
     }
 }

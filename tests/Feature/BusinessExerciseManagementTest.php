@@ -146,4 +146,52 @@ class BusinessExerciseManagementTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.title', 'Therapist Private Exercise');
     }
+
+    public function test_global_exercise_assignment_returns_correct_title(): void
+    {
+        $globalExercise = Exercise::create([
+            'center_id' => null,
+            'therapist_id' => null,
+            'title' => 'Global Shoulder Stretch',
+            'default_sets' => 3,
+            'default_repeats' => 12,
+            'default_duration' => 90,
+        ]);
+
+        $assignResponse = $this->actingAs($this->therapist, 'sanctum')
+            ->postJson("/api/business/patients/{$this->patient->id}/exercises", [
+                'exercise_id' => $globalExercise->id,
+            ]);
+
+        $assignResponse->assertStatus(201)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.title', 'Global Shoulder Stretch');
+    }
+
+    public function test_exercise_deletion_policy(): void
+    {
+        // 1. Global exercise: Therapist/Admin cannot delete (403)
+        $globalExercise = Exercise::create([
+            'center_id' => null,
+            'therapist_id' => null,
+            'title' => 'Global Leg Press',
+        ]);
+
+        $this->actingAs($this->admin, 'sanctum')
+            ->deleteJson("/api/business/exercises/{$globalExercise->id}")
+            ->assertStatus(403);
+
+        // 2. Therapist private exercise: Creating therapist and Admin can delete
+        $therapistExercise = Exercise::create([
+            'center_id' => $this->center->id,
+            'therapist_id' => $this->therapist->id,
+            'title' => 'Private Knee Extension',
+        ]);
+
+        $this->actingAs($this->therapist, 'sanctum')
+            ->deleteJson("/api/business/exercises/{$therapistExercise->id}")
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('exercises', ['id' => $therapistExercise->id]);
+    }
 }
