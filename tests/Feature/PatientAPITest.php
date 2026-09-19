@@ -138,6 +138,44 @@ class PatientAPITest extends TestCase
             ->assertJsonPath('data.nutrition_program.supplements', 'Omega-3 and Vitamin D3');
     }
 
+    public function test_patient_sees_updated_treatment_and_nutrition_plans_after_therapist_put(): void
+    {
+        // 1. Therapist creates initial treatment & nutrition plans
+        $this->actingAs($this->therapistUser, 'sanctum')
+            ->postJson("/api/business/patients/{$this->patientUser->id}/treatment-plan", [
+                'manual_therapy' => 'Old manual therapy',
+            ])->assertStatus(201);
+
+        $this->actingAs($this->therapistUser, 'sanctum')
+            ->postJson("/api/business/patients/{$this->patientUser->id}/nutrition-plan", [
+                'breakfast' => 'Old breakfast',
+            ])->assertStatus(201);
+
+        // 2. Therapist updates plans via PUT
+        $this->actingAs($this->therapistUser, 'sanctum')
+            ->putJson("/api/business/patients/{$this->patientUser->id}/treatment-plan", [
+                'manual_therapy' => 'New updated manual therapy',
+            ])->assertStatus(200);
+
+        $this->actingAs($this->therapistUser, 'sanctum')
+            ->putJson("/api/business/patients/{$this->patientUser->id}/nutrition-plan", [
+                'breakfast' => 'New updated breakfast',
+            ])->assertStatus(200);
+
+        // 3. Patient checks treatment plan and nutrition plan
+        $treatmentResponse = $this->actingAs($this->patientUser, 'sanctum')
+            ->getJson('/api/patient/treatment-plan');
+
+        $treatmentResponse->assertStatus(200)
+            ->assertJsonPath('data.treatment_plan.manual_therapy', 'New updated manual therapy');
+
+        $nutritionResponse = $this->actingAs($this->patientUser, 'sanctum')
+            ->getJson('/api/patient/nutrition-plan');
+
+        $nutritionResponse->assertStatus(200)
+            ->assertJsonPath('data.nutrition_program.breakfast', 'New updated breakfast');
+    }
+
     public function test_patient_can_view_assigned_exercises_and_progress_overview(): void
     {
         $exercise = Exercise::create([

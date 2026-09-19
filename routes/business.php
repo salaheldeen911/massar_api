@@ -5,7 +5,8 @@ use App\Http\Controllers\Business\ChatController;
 use App\Http\Controllers\Business\DashboardController;
 use App\Http\Controllers\Business\ExerciseController;
 use App\Http\Controllers\Business\PatientController;
-use App\Http\Controllers\Business\PatientPlanController;
+use App\Http\Controllers\Business\PatientNutritionPlanController;
+use App\Http\Controllers\Business\PatientTreatmentPlanController;
 use App\Http\Controllers\Business\SupportTicketController;
 use App\Http\Controllers\Business\TherapistController;
 use Illuminate\Support\Facades\Route;
@@ -40,8 +41,13 @@ Route::middleware(['auth:sanctum', 'role:admin|therapist'])->group(function () {
     // Shared Business Operations (Admin & Therapist)
     Route::get('/my-patients', [PatientController::class, 'myPatients'])->name('patients.my-patients');
 
-    Route::post('/patients/{patient}/treatment-plan', [PatientPlanController::class, 'storeTreatmentPlan'])->name('patients.treatment-plan');
-    Route::post('/patients/{patient}/nutrition-plan', [PatientPlanController::class, 'storeNutritionPlan'])->name('patients.nutrition-plan');
+    Route::post('/patients/{patient}/treatment-plan', [PatientTreatmentPlanController::class, 'store'])->name('patients.treatment-plan.store');
+    Route::put('/patients/{patient}/treatment-plan', [PatientTreatmentPlanController::class, 'update'])->name('patients.treatment-plan.update');
+    Route::patch('/patients/{patient}/treatment-plan', [PatientTreatmentPlanController::class, 'update'])->name('patients.treatment-plan.patch');
+
+    Route::post('/patients/{patient}/nutrition-plan', [PatientNutritionPlanController::class, 'store'])->name('patients.nutrition-plan.store');
+    Route::put('/patients/{patient}/nutrition-plan', [PatientNutritionPlanController::class, 'update'])->name('patients.nutrition-plan.update');
+    Route::patch('/patients/{patient}/nutrition-plan', [PatientNutritionPlanController::class, 'update'])->name('patients.nutrition-plan.patch');
 
     Route::post('/patients/{patient}/exercises', [ExerciseController::class, 'assign'])->name('patients.exercises.assign');
     Route::delete('/patients/{patient}/exercises/{patientExercise}', [ExerciseController::class, 'unassign'])->name('patients.exercises.unassign');

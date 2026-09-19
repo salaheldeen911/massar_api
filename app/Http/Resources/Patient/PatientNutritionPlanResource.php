@@ -9,7 +9,7 @@ class PatientNutritionPlanResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $latestNutrition = $this->nutritionPlans->first();
+        $latestNutrition = $this->nutritionPlan;
 
         return [
             'nutrition_program' => $latestNutrition ? [

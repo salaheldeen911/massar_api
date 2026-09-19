@@ -119,3 +119,65 @@
   "meta": null
 }
 ```
+
+---
+
+## 5. نقاط ربط خطة العلاج وخطة التغذية للإنشاء والتعديل (Treatment & Nutrition Plans Endpoints)
+
+### 5.1 قواعد البزنس لوجيك والصلاحيات (Business Logic & Authorization Rules)
+1. **سياسة الخطة الواحدة لكل مريض (Single Plan Policy):**
+   - يمتلك كل مريض **خطة علاج واحدة فقط (`TreatmentPlan`)** و **خطة تغذية واحدة فقط (`NutritionPlan`)**.
+   - إرسال طلب إنشاء مبدئي (`POST`) لمريض يمتلك خطة بالفعل يرجع استجابة `HTTP 422 Unprocessable Entity` تطلب تعديل الخطة الحالية.
+   - لتعديل بيانات الخطة الحالية للمريض، يجب استخدام مسارات التحديث (`PUT` أو `PATCH`).
+
+2. **حصر الصلاحيات للمعالج المسؤول أو الأدمن (Assigned Therapist Authorization):**
+   - يُسمح فقط بإضافة أو تعديل خطة العلاج أو التغذية من قِبَل:
+     - **المعالج المسؤول المخصص للمريض** (`patientProfile->therapist_id`).
+     - **مدير المركز (`Role: admin`)** أو **مدير النظام (`Role: landlord`)**.
+   - في حال حاول معالج غير مخصص للمريض إضافة أو تعديل الخطة، ترجع استجابة `HTTP 403 Forbidden`.
+
+3. **الحماية على مستوى قاعدة البيانات (Database Integrity):**
+   - توجد قيود `UNIQUE` على عمود `patient_id` في جدول `treatment_plans` وجدول `nutrition_plans`.
+
+---
+
+### 5.2 جدولة نقاط الربط (API Endpoints Matrix)
+
+#### أ. خطة العلاج (`Treatment Plan`)
+
+| الـ Method | الـ Endpoint | اسم الراوت | الوصف والصلاحية | الاستجابة المتوقعة |
+| :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/api/business/patients/{patient}/treatment-plan` | `business.patients.treatment-plan.store` | إنشاء خطة العلاج المبدئية للمريض. | **`201 Created`** عند النجاح.<br>**`422 Unprocessable Entity`** في حال وجود خطة مسبقاً.<br>**`403 Forbidden`** لمعالج غير مخصص. |
+| `PUT` / `PATCH` | `/api/business/patients/{patient}/treatment-plan` | `business.patients.treatment-plan.update`<br>`business.patients.treatment-plan.patch` | تعديل بيانات خطة العلاج الحالية للمريض. | **`200 OK`** عند النجاح.<br>**`422 Unprocessable Entity`** في حال عدم وجود خطة مسبقة لإنشائها.<br>**`403 Forbidden`** لمعالج غير مخصص. |
+
+##### **JSON Payload لخطة العلاج (`Treatment Plan`):**
+```json
+{
+  "manual_therapy": "جلسات تحريك فقرات الظهر والتفريغ العضلي",
+  "electrotherapy": "جهاز TENS لمدة 20 دقيقة يومياً",
+  "medications": "مسكنات ومضادات التهاب حسب الإرشاد الطبي",
+  "goals": "استعادة المدى الحركي الكامل خلال 4 أسابيع"
+}
+```
+
+---
+
+#### ب. خطة التغذية (`Nutrition Program`)
+
+| الـ Method | الـ Endpoint | اسم الراوت | الوصف والصلاحية | الاستجابة المتوقعة |
+| :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/api/business/patients/{patient}/nutrition-plan` | `business.patients.nutrition-plan.store` | إنشاء خطة التغذية المبدئية للمريض. | **`201 Created`** عند النجاح.<br>**`422 Unprocessable Entity`** في حال وجود خطة مسبقاً.<br>**`403 Forbidden`** لمعالج غير مخصص. |
+| `PUT` / `PATCH` | `/api/business/patients/{patient}/nutrition-plan` | `business.patients.nutrition-plan.update`<br>`business.patients.nutrition-plan.patch` | تعديل بيانات خطة التغذية الحالية للمريض. | **`200 OK`** عند النجاح.<br>**`422 Unprocessable Entity`** في حال عدم وجود خطة مسبقة لإنشائها.<br>**`403 Forbidden`** لمعالج غير مخصص. |
+
+##### **JSON Payload لخطة التغذية (`Nutrition Program`):**
+```json
+{
+  "breakfast": "شوفان بالحليب والبيض المسلوق",
+  "lunch": "صدور دجاج مشوية مع سلطة خضراء وأرز مسلوق",
+  "dinner": "زبادي يوناني مع مكسرات وفاكهة",
+  "snacks": "تفاح أخضر ولوز نئ",
+  "supplements": "أوميجا 3 وفيتايمين د3",
+  "foods_to_avoid": "السكريات المصنعة والمشروبات الغازية والأطعمة المقالية"
+}
+```
+

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class PatientManagementService
 {
@@ -66,47 +67,11 @@ class PatientManagementService
         return $patient->load([
             'patientProfile.therapist',
             'patientProfile.diagnosisModel',
-            'treatmentPlans' => fn ($q) => $q->latest('created_at'),
-            'nutritionPlans' => fn ($q) => $q->latest('created_at'),
+            'treatmentPlan',
+            'nutritionPlan',
             'assignedExercises' => fn ($q) => $q->with(['exercise.media', 'assignedBy'])->latest('created_at'),
             'media',
         ]);
-    }
-
-    public function storeTreatmentPlan(User $patient, array $data): \App\Models\TreatmentPlan
-    {
-        $this->ensurePatientBelongsToCurrentCenter($patient);
-        $currentUser = currentUser();
-
-        return DB::transaction(function () use ($patient, $data, $currentUser) {
-            return \App\Models\TreatmentPlan::create([
-                'patient_id' => $patient->id,
-                'therapist_id' => $currentUser?->id,
-                'manual_therapy' => $data['manual_therapy'] ?? null,
-                'electrotherapy' => $data['electrotherapy'] ?? null,
-                'medications' => $data['medications'] ?? null,
-                'goals' => $data['goals'] ?? null,
-            ]);
-        });
-    }
-
-    public function storeNutritionPlan(User $patient, array $data): \App\Models\NutritionPlan
-    {
-        $this->ensurePatientBelongsToCurrentCenter($patient);
-        $currentUser = currentUser();
-
-        return DB::transaction(function () use ($patient, $data, $currentUser) {
-            return \App\Models\NutritionPlan::create([
-                'patient_id' => $patient->id,
-                'therapist_id' => $currentUser?->id,
-                'breakfast' => $data['breakfast'] ?? null,
-                'lunch' => $data['lunch'] ?? null,
-                'dinner' => $data['dinner'] ?? null,
-                'snacks' => $data['snacks'] ?? null,
-                'supplements' => $data['supplements'] ?? null,
-                'foods_to_avoid' => $data['foods_to_avoid'] ?? null,
-            ]);
-        });
     }
 
     public function updatePatient(User $patient, array $data): User

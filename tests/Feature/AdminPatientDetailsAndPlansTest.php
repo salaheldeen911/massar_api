@@ -120,6 +120,45 @@ class AdminPatientDetailsAndPlansTest extends TestCase
         ]);
     }
 
+    public function test_duplicate_treatment_plan_creation_fails_with_422_and_allows_put_update(): void
+    {
+        $payload = [
+            'manual_therapy' => 'Initial therapy',
+            'goals' => 'Initial goals',
+        ];
+
+        // 1. Initial creation by assigned therapist
+        $firstResponse = $this->actingAs($this->therapistA, 'sanctum')
+            ->postJson("/api/business/patients/{$this->patientUserA->id}/treatment-plan", $payload);
+        $firstResponse->assertStatus(201);
+
+        // 2. Duplicate creation attempt via POST fails with 422
+        $duplicateResponse = $this->actingAs($this->therapistA, 'sanctum')
+            ->postJson("/api/business/patients/{$this->patientUserA->id}/treatment-plan", [
+                'manual_therapy' => 'New therapy',
+            ]);
+
+        $duplicateResponse->assertStatus(422)
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('errors.treatment_plan.0', 'A treatment plan already exists for this patient. Please update the existing plan instead.');
+
+        // 3. Updating existing plan via PUT succeeds
+        $updateResponse = $this->actingAs($this->therapistA, 'sanctum')
+            ->putJson("/api/business/patients/{$this->patientUserA->id}/treatment-plan", [
+                'manual_therapy' => 'Updated therapy',
+                'goals' => 'Updated goals',
+            ]);
+
+        $updateResponse->assertStatus(200)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.manual_therapy', 'Updated therapy');
+
+        $this->assertDatabaseHas('treatment_plans', [
+            'patient_id' => $this->patientUserA->id,
+            'manual_therapy' => 'Updated therapy',
+        ]);
+    }
+
     public function test_admin_can_save_nutrition_plan_for_patient(): void
     {
         $payload = [
@@ -142,6 +181,98 @@ class AdminPatientDetailsAndPlansTest extends TestCase
             'patient_id' => $this->patientUserA->id,
             'breakfast' => 'Oatmeal & eggs',
         ]);
+    }
+
+    public function test_duplicate_nutrition_plan_creation_fails_with_422_and_allows_put_update(): void
+    {
+        $payload = [
+            'breakfast' => 'Initial breakfast',
+            'lunch' => 'Initial lunch',
+        ];
+
+        // 1. Initial creation by assigned therapist
+        $firstResponse = $this->actingAs($this->therapistA, 'sanctum')
+            ->postJson("/api/business/patients/{$this->patientUserA->id}/nutrition-plan", $payload);
+        $firstResponse->assertStatus(201);
+
+        // 2. Duplicate creation attempt via POST fails with 422
+        $duplicateResponse = $this->actingAs($this->therapistA, 'sanctum')
+            ->postJson("/api/business/patients/{$this->patientUserA->id}/nutrition-plan", [
+                'breakfast' => 'New breakfast',
+            ]);
+
+        $duplicateResponse->assertStatus(422)
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('errors.nutrition_plan.0', 'A nutrition plan already exists for this patient. Please update the existing plan instead.');
+
+        // 3. Updating existing plan via PUT succeeds
+        $updateResponse = $this->actingAs($this->therapistA, 'sanctum')
+            ->putJson("/api/business/patients/{$this->patientUserA->id}/nutrition-plan", [
+                'breakfast' => 'Updated breakfast',
+                'lunch' => 'Updated lunch',
+            ]);
+
+        $updateResponse->assertStatus(200)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.breakfast', 'Updated breakfast');
+
+        $this->assertDatabaseHas('nutrition_plans', [
+            'patient_id' => $this->patientUserA->id,
+            'breakfast' => 'Updated breakfast',
+        ]);
+    }
+
+    public function test_unassigned_therapist_cannot_manage_patient_nutrition_plan(): void
+    {
+        $unassignedTherapist = User::create([
+            'center_id' => $this->centerA->id,
+            'name' => 'Dr. Unassigned',
+            'phone' => '+201011119999',
+            'email' => 'unassigned@alpha.com',
+            'password' => bcrypt('password123'),
+            'status' => 'active',
+        ]);
+        $unassignedTherapist->assignRole('therapist');
+
+        $response = $this->actingAs($unassignedTherapist, 'sanctum')
+            ->postJson("/api/business/patients/{$this->patientUserA->id}/nutrition-plan", [
+                'breakfast' => 'Unauthorized breakfast',
+            ]);
+
+        $response->assertStatus(403)
+            ->assertJsonPath('success', false);
+    }
+
+    public function test_partial_update_preserves_unmodified_fields_and_explicit_null_resets_field(): void
+    {
+        // 1. Initial creation
+        $this->actingAs($this->therapistA, 'sanctum')
+            ->postJson("/api/business/patients/{$this->patientUserA->id}/treatment-plan", [
+                'manual_therapy' => 'Initial therapy',
+                'goals' => 'Initial goals',
+                'medications' => 'Initial meds',
+            ])->assertStatus(201);
+
+        // 2. Partial update sending only manual_therapy (sometimes rule)
+        $partialResponse = $this->actingAs($this->therapistA, 'sanctum')
+            ->putJson("/api/business/patients/{$this->patientUserA->id}/treatment-plan", [
+                'manual_therapy' => 'Updated manual therapy only',
+            ]);
+
+        $partialResponse->assertStatus(200)
+            ->assertJsonPath('data.manual_therapy', 'Updated manual therapy only')
+            ->assertJsonPath('data.goals', 'Initial goals')
+            ->assertJsonPath('data.medications', 'Initial meds');
+
+        // 3. Reset medications field via explicit null (nullable rule)
+        $nullResetResponse = $this->actingAs($this->therapistA, 'sanctum')
+            ->putJson("/api/business/patients/{$this->patientUserA->id}/treatment-plan", [
+                'medications' => null,
+            ]);
+
+        $nullResetResponse->assertStatus(200)
+            ->assertJsonPath('data.medications', null)
+            ->assertJsonPath('data.goals', 'Initial goals');
     }
 
     public function test_three_tier_exercise_library_scoping(): void

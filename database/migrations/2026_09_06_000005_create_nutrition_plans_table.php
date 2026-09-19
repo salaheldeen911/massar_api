@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('nutrition_plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('patient_id')->unique('unique_nutrition_patient')->constrained('users')->cascadeOnDelete();
             $table->foreignId('therapist_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('breakfast')->nullable();
             $table->text('lunch')->nullable();
@@ -22,8 +22,6 @@ return new class extends Migration
             $table->text('supplements')->nullable();
             $table->text('foods_to_avoid')->nullable();
             $table->timestamps();
-
-            $table->index('patient_id', 'idx_nutrition_patient');
         });
     }
 

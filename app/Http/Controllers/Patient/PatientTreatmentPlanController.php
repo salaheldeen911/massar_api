@@ -17,9 +17,7 @@ class PatientTreatmentPlanController extends Controller
         $patientUser = $request->user()->load([
             'patientProfile.therapist.therapistProfile',
             'patientProfile.diagnosisModel',
-            'treatmentPlans' => function ($q) {
-                $q->latest();
-            },
+            'treatmentPlan',
         ]);
 
         return $this->success(

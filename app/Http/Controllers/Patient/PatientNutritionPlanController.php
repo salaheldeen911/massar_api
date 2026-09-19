@@ -15,9 +15,7 @@ class PatientNutritionPlanController extends Controller
     public function show(Request $request): JsonResponse
     {
         $patientUser = $request->user()->load([
-            'nutritionPlans' => function ($q) {
-                $q->latest();
-            },
+            'nutritionPlan',
         ]);
 
         return $this->success(

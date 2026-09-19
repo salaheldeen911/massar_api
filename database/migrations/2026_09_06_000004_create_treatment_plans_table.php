@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('treatment_plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('patient_id')->unique('unique_treatment_patient')->constrained('users')->cascadeOnDelete();
             $table->foreignId('therapist_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('manual_therapy')->nullable();
             $table->date('manual_therapy_date')->nullable();
@@ -22,8 +22,6 @@ return new class extends Migration
             $table->text('medications')->nullable();
             $table->text('goals')->nullable();
             $table->timestamps();
-
-            $table->index('patient_id', 'idx_treatment_patient');
         });
     }
 

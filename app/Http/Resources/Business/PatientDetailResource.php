@@ -10,8 +10,8 @@ class PatientDetailResource extends JsonResource
     public function toArray(Request $request): array
     {
         $profile = $this->patientProfile;
-        $latestTreatment = $this->treatmentPlans->first();
-        $latestNutrition = $this->nutritionPlans->first();
+        $latestTreatment = $this->treatmentPlan;
+        $latestNutrition = $this->nutritionPlan;
 
         return [
             'header_info' => [

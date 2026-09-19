@@ -73,14 +73,14 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(PatientProfile::class, 'therapist_id');
     }
 
-    public function treatmentPlans(): HasMany
+    public function treatmentPlan(): HasOne
     {
-        return $this->hasMany(TreatmentPlan::class, 'patient_id');
+        return $this->hasOne(TreatmentPlan::class, 'patient_id');
     }
 
-    public function nutritionPlans(): HasMany
+    public function nutritionPlan(): HasOne
     {
-        return $this->hasMany(NutritionPlan::class, 'patient_id');
+        return $this->hasOne(NutritionPlan::class, 'patient_id');
     }
 
     public function assignedExercises(): HasMany

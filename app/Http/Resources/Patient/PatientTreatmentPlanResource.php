@@ -11,7 +11,7 @@ class PatientTreatmentPlanResource extends JsonResource
     public function toArray(Request $request): array
     {
         $profile = $this->patientProfile;
-        $latestTreatment = $this->treatmentPlans->first();
+        $latestTreatment = $this->treatmentPlan;
 
         return [
             'header_info' => [
