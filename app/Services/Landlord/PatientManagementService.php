@@ -282,9 +282,13 @@ class PatientManagementService
     private function loadPatientRelations(PatientProfile $patientProfile): PatientProfile
     {
         return $patientProfile->load([
-            'user',
+            'user.treatmentPlan',
+            'user.nutritionPlan',
+            'user.assignedExercises.exercise',
+            'user.assignedExercises.logs',
             'center',
             'therapist',
+            'diagnosisModel',
         ]);
     }
 }

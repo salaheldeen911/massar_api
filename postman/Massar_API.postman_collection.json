@@ -2985,7 +2985,7 @@
                                         {
                                             "key": "exercise",
                                             "value": "1",
-                                            "description": "Target ID parameter"
+                                            "description": "ID of the target exercise"
                                         }
                                     ]
                                 },
@@ -3102,7 +3102,7 @@
                                         {
                                             "key": "exercise",
                                             "value": "1",
-                                            "description": "Target ID parameter"
+                                            "description": "ID of the target exercise"
                                         }
                                     ]
                                 },
@@ -3297,7 +3297,7 @@
                                         {
                                             "key": "exercise",
                                             "value": "1",
-                                            "description": "Target ID parameter"
+                                            "description": "ID of the target exercise"
                                         }
                                     ]
                                 },
@@ -7603,7 +7603,7 @@
                                         {
                                             "key": "patient",
                                             "value": "1",
-                                            "description": "Target ID parameter"
+                                            "description": "ID of the target patient"
                                         }
                                     ]
                                 },
@@ -7802,7 +7802,7 @@
                                         {
                                             "key": "patient",
                                             "value": "1",
-                                            "description": "Target ID parameter"
+                                            "description": "ID of the target patient"
                                         }
                                     ]
                                 },
@@ -8937,7 +8937,7 @@
                                         {
                                             "key": "exercise",
                                             "value": "1",
-                                            "description": "Target ID parameter"
+                                            "description": "ID of the target exercise"
                                         }
                                     ]
                                 },
@@ -9054,7 +9054,7 @@
                                         {
                                             "key": "exercise",
                                             "value": "1",
-                                            "description": "Target ID parameter"
+                                            "description": "ID of the target exercise"
                                         }
                                     ]
                                 },

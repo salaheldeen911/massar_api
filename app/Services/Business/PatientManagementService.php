@@ -67,9 +67,10 @@ class PatientManagementService
         return $patient->load([
             'patientProfile.therapist',
             'patientProfile.diagnosisModel',
+            'patientProfile.media',
             'treatmentPlan',
             'nutritionPlan',
-            'assignedExercises' => fn ($q) => $q->with(['exercise.media', 'assignedBy'])->latest('created_at'),
+            'assignedExercises' => fn ($q) => $q->with(['exercise.media', 'assignedBy', 'logs'])->latest('created_at'),
             'media',
         ]);
     }
