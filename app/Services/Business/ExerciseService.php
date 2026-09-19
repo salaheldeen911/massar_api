@@ -46,9 +46,9 @@ class ExerciseService
                 'therapist_notes' => $data['therapist_notes'] ?? null,
             ]);
 
-            $mediaFile = $data['video'] ?? $data['media'] ?? $data['file'] ?? null;
+            $mediaFile = $data['video'] ?? $data['exercise_media'] ?? $data['media'] ?? $data['file'] ?? null;
             if ($mediaFile && $mediaFile instanceof \Illuminate\Http\UploadedFile) {
-                $exercise->addMedia($mediaFile)->toMediaCollection('video');
+                $exercise->addMedia($mediaFile)->toMediaCollection('exercise_media');
             }
 
             return $exercise->load(['media', 'therapist']);
@@ -66,10 +66,10 @@ class ExerciseService
                 'therapist_notes' => $data['therapist_notes'] ?? null,
             ], fn ($val) => $val !== null));
 
-            $mediaFile = $data['video'] ?? $data['media'] ?? $data['file'] ?? null;
+            $mediaFile = $data['video'] ?? $data['exercise_media'] ?? $data['media'] ?? $data['file'] ?? null;
             if ($mediaFile && $mediaFile instanceof \Illuminate\Http\UploadedFile) {
-                $exercise->clearMediaCollection('video');
-                $exercise->addMedia($mediaFile)->toMediaCollection('video');
+                $exercise->clearMediaCollection('exercise_media');
+                $exercise->addMedia($mediaFile)->toMediaCollection('exercise_media');
             }
 
             return $exercise->fresh(['media', 'therapist']);
@@ -116,7 +116,7 @@ class ExerciseService
         $this->ensureCanDeleteExercise($exercise);
 
         DB::transaction(function () use ($exercise) {
-            $exercise->clearMediaCollection('video');
+            $exercise->clearMediaCollection('exercise_media');
             $exercise->delete();
         });
     }

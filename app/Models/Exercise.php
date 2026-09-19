@@ -37,7 +37,7 @@ class Exercise extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('video')->singleFile();
+        $this->addMediaCollection('exercise_media')->singleFile();
     }
 
     public function therapist(): BelongsTo

@@ -1,5 +1,7 @@
 # Massar API — Official Response to Frontend Audit & Feedback
 
+> 📌 **Comprehensive Frontend Integration Guide:** For the full list of API endpoints, exercise scoping, authorization rules, and media specs, refer to [FRONTEND_API_CHANGES_AND_ENDPOINTS.md](file:///c:/laragon/www/massar_api/docs/FRONTEND_API_CHANGES_AND_ENDPOINTS.md).
+
 This document provides the official technical response and status breakdown for each point raised in the Frontend Audit Report.
 
 ---

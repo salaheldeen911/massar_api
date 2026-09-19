@@ -30,7 +30,7 @@ class PatientExerciseResource extends JsonResource
                 'logged_at' => $latestLog?->logged_at?->toDateString(),
             ],
             'sort_order' => $this->sort_order ?? 0,
-            'video_url' => $exercise?->getFirstMediaUrl('video') ?: null,
+            'video_url' => $exercise?->getFirstMediaUrl('exercise_media') ?: null,
             'assigned_by' => $this->assignedBy ? [
                 'id' => $this->assignedBy->id,
                 'name' => $this->assignedBy->name,

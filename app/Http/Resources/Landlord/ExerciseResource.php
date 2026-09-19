@@ -1,12 +1,18 @@
 <?php
 
-namespace App\Http\Resources\Business;
+namespace App\Http\Resources\Landlord;
 
+use App\Http\Resources\CenterResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ExerciseResource extends JsonResource
 {
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
     public function toArray(Request $request): array
     {
         return [
@@ -21,13 +27,16 @@ class ExerciseResource extends JsonResource
             'is_global' => $this->center_id === null,
             'is_center_public' => $this->center_id !== null && $this->therapist_id === null,
             'is_therapist_private' => $this->therapist_id !== null,
-            'therapist' => $this->therapist ? [
+            'center' => new CenterResource($this->whenLoaded('center')),
+            'therapist' => $this->whenLoaded('therapist', fn () => [
                 'id' => $this->therapist->id,
                 'name' => $this->therapist->name,
-            ] : null,
+                'email' => $this->therapist->email,
+                'phone' => $this->therapist->phone,
+            ]),
             'video_url' => $this->getFirstMediaUrl('exercise_media') ?: null,
-            'created_at' => $this->created_at?->toISOString(),
-            'updated_at' => $this->updated_at?->toISOString(),
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
 }

@@ -16,7 +16,7 @@ class PatientExerciseResource extends JsonResource
             'id' => $this->id,
             'exercise_id' => $this->exercise_id,
             'title' => $exercise?->title ?? 'Exercise',
-            'video_url' => $exercise?->getFirstMediaUrl('video') ?: null,
+            'video_url' => $exercise?->getFirstMediaUrl('exercise_media') ?: null,
             'target_sets' => $this->sets,
             'target_repeats' => $this->repeats,
             'target_duration' => $this->duration,

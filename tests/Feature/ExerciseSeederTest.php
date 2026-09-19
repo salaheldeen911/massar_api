@@ -24,7 +24,7 @@ class ExerciseSeederTest extends TestCase
             $this->assertTrue($exercise->is_system);
             $this->assertNull($exercise->center_id);
             $this->assertNull($exercise->therapist_id);
-            $this->assertTrue($exercise->hasMedia('video'));
+            $this->assertTrue($exercise->hasMedia('exercise_media'));
         }
     }
 

@@ -2036,6 +2036,103 @@
                     ]
                 },
                 {
+                    "name": "Exercises Management",
+                    "description": "Global Landlord exercises management: default global exercises listing, filtering by center_id (all center exercises public & private) or therapist_id, and full override CRUD access.",
+                    "item": [
+                        {
+                            "name": "List Exercises (Global / Filtered by Center or Therapist)",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/landlord/exercises?center_id=1&therapist_id=2&search=&per_page=15",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "landlord",
+                                        "exercises"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "center_id",
+                                            "value": "1",
+                                            "description": "Optional center_id filter to return all exercises (public & private) for a specific center."
+                                        },
+                                        {
+                                            "key": "therapist_id",
+                                            "value": "2",
+                                            "description": "Optional therapist_id filter to return exercises created by a specific therapist."
+                                        },
+                                        {
+                                            "key": "search",
+                                            "value": "",
+                                            "description": "Optional search by exercise title."
+                                        },
+                                        {
+                                            "key": "per_page",
+                                            "value": "15",
+                                            "description": "Items per page."
+                                        }
+                                    ]
+                                },
+                                "description": "Retrieves paginated list of exercises for Landlord. Defaults to global system exercises when no center filter is passed."
+                            },
+                            "response": [
+                                {
+                                    "name": "200 OK - Exercises List",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/landlord/exercises",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "landlord",
+                                                "exercises"
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "body": "{\n  \"success\": true,\n  \"message\": \"Exercises retrieved successfully.\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"center_id\": null,\n      \"therapist_id\": null,\n      \"title\": \"Global System Squat\",\n      \"default_sets\": 3,\n      \"default_repeats\": 12,\n      \"default_duration\": 90,\n      \"therapist_notes\": \"Perform with controlled posture.\",\n      \"is_global\": true,\n      \"is_center_public\": false,\n      \"is_therapist_private\": false,\n      \"center\": null,\n      \"therapist\": null,\n      \"video_url\": null,\n      \"created_at\": \"2026-09-08T09:00:00.000000Z\",\n      \"updated_at\": \"2026-09-08T09:00:00.000000Z\"\n    }\n  ],\n  \"meta\": {\n    \"currentPage\": 1,\n    \"lastPage\": 1,\n    \"perPage\": 15,\n    \"total\": 1,\n    \"from\": 1,\n    \"to\": 1\n  }\n}"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
                     "name": "Support Tickets Management",
                     "description": "Global management and replying to center support tickets.",
                     "item": [

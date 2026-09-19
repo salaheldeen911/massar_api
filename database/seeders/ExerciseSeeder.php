@@ -51,10 +51,10 @@ class ExerciseSeeder extends Seeder
                 ]
             );
 
-            if (! $exercise->hasMedia('video')) {
+            if (! $exercise->hasMedia('exercise_media')) {
                 $exercise->addMedia($file->getRealPath())
                     ->preservingOriginal()
-                    ->toMediaCollection('video');
+                    ->toMediaCollection('exercise_media');
             }
         }
     }
