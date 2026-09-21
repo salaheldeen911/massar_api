@@ -6,6 +6,7 @@ use App\Http\Controllers\Landlord\DashboardController;
 use App\Http\Controllers\Landlord\ExerciseController;
 use App\Http\Controllers\Landlord\PatientController;
 use App\Http\Controllers\Landlord\SupportTicketController;
+use App\Http\Controllers\Landlord\TherapistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,7 @@ Route::middleware(['auth:sanctum', 'role:landlord'])->group(function () {
 
     Route::get('/centers/{center}/staff', [CenterController::class, 'staff'])->name('centers.staff');
     Route::apiResource('centers', CenterController::class);
+    Route::apiResource('therapists', TherapistController::class);
     Route::apiResource('patients', PatientController::class);
     Route::apiResource('exercises', ExerciseController::class);
 
