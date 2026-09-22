@@ -3,11 +3,14 @@
 namespace App\Http\Requests\Landlord;
 
 use App\Enums\UserStatus;
+use App\Http\Requests\Traits\NormalizesPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdateTherapistRequest extends FormRequest
 {
+    use NormalizesPhone;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -29,7 +32,7 @@ class UpdateTherapistRequest extends FormRequest
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'email' => ['sometimes', 'required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($therapistUserId)],
-            'phone' => ['sometimes', 'required', 'string', 'phone:AUTO,EG', Rule::unique('users', 'phone')->ignore($therapistUserId)],
+            'phone' => ['sometimes', 'required', 'string', 'phone:AUTO', Rule::unique('users', 'phone')->ignore($therapistUserId)],
             'password' => ['nullable', 'string', 'min:8'],
             'status' => ['nullable', Rule::enum(UserStatus::class)],
             'specialization' => ['nullable', 'string', 'max:150'],

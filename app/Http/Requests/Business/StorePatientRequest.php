@@ -3,11 +3,14 @@
 namespace App\Http\Requests\Business;
 
 use App\Enums\UserStatus;
+use App\Http\Requests\Traits\NormalizesPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class StorePatientRequest extends FormRequest
 {
+    use NormalizesPhone;
+
     public function authorize(): bool
     {
         return true;
@@ -17,7 +20,7 @@ class StorePatientRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'phone:AUTO,EG', 'unique:users,phone'],
+            'phone' => ['required', 'string', 'phone:AUTO', 'unique:users,phone'],
             'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
             'birth_date' => ['required', 'date_format:Y-m-d', 'before:today'],

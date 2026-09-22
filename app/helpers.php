@@ -56,3 +56,14 @@ if (! function_exists('isLandlord')) {
         return $user->hasRole('landlord');
     }
 }
+
+if (! function_exists('normalizePhoneNumber')) {
+    /**
+     * Normalize a phone number to international E.164 format with automatic country deduction.
+     */
+    function normalizePhoneNumber(?string $phone, ?string $defaultCountry = null): ?string
+    {
+        return \App\Helpers\PhoneHelper::normalize($phone, $defaultCountry);
+    }
+}
+

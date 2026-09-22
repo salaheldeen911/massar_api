@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Landlord;
 
+use App\Http\Requests\Traits\NormalizesPhone;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePatientRequest extends FormRequest
 {
+    use NormalizesPhone;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,7 +28,7 @@ class StorePatientRequest extends FormRequest
             'center_id' => ['required', 'integer', 'exists:centers,id'],
             'therapist_id' => ['required', 'integer', 'exists:users,id'],
             'name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'phone:AUTO,EG', 'unique:users,phone'],
+            'phone' => ['required', 'string', 'phone:AUTO', 'unique:users,phone'],
             'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
             'birth_date' => ['required', 'date_format:Y-m-d', 'before:today'],

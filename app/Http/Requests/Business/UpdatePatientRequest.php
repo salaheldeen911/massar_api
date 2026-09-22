@@ -3,11 +3,14 @@
 namespace App\Http\Requests\Business;
 
 use App\Enums\UserStatus;
+use App\Http\Requests\Traits\NormalizesPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdatePatientRequest extends FormRequest
 {
+    use NormalizesPhone;
+
     public function authorize(): bool
     {
         return true;
@@ -20,7 +23,7 @@ class UpdatePatientRequest extends FormRequest
 
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'phone' => ['sometimes', 'required', 'string', 'phone:AUTO,EG', Rule::unique('users', 'phone')->ignore($patientUserId)],
+            'phone' => ['sometimes', 'required', 'string', 'phone:AUTO', Rule::unique('users', 'phone')->ignore($patientUserId)],
             'email' => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($patientUserId)],
             'password' => ['nullable', 'string', 'min:8'],
             'birth_date' => ['sometimes', 'required', 'date_format:Y-m-d', 'before:today'],

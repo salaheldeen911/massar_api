@@ -4,11 +4,14 @@ namespace App\Http\Requests\Landlord;
 
 use App\Enums\CenterStatus;
 use App\Enums\CenterSubscriptionStatus;
+use App\Http\Requests\Traits\NormalizesPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class StoreCenterRequest extends FormRequest
 {
+    use NormalizesPhone;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -26,9 +29,9 @@ class StoreCenterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'phone:AUTO,EG'],
+            'phone' => ['required', 'string', 'phone:AUTO'],
             'admin_name' => ['required', 'string', 'max:255'],
-            'admin_phone' => ['required', 'string', 'phone:AUTO,EG', 'unique:users,phone'],
+            'admin_phone' => ['required', 'string', 'phone:AUTO', 'unique:users,phone'],
             'admin_email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'admin_password' => ['required', 'string', 'min:8'],
             'specialty' => ['nullable', 'string', 'max:255'],
@@ -41,7 +44,7 @@ class StoreCenterRequest extends FormRequest
             'status' => ['nullable', Rule::enum(CenterStatus::class)],
             'subscription_status' => ['nullable', Rule::enum(CenterSubscriptionStatus::class)],
             'facebook' => ['nullable', 'url', 'max:255'],
-            'whatsapp' => ['nullable', 'string', 'max:255'],
+            'whatsapp' => ['nullable', 'string', 'max:50'],
             'instagram' => ['nullable', 'url', 'max:255'],
             'linkedin' => ['nullable', 'url', 'max:255'],
             'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],

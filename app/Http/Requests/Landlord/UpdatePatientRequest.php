@@ -3,12 +3,15 @@
 namespace App\Http\Requests\Landlord;
 
 use App\Enums\UserStatus;
+use App\Http\Requests\Traits\NormalizesPhone;
 use App\Models\PatientProfile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdatePatientRequest extends FormRequest
 {
+    use NormalizesPhone;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -35,7 +38,7 @@ class UpdatePatientRequest extends FormRequest
                 'sometimes',
                 'required',
                 'string',
-                'phone:AUTO,EG',
+                'phone:AUTO',
                 Rule::unique('users', 'phone')->ignore($userId),
             ],
             'email' => [

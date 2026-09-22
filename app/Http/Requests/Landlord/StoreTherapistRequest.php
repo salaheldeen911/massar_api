@@ -3,11 +3,14 @@
 namespace App\Http\Requests\Landlord;
 
 use App\Enums\UserStatus;
+use App\Http\Requests\Traits\NormalizesPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class StoreTherapistRequest extends FormRequest
 {
+    use NormalizesPhone;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -27,7 +30,7 @@ class StoreTherapistRequest extends FormRequest
             'center_id' => ['required', 'integer', 'exists:centers,id'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'phone' => ['required', 'string', 'phone:AUTO,EG', 'unique:users,phone'],
+            'phone' => ['required', 'string', 'phone:AUTO', 'unique:users,phone'],
             'password' => ['required', 'string', 'min:8'],
             'status' => ['nullable', Rule::enum(UserStatus::class)],
             'specialization' => ['nullable', 'string', 'max:150'],

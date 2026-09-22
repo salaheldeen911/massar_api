@@ -117,11 +117,9 @@ class AuthService
             ->where('email', $identity)
             ->orWhere('phone', $identity);
 
-        try {
-            $formattedPhone = phone($identity, ['EG', 'AUTO'])->toE164();
-            $query->orWhere('phone', $formattedPhone);
-        } catch (\Throwable $e) {
-            // Ignore phone parsing exceptions
+        $normalizedPhone = normalizePhoneNumber($identity);
+        if ($normalizedPhone && $normalizedPhone !== $identity) {
+            $query->orWhere('phone', $normalizedPhone);
         }
 
         $digits = preg_replace('/\D/', '', $identity);
