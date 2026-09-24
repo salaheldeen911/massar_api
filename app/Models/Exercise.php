@@ -54,6 +54,16 @@ class Exercise extends Model implements HasMedia
     {
         return static::withoutGlobalScope('center_scope')
             ->where($field ?? $this->getRouteKeyName(), $value)
+            ->where(function ($query) {
+                if (isLandlord()) {
+                    return;
+                }
+                $query->where('is_system', true);
+                $centerId = currentCenterId();
+                if ($centerId !== null) {
+                    $query->orWhere('center_id', $centerId);
+                }
+            })
             ->firstOrFail();
     }
 }

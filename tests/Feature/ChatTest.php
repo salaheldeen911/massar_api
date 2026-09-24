@@ -173,7 +173,7 @@ class ChatTest extends TestCase
                 'message' => 'Cross center test message',
             ]);
 
-        $response->assertStatus(403);
+        $response->assertStatus(404);
     }
 
     public function test_unassigned_therapist_in_same_center_is_blocked_from_messaging_patient(): void

@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToCenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PatientExerciseLog extends Model
 {
-    use HasFactory;
+    use BelongsToCenter, HasFactory;
 
     protected $fillable = [
+        'center_id',
         'patient_exercise_id',
         'patient_id',
         'completed_sets',

@@ -224,6 +224,6 @@ class AdminPatientCRUDTest extends TestCase
         $response = $this->actingAs($this->adminUserA, 'sanctum')
             ->getJson("/api/business/patients/{$patientB->id}");
 
-        $response->assertStatus(422);
+        $response->assertStatus(404);
     }
 }

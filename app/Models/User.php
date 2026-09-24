@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\UserStatus;
+use App\Traits\BelongsToCenter;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,7 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasRoles, InteractsWithMedia, Notifiable;
+    use BelongsToCenter, HasApiTokens, HasFactory, HasRoles, InteractsWithMedia, Notifiable;
 
     protected $attributes = [
         'status' => 'active',

@@ -122,11 +122,6 @@ class AuthService
             $query->orWhere('phone', $normalizedPhone);
         }
 
-        $digits = preg_replace('/\D/', '', $identity);
-        if (strlen($digits) >= 9) {
-            $query->orWhere('phone', 'like', '%' . substr($digits, -9));
-        }
-
         $user = $query->first();
 
         if (! $user) {

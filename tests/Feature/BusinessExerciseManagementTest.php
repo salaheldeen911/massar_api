@@ -179,7 +179,7 @@ class BusinessExerciseManagementTest extends TestCase
 
         $this->actingAs($this->admin, 'sanctum')
             ->deleteJson("/api/business/exercises/{$globalExercise->id}")
-            ->assertStatus(403);
+            ->assertStatus(404);
 
         // 2. Therapist private exercise: Creating therapist and Admin can delete
         $therapistExercise = Exercise::create([

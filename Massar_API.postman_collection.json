@@ -1,0 +1,2245 @@
+{
+    "info": {
+        "name": "Massar API - Official Complete Collection v2.1",
+        "description": "Official, clean, deduplicated Postman collection covering all endpoints in Massar API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://127.0.0.1:8000",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "1. Authentication & Profile",
+            "item": [
+                {
+                    "name": "Register Center Admin",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "register"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"center_name\": \"Healing Center\",\n    \"phone\": \"+201012345678\",\n    \"specialty\": \"Physical Therapy\",\n    \"country\": \"Egypt\",\n    \"city\": \"Cairo\",\n    \"therapists_count\": 3,\n    \"branches_count\": 1,\n    \"terms_accepted\": true,\n    \"name\": \"Dr. Ahmed Mahmoud\",\n    \"email\": \"ahmed@healing-center.com\",\n    \"password\": \"password123\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "login"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"identity\": \"ahmed@healing-center.com\",\n    \"password\": \"password123\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get Current User Profile (/me)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/me",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "me"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Profile",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/profile",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "profile"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Dr. Ahmed M. Updated\",\n    \"phone\": \"+201012345678\",\n    \"email\": \"ahmed@healing-center.com\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Change Password",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/profile/password",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "profile",
+                                "password"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"current_password\": \"password123\",\n    \"new_password\": \"newpassword123\",\n    \"new_password_confirmation\": \"newpassword123\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/logout",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "logout"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "2. System Catalogs",
+            "item": [
+                {
+                    "name": "List Diagnoses Catalogs",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/diagnoses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "diagnoses"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "3. Business Operations (Admin & Therapist)",
+            "item": [
+                {
+                    "name": "Dashboard & Center Details",
+                    "item": [
+                        {
+                            "name": "Get Business Dashboard Metrics",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/dashboard",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "dashboard"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Center Details (Admin Only)",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/center-details",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "center-details"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Center Details (Admin Only)",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/center-details",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "center-details"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"name\": \"Updated Healing Center\",\n    \"phone\": \"+201012345678\",\n    \"specialty\": \"Orthopedic Physical Therapy\",\n    \"city\": \"Cairo\"\n}"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Patient Management",
+                    "item": [
+                        {
+                            "name": "List All Center Patients (Admin Only)",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/patients?search=&therapist_id=&status=&per_page=10",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "patients"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "search",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "therapist_id",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "status",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "per_page",
+                                            "value": "10"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "List My Assigned Patients (Therapist/Admin)",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/my-patients",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "my-patients"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Patient (Admin Only)",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/patients",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "patients"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"name\": \"Mohamed Ali\",\n    \"phone\": \"+201099887766\",\n    \"email\": \"m.ali@example.com\",\n    \"password\": \"password123\",\n    \"therapist_id\": 1,\n    \"birth_date\": \"1995-06-15\",\n    \"current_week\": 1,\n    \"chief_complain\": \"Severe knee joint pain\",\n    \"diagnosis\": \"ACL Strain\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Patient Details",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/patients/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "patients",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Patient",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/patients/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "patients",
+                                        "1"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"name\": \"Mohamed Ali Updated\",\n    \"phone\": \"+201099887766\",\n    \"therapist_id\": 1,\n    \"current_week\": 2\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Patient",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/patients/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "patients",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Therapists Management (Admin Only)",
+                    "item": [
+                        {
+                            "name": "List Therapists",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/therapists",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "therapists"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Therapist",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/therapists",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "therapists"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"name\": \"Dr. Khaled Hassan\",\n    \"phone\": \"+201011223344\",\n    \"email\": \"khaled@healing-center.com\",\n    \"password\": \"password123\",\n    \"specialization\": \"Sports Rehabilitation\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Therapist Details",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/therapists/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "therapists",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Therapist",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/therapists/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "therapists",
+                                        "1"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"name\": \"Dr. Khaled Hassan Updated\",\n    \"specialization\": \"Orthopedic & Sports Rehab\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Therapist",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/therapists/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "therapists",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Clinical Plans (Treatment & Nutrition)",
+                    "item": [
+                        {
+                            "name": "Save/Update Treatment Plan",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/patients/1/treatment-plan",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "patients",
+                                        "1",
+                                        "treatment-plan"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"manual_therapy\": \"Joint mobilization 30 mins\",\n    \"manual_therapy_date\": \"2026-09-30\",\n    \"electrotherapy\": \"TENS therapy 20 mins daily\",\n    \"electrotherapy_date\": \"2026-09-30\",\n    \"medications\": \"Anti-inflammatory gel twice daily\",\n    \"goals\": \"Achieve full knee extension in 3 weeks\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Save/Update Nutrition Plan",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/patients/1/nutrition-plan",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "patients",
+                                        "1",
+                                        "nutrition-plan"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"breakfast\": \"Oatmeal with berries and almond milk\",\n    \"lunch\": \"Grilled chicken breast with quinoa and fresh salad\",\n    \"dinner\": \"Steamed salmon with vegetables\",\n    \"snacks\": \"Handful of walnuts and green apple\",\n    \"supplements\": \"Omega-3 fatty acids, Vitamin D3\",\n    \"foods_to_avoid\": \"Processed sugars, fried foods\"\n}"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Exercise Management & Patient Assignment",
+                    "item": [
+                        {
+                            "name": "List Exercise Library",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/exercises?search=&per_page=10",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "exercises"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "search",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "per_page",
+                                            "value": "10"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Exercise",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/exercises",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "exercises"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"title\": \"Quadriceps Stretch\",\n    \"default_sets\": 3,\n    \"default_repeats\": 12,\n    \"default_duration\": 60,\n    \"therapist_notes\": \"Hold tension for 5 seconds per rep\",\n    \"is_center_public\": 1\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Exercise Details",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/exercises/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "exercises",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Exercise",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/exercises/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "exercises",
+                                        "1"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"title\": \"Quadriceps Stretch - Advanced\",\n    \"default_sets\": 4,\n    \"default_repeats\": 15\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Exercise",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/exercises/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "exercises",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Assign Exercise to Patient",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/patients/1/exercises",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "patients",
+                                        "1",
+                                        "exercises"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"exercise_id\": 1,\n    \"sets\": 3,\n    \"repeats\": 12,\n    \"duration\": 60,\n    \"notes\": \"Do morning and evening\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Unassign Exercise from Patient",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/patients/1/exercises/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "patients",
+                                        "1",
+                                        "exercises",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Support Tickets Management",
+                    "item": [
+                        {
+                            "name": "List Support Tickets",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/support-tickets",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "support-tickets"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Support Ticket",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/support-tickets",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "support-tickets"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"subject\": \"Subscription Inquiry\",\n    \"message\": \"We want to upgrade our plan.\",\n    \"priority\": \"high\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Ticket Details",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/support-tickets/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "support-tickets",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Business Chat Operations",
+                    "item": [
+                        {
+                            "name": "List Chat Conversations",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/chat/conversations",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "chat",
+                                        "conversations"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Message History with Patient",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/chat/messages/1?per_page=20",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "chat",
+                                        "messages",
+                                        "1"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "per_page",
+                                            "value": "20"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Send Message to Patient",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/chat/messages",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "chat",
+                                        "messages"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"receiver_id\": 1,\n    \"message\": \"Please perform your knee stretches twice today.\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Mark Messages as Read",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/business/chat/messages/1/read",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "business",
+                                        "chat",
+                                        "messages",
+                                        "1",
+                                        "read"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "4. Patient Mobile App Endpoints",
+            "item": [
+                {
+                    "name": "View My Treatment Plan",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/patient/treatment-plan",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "patient",
+                                "treatment-plan"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "View My Nutrition Plan",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/patient/nutrition-plan",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "patient",
+                                "nutrition-plan"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "View Assigned Exercises & Progress",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/patient/exercises",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "patient",
+                                "exercises"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Log Daily Exercise Sets & Repeats",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/patient/exercises/1/log",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "patient",
+                                "exercises",
+                                "1",
+                                "log"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"completed_sets\": 3,\n    \"completed_repeats\": 12,\n    \"duration_spent\": 60\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Mark Exercise Completed Today",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/patient/exercises/1/complete",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "patient",
+                                "exercises",
+                                "1",
+                                "complete"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "View Caregiver Chat History",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/patient/chat/messages",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "patient",
+                                "chat",
+                                "messages"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Send Message to Caregiver",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/patient/chat/messages",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "patient",
+                                "chat",
+                                "messages"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"message\": \"Finished today exercise session without pain.\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Mark Caregiver Messages as Read",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/patient/chat/read",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "patient",
+                                "chat",
+                                "read"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "5. Landlord Super-Admin Operations",
+            "item": [
+                {
+                    "name": "Get Landlord Dashboard Metrics",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/landlord/dashboard",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "landlord",
+                                "dashboard"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Center Management",
+                    "item": [
+                        {
+                            "name": "List All System Centers",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/centers?search=&status=&subscription_status=&per_page=10",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "centers"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "search",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "status",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "subscription_status",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "per_page",
+                                            "value": "10"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create New Center",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/centers",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "centers"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"center_name\": \"Cure Rehabilitation Center\",\n    \"phone\": \"+201099881122\",\n    \"specialty\": \"Neuro Physical Therapy\",\n    \"country\": \"Egypt\",\n    \"city\": \"Alexandria\",\n    \"admin_name\": \"Dr. Sameh Mounir\",\n    \"admin_email\": \"sameh@cure-center.com\",\n    \"admin_password\": \"password123\",\n    \"status\": \"active\",\n    \"subscription_status\": \"active\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Center Details",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/centers/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "centers",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Center Status & Details",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/centers/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "centers",
+                                        "1"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"status\": \"active\",\n    \"subscription_status\": \"active\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Center",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/centers/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "centers",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Center Subscription Status",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/subscriptions/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "subscriptions",
+                                        "1"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"subscription_status\": \"active\"\n}"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Global System Exercises",
+                    "item": [
+                        {
+                            "name": "List Global System Exercises",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/exercises",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "exercises"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Global System Exercise",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/exercises",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "exercises"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"title\": \"System Shoulder Flexion Exercise\",\n    \"default_sets\": 3,\n    \"default_repeats\": 10,\n    \"default_duration\": 90,\n    \"therapist_notes\": \"Global exercise available to all centers\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Global Exercise Details",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/exercises/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "exercises",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Global System Exercise",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/exercises/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "exercises",
+                                        "1"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"title\": \"System Shoulder Flexion Exercise - Updated\",\n    \"default_sets\": 4,\n    \"default_repeats\": 12\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Global System Exercise",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/exercises/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "exercises",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Global Patients & Therapists Overview",
+                    "item": [
+                        {
+                            "name": "List All Patients Across Centers",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/patients?center_id=&search=&per_page=10",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "patients"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "center_id",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "search",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "per_page",
+                                            "value": "10"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Patient Details Across Centers",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/patients/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "patients",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "List All Therapists Across Centers",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/therapists?center_id=&search=&per_page=10",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "therapists"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "center_id",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "search",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "per_page",
+                                            "value": "10"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Therapist in Any Center",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/therapists",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "therapists"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"center_id\": 1,\n    \"name\": \"Dr. Landlord Therapist\",\n    \"phone\": \"+201022334455\",\n    \"email\": \"therapist.global@massar.com\",\n    \"password\": \"password123\",\n    \"specialization\": \"Neurology\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Therapist Details Across Centers",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/therapists/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "therapists",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Therapist Across Centers",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/therapists/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "therapists",
+                                        "1"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"name\": \"Dr. Landlord Therapist Updated\",\n    \"specialization\": \"Neuro Rehab Specialist\"\n}"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Therapist Across Centers",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/therapists/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "therapists",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Landlord Support Tickets",
+                    "item": [
+                        {
+                            "name": "List All System Support Tickets",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/support-tickets?status=&priority=&per_page=10",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "support-tickets"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "status",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "priority",
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "per_page",
+                                            "value": "10"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Support Ticket Details",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/support-tickets/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "support-tickets",
+                                        "1"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Reply to Support Ticket",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/landlord/support-tickets/1/reply",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "landlord",
+                                        "support-tickets",
+                                        "1",
+                                        "reply"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"reply\": \"Your subscription has been updated to 5 branches.\",\n    \"status\": \"resolved\"\n}"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

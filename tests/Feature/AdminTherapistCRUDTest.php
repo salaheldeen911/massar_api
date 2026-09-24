@@ -182,7 +182,7 @@ class AdminTherapistCRUDTest extends TestCase
         $response = $this->actingAs($this->adminUserA, 'sanctum')
             ->getJson("/api/business/therapists/{$therapistB->id}");
 
-        $response->assertStatus(422);
+        $response->assertStatus(404);
     }
 
     public function test_therapist_cannot_create_or_modify_other_therapists(): void

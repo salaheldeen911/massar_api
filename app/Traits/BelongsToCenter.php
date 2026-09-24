@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Center;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -17,16 +18,30 @@ trait BelongsToCenter
             if (! isLandlord()) {
                 $centerId = currentCenterId();
                 if ($centerId !== null) {
-                    $builder->where($builder->getQuery()->from . '.center_id', $centerId);
+                    $table = $builder->getQuery()->from;
+                    $builder->where(function ($query) use ($table, $centerId) {
+                        $query->where($table . '.center_id', $centerId)
+                              ->orWhereNull($table . '.center_id');
+                    });
                 }
             }
         });
 
         static::creating(function ($model) {
-            if (empty($model->center_id) && ! isLandlord()) {
+            if ($model instanceof User) {
+                return;
+            }
+
+            if (empty($model->center_id)) {
                 $centerId = currentCenterId();
                 if ($centerId !== null) {
                     $model->center_id = $centerId;
+                } else {
+                    if (! empty($model->patient_id)) {
+                        $model->center_id = User::where('id', $model->patient_id)->value('center_id');
+                    } elseif (! empty($model->user_id)) {
+                        $model->center_id = User::where('id', $model->user_id)->value('center_id');
+                    }
                 }
             }
         });
