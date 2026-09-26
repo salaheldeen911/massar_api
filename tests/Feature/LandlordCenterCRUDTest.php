@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -25,7 +27,7 @@ class LandlordCenterCRUDTest extends TestCase
             'name' => 'Global Landlord',
             'phone' => '+201099999999',
             'email' => 'landlord@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
             'center_id' => null,
         ]);
@@ -181,7 +183,7 @@ class LandlordCenterCRUDTest extends TestCase
             'name' => 'Center Admin User',
             'phone' => '+201011119001',
             'email' => 'admin@staffcenter.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $admin->assignRole('admin');
@@ -191,7 +193,7 @@ class LandlordCenterCRUDTest extends TestCase
             'name' => 'Center Therapist User',
             'phone' => '+201011119002',
             'email' => 'therapist@staffcenter.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');
@@ -201,7 +203,7 @@ class LandlordCenterCRUDTest extends TestCase
             'name' => 'Center Patient User',
             'phone' => '+201011119003',
             'email' => 'patient@staffcenter.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patient->assignRole('patient');
@@ -227,7 +229,7 @@ class LandlordCenterCRUDTest extends TestCase
             'name' => 'Regular Admin',
             'phone' => '+201011119999',
             'email' => 'admin@protected.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $adminUser->assignRole('admin');

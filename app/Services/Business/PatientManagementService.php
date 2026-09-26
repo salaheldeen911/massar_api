@@ -2,6 +2,8 @@
 
 namespace App\Services\Business;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\PatientProfile;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -145,7 +147,7 @@ class PatientManagementService
             'name' => $data['name'],
             'phone' => $data['phone'],
             'email' => $data['email'] ?? null,
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
             'status' => $data['status'] ?? 'active',
         ]);
 
@@ -181,7 +183,7 @@ class PatientManagementService
         ], fn ($val) => $val !== null);
 
         if (! empty($data['password'])) {
-            $userData['password'] = bcrypt($data['password']);
+            $userData['password'] = Hash::make($data['password']);
         }
 
         if (array_key_exists('email', $data)) {

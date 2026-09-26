@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\Diagnosis;
 use App\Models\Exercise;
@@ -41,7 +43,7 @@ class PatientAPITest extends TestCase
             'name' => 'Dr. Mohamed Ahmed',
             'phone' => '+201012345678',
             'email' => 'therapist@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->therapistUser->assignRole('therapist');
@@ -61,7 +63,7 @@ class PatientAPITest extends TestCase
             'name' => 'Seif Mohamed',
             'phone' => '+201087654321',
             'email' => 'seif@patient.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->patientUser->assignRole('patient');

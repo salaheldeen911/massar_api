@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -116,7 +118,7 @@ class AuthTest extends TestCase
             'name' => 'Inactive User',
             'phone' => '+201000000002',
             'email' => 'inactive@center.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'inactive',
         ]);
         $user->assignRole('admin');
@@ -145,7 +147,7 @@ class AuthTest extends TestCase
             'name' => 'Active User',
             'phone' => '+201000000004',
             'email' => 'active@center.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $user->assignRole('admin');
@@ -175,7 +177,7 @@ class AuthTest extends TestCase
             'name' => 'User Logout',
             'phone' => '+201000000005',
             'email' => 'logout@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
 
@@ -203,7 +205,7 @@ class AuthTest extends TestCase
             'name' => 'Dr. Sara Mohamed',
             'phone' => '+201000000011',
             'email' => 'sara@center.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');
@@ -213,7 +215,7 @@ class AuthTest extends TestCase
             'name' => 'Ali Patient',
             'phone' => '+201000000012',
             'email' => 'ali@patient.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patient->assignRole('patient');
@@ -249,7 +251,7 @@ class AuthTest extends TestCase
             'name' => 'Dr. Khaled Physio',
             'phone' => '+201000000021',
             'email' => 'khaled@center.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');
@@ -259,7 +261,7 @@ class AuthTest extends TestCase
             'name' => 'Patient Phone User',
             'phone' => '+201022223333',
             'email' => 'patient.phone@massar.com',
-            'password' => bcrypt('patientpass123'),
+            'password' => Hash::make('patientpass123'),
             'status' => 'active',
         ]);
         $patient->assignRole('patient');

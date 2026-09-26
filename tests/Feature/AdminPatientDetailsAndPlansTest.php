@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\Exercise;
 use App\Models\PatientExercise;
@@ -39,7 +41,7 @@ class AdminPatientDetailsAndPlansTest extends TestCase
             'name' => 'Admin Alpha',
             'phone' => '+201011110000',
             'email' => 'admin@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->adminUserA->assignRole('admin');
@@ -49,7 +51,7 @@ class AdminPatientDetailsAndPlansTest extends TestCase
             'name' => 'Dr. Ahmed Ali',
             'phone' => '+201011113333',
             'email' => 'ahmed@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->therapistA->assignRole('therapist');
@@ -59,7 +61,7 @@ class AdminPatientDetailsAndPlansTest extends TestCase
             'name' => 'Patient Mohamed',
             'phone' => '+201011114444',
             'email' => 'mohamed@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->patientUserA->assignRole('patient');
@@ -229,7 +231,7 @@ class AdminPatientDetailsAndPlansTest extends TestCase
             'name' => 'Dr. Unassigned',
             'phone' => '+201011119999',
             'email' => 'unassigned@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $unassignedTherapist->assignRole('therapist');

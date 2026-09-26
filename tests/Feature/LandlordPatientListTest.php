@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\PatientProfile;
 use App\Models\User;
@@ -32,7 +34,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Global Landlord',
             'phone' => '+201099999999',
             'email' => 'landlord@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
             'center_id' => null,
         ]);
@@ -57,7 +59,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Dr. Ahmed Therapist',
             'phone' => '+201011114444',
             'email' => 'ahmed@center1.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->therapist1->assignRole('therapist');
@@ -67,7 +69,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Dr. Mona Therapist',
             'phone' => '+201011115555',
             'email' => 'mona@center2.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->therapist2->assignRole('therapist');
@@ -80,7 +82,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Kareem Patient',
             'phone' => '+201011116666',
             'email' => 'kareem@patient.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientUser->assignRole('patient');
@@ -109,7 +111,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Cairo Patient',
             'phone' => '+201011117777',
             'email' => 'cairo@patient.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientUser1->assignRole('patient');
@@ -127,7 +129,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Alex Patient',
             'phone' => '+201011118888',
             'email' => 'alex@patient.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientUser2->assignRole('patient');
@@ -155,7 +157,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Therapist 1 Patient',
             'phone' => '+201011119999',
             'email' => 'p1@center1.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientUser1->assignRole('patient');
@@ -183,7 +185,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Detailed Patient',
             'phone' => '+201011110000',
             'email' => 'detailed@patient.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientUser->assignRole('patient');
@@ -248,7 +250,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Updatable Patient',
             'phone' => '+201011113456',
             'email' => 'updatable@patient.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientUser->assignRole('patient');
@@ -287,7 +289,7 @@ class LandlordPatientListTest extends TestCase
             'name' => 'Patient To Delete',
             'phone' => '+201011114567',
             'email' => 'todelete@patient.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientUser->assignRole('patient');

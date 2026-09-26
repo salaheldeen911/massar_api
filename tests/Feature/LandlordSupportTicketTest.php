@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\SupportTicket;
 use App\Models\User;
@@ -26,7 +28,7 @@ class LandlordSupportTicketTest extends TestCase
             'name' => 'Landlord Main Admin',
             'phone' => '+201099998888',
             'email' => 'landlord@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
             'center_id' => null,
         ]);
@@ -44,7 +46,7 @@ class LandlordSupportTicketTest extends TestCase
             'name' => 'Center Admin Alpha',
             'phone' => '+201011110000',
             'email' => 'admin@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->adminUserA->assignRole('admin');

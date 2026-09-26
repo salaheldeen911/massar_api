@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\NutritionPlan;
 use App\Models\TreatmentPlan;
@@ -47,7 +49,7 @@ class SecurityAndRateLimitingTest extends TestCase
             'center_id' => $centerA->id,
             'name' => 'Patient Alpha',
             'phone' => '+201011111111',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
         ]);
         $patientA->assignRole('patient');
 
@@ -55,7 +57,7 @@ class SecurityAndRateLimitingTest extends TestCase
             'center_id' => $centerB->id,
             'name' => 'Patient Beta',
             'phone' => '+201022222222',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
         ]);
         $patientB->assignRole('patient');
 
@@ -95,7 +97,7 @@ class SecurityAndRateLimitingTest extends TestCase
             'center_id' => $centerA->id,
             'name' => 'Patient Alpha',
             'phone' => '+201011111111',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
         ]);
         $patientA->assignRole('patient');
 
@@ -103,7 +105,7 @@ class SecurityAndRateLimitingTest extends TestCase
             'center_id' => $centerB->id,
             'name' => 'Patient Beta',
             'phone' => '+201022222222',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
         ]);
         $patientB->assignRole('patient');
 

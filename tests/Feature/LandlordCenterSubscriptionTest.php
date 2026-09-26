@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -23,7 +25,7 @@ class LandlordCenterSubscriptionTest extends TestCase
             'name' => 'Global Landlord',
             'phone' => '+201099999999',
             'email' => 'landlord@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
             'center_id' => null,
         ]);
@@ -61,7 +63,7 @@ class LandlordCenterSubscriptionTest extends TestCase
             'name' => 'Admin To Approve',
             'phone' => '+201011113333',
             'email' => 'admin@approve.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'pending',
         ]);
         $admin->assignRole('admin');
@@ -98,7 +100,7 @@ class LandlordCenterSubscriptionTest extends TestCase
             'name' => 'Admin To Reject',
             'phone' => '+201011115555',
             'email' => 'admin@reject.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'pending',
         ]);
         $admin->assignRole('admin');
@@ -160,7 +162,7 @@ class LandlordCenterSubscriptionTest extends TestCase
             'name' => 'Normal Admin',
             'phone' => '+201011117777',
             'email' => 'normal@admin.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $normalUser->assignRole('admin');

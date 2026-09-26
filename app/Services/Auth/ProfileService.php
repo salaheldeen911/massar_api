@@ -41,7 +41,7 @@ class ProfileService
 
         DB::transaction(function () use ($user, $data) {
             $user->update([
-                'password' => bcrypt($data['new_password']),
+                'password' => Hash::make($data['new_password']),
             ]);
         });
     }

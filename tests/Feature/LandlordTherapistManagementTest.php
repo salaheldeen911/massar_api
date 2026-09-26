@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\TherapistProfile;
 use App\Models\User;
@@ -28,7 +30,7 @@ class LandlordTherapistManagementTest extends TestCase
             'name' => 'Super Landlord',
             'phone' => '+201099999999',
             'email' => 'landlord@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
             'center_id' => null,
         ]);
@@ -56,7 +58,7 @@ class LandlordTherapistManagementTest extends TestCase
             'name' => 'Dr. Ahmed Ali',
             'phone' => '+201011110001',
             'email' => 'ahmed@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapistA->assignRole('therapist');
@@ -71,7 +73,7 @@ class LandlordTherapistManagementTest extends TestCase
             'name' => 'Dr. Sarah Smith',
             'phone' => '+201011110002',
             'email' => 'sarah@beta.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapistB->assignRole('therapist');
@@ -158,7 +160,7 @@ class LandlordTherapistManagementTest extends TestCase
             'name' => 'Dr. Omar Khaled',
             'phone' => '+201011117777',
             'email' => 'omar@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');
@@ -186,7 +188,7 @@ class LandlordTherapistManagementTest extends TestCase
             'name' => 'Dr. Old Name',
             'phone' => '+201011116666',
             'email' => 'old@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');
@@ -233,7 +235,7 @@ class LandlordTherapistManagementTest extends TestCase
             'name' => 'Dr. To Delete',
             'phone' => '+201011115555',
             'email' => 'delete@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');
@@ -259,7 +261,7 @@ class LandlordTherapistManagementTest extends TestCase
             'name' => 'Regular Admin',
             'phone' => '+201011114444',
             'email' => 'admin@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $admin->assignRole('admin');

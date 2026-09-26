@@ -2,6 +2,8 @@
 
 namespace App\Services\Landlord;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -140,7 +142,7 @@ class CenterManagementService
             'name' => $data['admin_name'],
             'phone' => $data['admin_phone'],
             'email' => $data['admin_email'],
-            'password' => bcrypt($data['admin_password']),
+            'password' => Hash::make($data['admin_password']),
             'status' => 'active',
         ]);
 

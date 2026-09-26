@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\Exercise;
 use App\Models\User;
@@ -29,7 +31,7 @@ class LandlordExerciseCRUDTest extends TestCase
             'name' => 'Global Landlord Admin',
             'phone' => '+201099999999',
             'email' => 'landlord@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
             'center_id' => null,
         ]);
@@ -54,7 +56,7 @@ class LandlordExerciseCRUDTest extends TestCase
             'name' => 'Dr. Ahmed Therapist',
             'phone' => '+201011114444',
             'email' => 'ahmed@center1.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->therapist1->assignRole('therapist');

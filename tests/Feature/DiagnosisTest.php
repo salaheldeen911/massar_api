@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\Diagnosis;
 use App\Models\User;
@@ -34,7 +36,7 @@ class DiagnosisTest extends TestCase
             'name' => 'Center Admin',
             'phone' => '+201011110000',
             'email' => 'admin@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->adminUser->assignRole('admin');

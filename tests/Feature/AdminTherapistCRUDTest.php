@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\TherapistProfile;
 use App\Models\User;
@@ -35,7 +37,7 @@ class AdminTherapistCRUDTest extends TestCase
             'name' => 'Center Admin Alpha',
             'phone' => '+201011110000',
             'email' => 'admin@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->adminUserA->assignRole('admin');
@@ -48,7 +50,7 @@ class AdminTherapistCRUDTest extends TestCase
             'name' => 'Dr. Ahmed Ali',
             'phone' => '+201011113333',
             'email' => 'ahmed@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist1->assignRole('therapist');
@@ -62,7 +64,7 @@ class AdminTherapistCRUDTest extends TestCase
             'name' => 'Dr. Sara Mohamed',
             'phone' => '+201011114444',
             'email' => 'sara@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist2->assignRole('therapist');
@@ -127,7 +129,7 @@ class AdminTherapistCRUDTest extends TestCase
             'name' => 'Original Therapist Name',
             'phone' => '+201077778888',
             'email' => 'original@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');
@@ -174,7 +176,7 @@ class AdminTherapistCRUDTest extends TestCase
             'name' => 'Therapist Beta',
             'phone' => '+201055556666',
             'email' => 'therapist@beta.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapistB->assignRole('therapist');
@@ -192,7 +194,7 @@ class AdminTherapistCRUDTest extends TestCase
             'name' => 'Dr. Normal Therapist',
             'phone' => '+201012341234',
             'email' => 'therapist@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');

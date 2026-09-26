@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -35,7 +37,7 @@ class HelpersTest extends TestCase
             'name' => 'Admin User',
             'phone' => '+201000000001',
             'email' => 'admin@healing.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'center_id' => $center->id,
         ]);
         $user->assignRole('admin');
@@ -51,7 +53,7 @@ class HelpersTest extends TestCase
             'name' => 'Global Landlord',
             'phone' => '+201000000002',
             'email' => 'landlord@massar.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'center_id' => null,
         ]);
         $landlord->assignRole('landlord');

@@ -35,7 +35,7 @@ class UserProfileTest extends TestCase
             'name' => 'Original Name',
             'phone' => '+201099887766',
             'email' => 'original@massar.com',
-            'password' => bcrypt('oldpassword123'),
+            'password' => Hash::make('oldpassword123'),
             'status' => 'active',
         ]);
         $this->user->assignRole('admin');

@@ -2,6 +2,8 @@
 
 namespace App\Services\Business;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\TherapistProfile;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -111,7 +113,7 @@ class TherapistManagementService
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
             'status' => $data['status'] ?? 'active',
         ]);
 
@@ -140,7 +142,7 @@ class TherapistManagementService
         ], fn ($val) => $val !== null);
 
         if (! empty($data['password'])) {
-            $userData['password'] = bcrypt($data['password']);
+            $userData['password'] = Hash::make($data['password']);
         }
 
         $user->update($userData);

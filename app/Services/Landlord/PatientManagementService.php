@@ -2,6 +2,8 @@
 
 namespace App\Services\Landlord;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\PatientProfile;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -101,7 +103,7 @@ class PatientManagementService
             'name' => $data['name'],
             'phone' => $data['phone'],
             'email' => $data['email'] ?? null,
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
             'status' => 'active',
         ]);
 
@@ -149,7 +151,7 @@ class PatientManagementService
             $userData['email'] = $data['email'];
         }
         if (! empty($data['password'])) {
-            $userData['password'] = bcrypt($data['password']);
+            $userData['password'] = Hash::make($data['password']);
         }
         if (isset($data['status'])) {
             $userData['status'] = $data['status'];

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -36,7 +38,7 @@ class AdminCenterDetailsTest extends TestCase
             'name' => 'Center Admin',
             'phone' => '+201011110000',
             'email' => 'admin@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->adminUser->assignRole('admin');
@@ -113,7 +115,7 @@ class AdminCenterDetailsTest extends TestCase
             'name' => 'Therapist User',
             'phone' => '+201099887766',
             'email' => 'therapist@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');

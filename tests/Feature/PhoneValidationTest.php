@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -175,7 +177,7 @@ class PhoneValidationTest extends TestCase
             'name' => 'Doctor Login',
             'phone' => '+201278945632',
             'email' => 'login@test.com',
-            'password' => bcrypt('Secret1234!'),
+            'password' => Hash::make('Secret1234!'),
             'status' => 'active',
         ]);
         $user->assignRole('admin');
@@ -204,7 +206,7 @@ class PhoneValidationTest extends TestCase
             'name' => 'Admin Boss',
             'phone' => '+201011110000',
             'email' => 'boss@healing.com',
-            'password' => bcrypt('Secret1234!'),
+            'password' => Hash::make('Secret1234!'),
             'status' => 'active',
         ]);
         $admin->assignRole('admin');
@@ -241,7 +243,7 @@ class PhoneValidationTest extends TestCase
             'name' => 'Admin Boss 2',
             'phone' => '+201011110001',
             'email' => 'boss2@healing.com',
-            'password' => bcrypt('Secret1234!'),
+            'password' => Hash::make('Secret1234!'),
             'status' => 'active',
         ]);
         $admin->assignRole('admin');

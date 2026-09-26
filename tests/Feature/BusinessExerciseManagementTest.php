@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\Exercise;
 use App\Models\PatientProfile;
@@ -38,7 +40,7 @@ class BusinessExerciseManagementTest extends TestCase
             'name' => 'Center Admin',
             'phone' => '+201011111111',
             'email' => 'admin@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->admin->assignRole('admin');
@@ -48,7 +50,7 @@ class BusinessExerciseManagementTest extends TestCase
             'name' => 'Dr. Therapist',
             'phone' => '+201022222222',
             'email' => 'therapist@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->therapist->assignRole('therapist');
@@ -58,7 +60,7 @@ class BusinessExerciseManagementTest extends TestCase
             'name' => 'Patient Care',
             'phone' => '+201033333333',
             'email' => 'patient@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->patient->assignRole('patient');

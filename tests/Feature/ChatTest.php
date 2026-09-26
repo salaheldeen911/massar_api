@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Events\MessageSent;
 use App\Models\Center;
 use App\Models\ChatMessage;
@@ -53,7 +55,7 @@ class ChatTest extends TestCase
             'name' => 'Dr. Ahmed (Center A)',
             'phone' => '+201012345671',
             'email' => 'therapistA@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->therapistA->assignRole('therapist');
@@ -64,7 +66,7 @@ class ChatTest extends TestCase
             'name' => 'Admin Ali (Center A)',
             'phone' => '+201012345672',
             'email' => 'adminA@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->adminA->assignRole('admin');
@@ -75,7 +77,7 @@ class ChatTest extends TestCase
             'name' => 'Dr. Hassan (Center A)',
             'phone' => '+201012345673',
             'email' => 'otherTherapistA@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->otherTherapistA->assignRole('therapist');
@@ -86,7 +88,7 @@ class ChatTest extends TestCase
             'name' => 'Patient A (Center A)',
             'phone' => '+201087654321',
             'email' => 'patientA@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->patientA->assignRole('patient');
@@ -104,7 +106,7 @@ class ChatTest extends TestCase
             'name' => 'Patient B (Center B)',
             'phone' => '+201087654322',
             'email' => 'patientB@massar.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->patientB->assignRole('patient');

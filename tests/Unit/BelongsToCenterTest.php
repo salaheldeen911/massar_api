@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\User;
 use App\Traits\BelongsToCenter;
@@ -57,7 +59,7 @@ class BelongsToCenterTest extends TestCase
             'name' => 'User 1',
             'phone' => '+201000000010',
             'email' => 'user1@center1.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'center_id' => $center1->id,
         ]);
         $user1->assignRole('admin');
@@ -66,7 +68,7 @@ class BelongsToCenterTest extends TestCase
             'name' => 'User 2',
             'phone' => '+201000000020',
             'email' => 'user2@center2.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'center_id' => $center2->id,
         ]);
         $user2->assignRole('admin');
@@ -93,7 +95,7 @@ class BelongsToCenterTest extends TestCase
             'name' => 'Landlord User',
             'phone' => '+201000000030',
             'email' => 'landlord@massar.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'center_id' => null,
         ]);
         $landlord->assignRole('landlord');

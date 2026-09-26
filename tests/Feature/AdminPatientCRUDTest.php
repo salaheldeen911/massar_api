@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\PatientProfile;
 use App\Models\User;
@@ -36,7 +38,7 @@ class AdminPatientCRUDTest extends TestCase
             'name' => 'Center Admin Alpha',
             'phone' => '+201011110000',
             'email' => 'admin@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->adminUserA->assignRole('admin');
@@ -46,7 +48,7 @@ class AdminPatientCRUDTest extends TestCase
             'name' => 'Therapist Alpha',
             'phone' => '+201011113333',
             'email' => 'therapist@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->therapistA->assignRole('therapist');
@@ -59,7 +61,7 @@ class AdminPatientCRUDTest extends TestCase
             'name' => 'Patient One',
             'phone' => '+201011114444',
             'email' => 'patient1@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patient1->assignRole('patient');
@@ -75,7 +77,7 @@ class AdminPatientCRUDTest extends TestCase
             'center_id' => $this->centerA->id,
             'name' => 'Patient Two',
             'phone' => '+201011115555',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patient2->assignRole('patient');
@@ -166,7 +168,7 @@ class AdminPatientCRUDTest extends TestCase
             'center_id' => $this->centerA->id,
             'name' => 'Original Name',
             'phone' => '+201077778888',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patient->assignRole('patient');
@@ -211,7 +213,7 @@ class AdminPatientCRUDTest extends TestCase
             'center_id' => $centerB->id,
             'name' => 'Beta Patient',
             'phone' => '+201055556666',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientB->assignRole('patient');

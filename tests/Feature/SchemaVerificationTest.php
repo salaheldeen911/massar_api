@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Enums\AdvertisementStatus;
 use App\Enums\SupportTicketStatus;
 use App\Models\Advertisement;
@@ -48,7 +50,7 @@ class SchemaVerificationTest extends TestCase
             'name' => 'Dr. Ahmed',
             'phone' => '+201011111111',
             'email' => 'dr.ahmed@massar.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'avatar' => 'avatars/therapist.png',
         ]);
         $therapistUser->assignRole('therapist');
@@ -58,7 +60,7 @@ class SchemaVerificationTest extends TestCase
             'name' => 'Mohamed Ali',
             'phone' => '+201022222222',
             'email' => 'm.ali@patient.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'avatar' => 'avatars/patient.png',
         ]);
         $patientUser->assignRole('patient');

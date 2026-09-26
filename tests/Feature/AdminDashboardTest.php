@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Center;
 use App\Models\Exercise;
 use App\Models\PatientProfile;
@@ -35,7 +37,7 @@ class AdminDashboardTest extends TestCase
             'name' => 'Admin Alpha',
             'phone' => '+201011110000',
             'email' => 'admin@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $this->adminUserA->assignRole('admin');
@@ -55,7 +57,7 @@ class AdminDashboardTest extends TestCase
             'name' => 'Patient User',
             'phone' => '+201022223333',
             'email' => 'patient@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientUser->assignRole('patient');
@@ -73,7 +75,7 @@ class AdminDashboardTest extends TestCase
             'name' => 'Therapist User',
             'phone' => '+201022223333',
             'email' => 'therapist@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');
@@ -93,7 +95,7 @@ class AdminDashboardTest extends TestCase
             'name' => 'Ahmed Ali',
             'phone' => '+201012345678',
             'email' => 'ahmed@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $therapist->assignRole('therapist');
@@ -107,7 +109,7 @@ class AdminDashboardTest extends TestCase
             'name' => 'Mohamed Hassan',
             'phone' => '+201087654321',
             'email' => 'mohamed@alpha.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ]);
         $patientUser->assignRole('patient');
@@ -172,7 +174,7 @@ class AdminDashboardTest extends TestCase
             'name' => 'Therapist Beta',
             'phone' => '+201055554444',
             'email' => 'therapist@beta.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password123'),
             'status' => 'active',
         ])->assignRole('therapist');
 
