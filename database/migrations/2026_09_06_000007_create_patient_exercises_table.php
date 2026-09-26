@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('patient_exercises', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('center_id')->nullable()->constrained('centers')->cascadeOnDelete();
             $table->foreignId('exercise_id')->constrained('exercises')->cascadeOnDelete();
             $table->foreignId('assigned_by')->constrained('users')->cascadeOnDelete();
             $table->unsignedInteger('sets')->default(3);

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('nutrition_plans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id')->unique('unique_nutrition_patient')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('center_id')->nullable()->constrained('centers')->cascadeOnDelete();
             $table->foreignId('therapist_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('breakfast')->nullable();
             $table->text('lunch')->nullable();

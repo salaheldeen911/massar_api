@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_exercise_id')->constrained('patient_exercises')->cascadeOnDelete();
             $table->foreignId('patient_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('center_id')->nullable()->constrained('centers')->cascadeOnDelete();
             $table->unsignedInteger('completed_sets')->default(0);
             $table->unsignedInteger('completed_repeats')->default(0);
             $table->unsignedInteger('duration_spent')->default(0);
