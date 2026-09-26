@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Enums\CenterType;
 use App\Http\Requests\Traits\NormalizesPhone;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RegisterCenterRequest extends FormRequest
 {
@@ -27,6 +29,7 @@ class RegisterCenterRequest extends FormRequest
         return [
             // Center Information
             'center_name' => ['required', 'string', 'max:191'],
+            'type' => ['nullable', 'string', Rule::enum(CenterType::class)],
             'specialty' => ['nullable', 'string', 'max:100'],
             'country' => ['nullable', 'string', 'max:100'],
             'city' => ['nullable', 'string', 'max:100'],
@@ -41,6 +44,18 @@ class RegisterCenterRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:191', 'unique:users,email'],
             'phone' => ['required', 'string', 'phone:AUTO', 'unique:users,phone'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'type.enum' => 'The selected center type is invalid. Allowed values: ' . implode(', ', CenterType::values()),
         ];
     }
 }

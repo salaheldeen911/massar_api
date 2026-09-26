@@ -196,4 +196,41 @@ class BusinessExerciseManagementTest extends TestCase
 
         $this->assertDatabaseMissing('exercises', ['id' => $therapistExercise->id]);
     }
+
+    public function test_admin_can_view_and_manage_therapist_exercises(): void
+    {
+        $therapistExercise = Exercise::create([
+            'center_id' => $this->center->id,
+            'therapist_id' => $this->therapist->id,
+            'title' => 'Therapist Specific Exercise',
+            'default_sets' => 3,
+            'default_repeats' => 10,
+        ]);
+
+        // Admin lists exercises and should see therapist exercise
+        $listResponse = $this->actingAs($this->admin, 'sanctum')
+            ->getJson('/api/business/exercises');
+
+        $listResponse->assertStatus(200)
+            ->assertJsonPath('success', true);
+
+        $titles = collect($listResponse->json('data'))->pluck('title');
+        $this->assertContains('Therapist Specific Exercise', $titles);
+
+        // Admin updates therapist exercise
+        $updateResponse = $this->actingAs($this->admin, 'sanctum')
+            ->putJson("/api/business/exercises/{$therapistExercise->id}", [
+                'title' => 'Updated By Admin Exercise',
+            ]);
+
+        $updateResponse->assertStatus(200)
+            ->assertJsonPath('data.title', 'Updated By Admin Exercise');
+
+        // Admin deletes therapist exercise
+        $deleteResponse = $this->actingAs($this->admin, 'sanctum')
+            ->deleteJson("/api/business/exercises/{$therapistExercise->id}");
+
+        $deleteResponse->assertStatus(200);
+        $this->assertDatabaseMissing('exercises', ['id' => $therapistExercise->id]);
+    }
 }

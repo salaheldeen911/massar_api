@@ -6,6 +6,7 @@ use App\Enums\CenterStatus;
 use App\Models\Center;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class CenterSubscriptionService
 {
@@ -29,7 +30,7 @@ class CenterSubscriptionService
     {
         $statusValue = $center->status instanceof CenterStatus ? $center->status->value : $center->status;
         if ($statusValue !== CenterStatus::PENDING->value) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 'center' => ['Only pending center applications can be approved.'],
             ]);
         }
@@ -49,7 +50,7 @@ class CenterSubscriptionService
     {
         $statusValue = $center->status instanceof CenterStatus ? $center->status->value : $center->status;
         if ($statusValue !== CenterStatus::PENDING->value) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 'center' => ['Only pending center applications can be rejected.'],
             ]);
         }

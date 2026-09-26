@@ -19,6 +19,16 @@ class AuthController extends Controller
     ) {}
 
     /**
+     * Get registration options (e.g. Center Types).
+     */
+    public function registrationOptions(): JsonResponse
+    {
+        $options = $this->authService->getRegistrationOptions();
+
+        return $this->success($options, 'Registration options retrieved successfully.');
+    }
+
+    /**
      * Register a new Center Admin application.
      */
     public function register(RegisterCenterRequest $request): JsonResponse

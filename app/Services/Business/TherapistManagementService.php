@@ -8,6 +8,7 @@ use App\Models\TherapistProfile;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -25,6 +26,12 @@ class TherapistManagementService
 
     public function createTherapist(array $data): User
     {
+        if (currentCenter()?->isIndividual()) {
+            throw ValidationException::withMessages([
+                'therapist' => ['Individual centers are not allowed to add additional therapists.'],
+            ]);
+        }
+
         $centerId = currentCenterId();
 
         return DB::transaction(function () use ($data, $centerId) {
@@ -48,6 +55,12 @@ class TherapistManagementService
     {
         $this->ensureTherapistBelongsToCurrentCenter($therapist);
 
+        if (currentCenter()?->isIndividual()) {
+            throw ValidationException::withMessages([
+                'therapist' => ['Individual centers are not allowed to edit therapist records.'],
+            ]);
+        }
+
         return DB::transaction(function () use ($therapist, $data) {
             $this->updateTherapistUser($therapist, $data);
             $this->updateTherapistProfile($therapist, $data);
@@ -60,7 +73,19 @@ class TherapistManagementService
 
     public function deleteTherapist(User $therapist): void
     {
+        if ($therapist->id === currentUser()?->id) {
+            throw ValidationException::withMessages([
+                'therapist' => ['You cannot delete your own account.'],
+            ]);
+        }
+
         $this->ensureTherapistBelongsToCurrentCenter($therapist);
+
+        if (currentCenter()?->isIndividual()) {
+            throw ValidationException::withMessages([
+                'therapist' => ['Individual centers are not allowed to delete therapist records.'],
+            ]);
+        }
 
         DB::transaction(function () use ($therapist) {
             $therapist->therapistProfile()?->delete();
@@ -71,11 +96,19 @@ class TherapistManagementService
     private function queryCenterTherapists(): Builder
     {
         $centerId = currentCenterId();
+        $center = currentCenter();
 
-        return User::query()
+        $query = User::query()
             ->where('center_id', $centerId)
-            ->role('therapist')
             ->with(['therapistProfile', 'media']);
+
+        if ($center?->isIndividual()) {
+            return $query->whereDoesntHave('roles', function (Builder $rq) {
+                $rq->where('name', 'patient');
+            });
+        }
+
+        return $query->role('therapist');
     }
 
     private function applyFilters(Builder $query, array $filters): void
@@ -167,7 +200,7 @@ class TherapistManagementService
 
     private function handleAvatarMedia(User $user, array $data): void
     {
-        if (isset($data['avatar']) && $data['avatar'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['avatar']) && $data['avatar'] instanceof UploadedFile) {
             $user->addMedia($data['avatar'])->toMediaCollection('avatar');
         }
     }

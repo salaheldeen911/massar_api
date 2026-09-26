@@ -4,6 +4,7 @@ namespace App\Http\Requests\Landlord;
 
 use App\Enums\CenterStatus;
 use App\Enums\CenterSubscriptionStatus;
+use App\Enums\CenterType;
 use App\Http\Requests\Traits\NormalizesPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -29,6 +30,7 @@ class UpdateCenterRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'type' => ['nullable', 'string', Rule::enum(CenterType::class)],
             'phone' => ['sometimes', 'required', 'string', 'phone:AUTO'],
             'specialty' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Business;
 
+use App\Http\Resources\DiagnosisResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -35,7 +36,7 @@ class PatientResource extends JsonResource
             'chief_complain' => $profile?->chief_complain,
             'diagnosis_id' => $profile?->diagnosis_id,
             'diagnosis' => $profile?->diagnosis,
-            'diagnosis_info' => $profile?->diagnosisModel ? new \App\Http\Resources\DiagnosisResource($profile->diagnosisModel) : null,
+            'diagnosis_info' => $profile?->diagnosisModel ? new DiagnosisResource($profile->diagnosisModel) : null,
             'special_tests_notes' => $profile?->special_tests_notes,
             'objective_findings' => $profile?->objective_findings,
             'avatar_url' => $this->getFirstMediaUrl('avatar') ?: null,

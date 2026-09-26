@@ -12,6 +12,7 @@ class CenterDetailsResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'type' => $this->type,
             'email' => $this->email,
             'phone' => $this->phone,
             'facebook' => $this->facebook,

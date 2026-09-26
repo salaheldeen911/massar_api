@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use libphonenumber\PhoneNumberType;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use Throwable;
 
 class PhoneHelper
 {
@@ -38,7 +39,7 @@ class PhoneHelper
                 if ($instance->isValid()) {
                     return $instance->formatE164();
                 }
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 // Ignore parsing errors and fall through
             }
 
@@ -52,7 +53,7 @@ class PhoneHelper
                 if ($instance->isValid()) {
                     return $instance->formatE164();
                 }
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 // Fall through to candidates
             }
         }
@@ -64,7 +65,7 @@ class PhoneHelper
                 if ($instance->isValid() && $instance->isOfType(PhoneNumberType::MOBILE)) {
                     return $instance->formatE164();
                 }
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 continue;
             }
         }
@@ -76,7 +77,7 @@ class PhoneHelper
                 if ($instance->isValid()) {
                     return $instance->formatE164();
                 }
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 continue;
             }
         }

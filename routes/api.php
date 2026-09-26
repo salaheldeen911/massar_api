@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('throttle:auth_strict')->group(function () {
+    Route::get('/register/options', [AuthController::class, 'registrationOptions'])->name('auth.register-options');
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 });

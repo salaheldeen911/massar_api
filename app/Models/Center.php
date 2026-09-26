@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CenterStatus;
 use App\Enums\CenterSubscriptionStatus;
+use App\Enums\CenterType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
@@ -17,6 +18,7 @@ class Center extends Tenant implements HasMedia
     protected $table = 'centers';
 
     protected $attributes = [
+        'type' => 'institution',
         'country' => 'Egypt',
         'therapists_count' => 1,
         'branches_count' => 1,
@@ -27,6 +29,7 @@ class Center extends Tenant implements HasMedia
 
     protected $fillable = [
         'name',
+        'type',
         'phone',
         'email',
         'specialty',
@@ -55,9 +58,20 @@ class Center extends Tenant implements HasMedia
             'terms_accepted' => 'boolean',
             'trial_starts_at' => 'datetime',
             'trial_ends_at' => 'datetime',
+            'type' => CenterType::class,
             'status' => CenterStatus::class,
             'subscription_status' => CenterSubscriptionStatus::class,
         ];
+    }
+
+    public function isIndividual(): bool
+    {
+        return $this->type === CenterType::INDIVIDUAL;
+    }
+
+    public function isInstitution(): bool
+    {
+        return $this->type === CenterType::INSTITUTION;
     }
 
     public function registerMediaCollections(): void

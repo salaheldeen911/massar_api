@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\PhoneHelper;
 use App\Models\Center;
 use App\Models\User;
 
@@ -63,7 +64,7 @@ if (! function_exists('normalizePhoneNumber')) {
      */
     function normalizePhoneNumber(?string $phone, ?string $defaultCountry = null): ?string
     {
-        return \App\Helpers\PhoneHelper::normalize($phone, $defaultCountry);
+        return PhoneHelper::normalize($phone, $defaultCountry);
     }
 }
 

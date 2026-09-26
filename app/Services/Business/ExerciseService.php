@@ -7,6 +7,7 @@ use App\Models\PatientExercise;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -47,7 +48,7 @@ class ExerciseService
             ]);
 
             $mediaFile = $data['video'] ?? $data['exercise_media'] ?? $data['media'] ?? $data['file'] ?? null;
-            if ($mediaFile && $mediaFile instanceof \Illuminate\Http\UploadedFile) {
+            if ($mediaFile && $mediaFile instanceof UploadedFile) {
                 $exercise->addMedia($mediaFile)->toMediaCollection('exercise_media');
             }
 
@@ -67,7 +68,7 @@ class ExerciseService
             ], fn ($val) => $val !== null));
 
             $mediaFile = $data['video'] ?? $data['exercise_media'] ?? $data['media'] ?? $data['file'] ?? null;
-            if ($mediaFile && $mediaFile instanceof \Illuminate\Http\UploadedFile) {
+            if ($mediaFile && $mediaFile instanceof UploadedFile) {
                 $exercise->clearMediaCollection('exercise_media');
                 $exercise->addMedia($mediaFile)->toMediaCollection('exercise_media');
             }
@@ -124,23 +125,33 @@ class ExerciseService
 
     private function applyThreeTierScoping(Builder $query, ?int $centerId, ?int $therapistId): void
     {
-        $query->where(function (Builder $q) use ($centerId, $therapistId) {
+        $currentUser = currentUser();
+        $isAdmin = $currentUser?->hasRole('admin');
+
+        $query->where(function (Builder $q) use ($centerId, $therapistId, $isAdmin) {
             // 1. Global Exercises (available system-wide to all centers)
-            $q->whereNull('exercises.center_id')
-              // 2. Center Public Exercises (available to everyone in the center)
-              ->orWhere(function (Builder $q2) use ($centerId) {
-                  if ($centerId) {
-                      $q2->where('exercises.center_id', $centerId)
-                         ->whereNull('exercises.therapist_id');
-                  }
-              })
-              // 3. Therapist Private Exercises (created by therapist in active center)
-              ->orWhere(function (Builder $q3) use ($centerId, $therapistId) {
-                  if ($centerId && $therapistId) {
-                      $q3->where('exercises.center_id', $centerId)
-                         ->where('exercises.therapist_id', $therapistId);
-                  }
-              });
+            $q->whereNull('exercises.center_id');
+
+            if ($centerId) {
+                if ($isAdmin) {
+                    // 2. Center Admin sees ALL exercises under their center (public + all therapists)
+                    $q->orWhere('exercises.center_id', $centerId);
+                } else {
+                    // 3. Center Public Exercises (available to everyone in the center)
+                    $q->orWhere(function (Builder $q2) use ($centerId) {
+                        $q2->where('exercises.center_id', $centerId)
+                           ->whereNull('exercises.therapist_id');
+                    });
+
+                    // 4. Therapist Private Exercises (created by therapist in active center)
+                    if ($therapistId) {
+                        $q->orWhere(function (Builder $q3) use ($centerId, $therapistId) {
+                            $q3->where('exercises.center_id', $centerId)
+                               ->where('exercises.therapist_id', $therapistId);
+                        });
+                    }
+                }
+            }
         });
     }
 

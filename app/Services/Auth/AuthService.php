@@ -2,6 +2,9 @@
 
 namespace App\Services\Auth;
 
+use App\Enums\CenterStatus;
+use App\Enums\CenterType;
+use App\Enums\UserStatus;
 use App\Models\Center;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
@@ -11,6 +14,29 @@ use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
+    /**
+     * Get available registration lookup options (e.g. Center Types).
+     */
+    public function getRegistrationOptions(): array
+    {
+        return [
+            'center_types' => [
+                [
+                    'key' => CenterType::INDIVIDUAL->value,
+                    'label_ar' => 'معالج مستقل / فردي',
+                    'label_en' => 'Individual Practitioner',
+                    'description' => 'حساب لشخص واحد ولا يسمح بإضافة معالجين آخرين',
+                ],
+                [
+                    'key' => CenterType::INSTITUTION->value,
+                    'label_ar' => 'مؤسسة / مركز طبي',
+                    'label_en' => 'Medical Institution',
+                    'description' => 'مركز طبي كامل يتيح إدارة وإضافة كادر معالجين متعددين',
+                ],
+            ],
+        ];
+    }
+
     /**
      * Register a new Center and its pending Admin User.
      */
@@ -63,14 +89,18 @@ class AuthService
      */
     private function createPendingCenter(array $data): Center
     {
+        $typeValue = isset($data['type']) ? ($data['type'] instanceof CenterType ? $data['type']->value : $data['type']) : 'institution';
+        $isIndividual = $typeValue === CenterType::INDIVIDUAL->value;
+
         return Center::create([
             'name' => $data['center_name'],
+            'type' => $typeValue,
             'phone' => $data['phone'],
             'specialty' => $data['specialty'] ?? null,
             'country' => $data['country'] ?? null,
             'city' => $data['city'] ?? null,
-            'therapists_count' => $data['therapists_count'] ?? 1,
-            'branches_count' => $data['branches_count'] ?? 1,
+            'therapists_count' => $isIndividual ? 1 : ($data['therapists_count'] ?? 1),
+            'branches_count' => $isIndividual ? 1 : ($data['branches_count'] ?? 1),
             'referral_source' => $data['referral_source'] ?? null,
             'terms_accepted' => isset($data['terms_accepted']) ? filter_var($data['terms_accepted'], FILTER_VALIDATE_BOOLEAN) : true,
             'status' => 'pending',
@@ -150,7 +180,7 @@ class AuthService
      */
     private function verifyUserAndCenterStatus(User $user): void
     {
-        $userStatusValue = $user->status instanceof \App\Enums\UserStatus ? $user->status->value : (string) $user->status;
+        $userStatusValue = $user->status instanceof UserStatus ? $user->status->value : (string) $user->status;
         if (in_array($userStatusValue, ['inactive', 'suspended', 'rejected'])) {
             throw ValidationException::withMessages([
                 'identity' => ['Your account is currently ' . $userStatusValue . '. Please contact support.'],
@@ -158,7 +188,7 @@ class AuthService
         }
 
         if ($user->center_id && $user->center) {
-            $centerStatusValue = $user->center->status instanceof \App\Enums\CenterStatus ? $user->center->status->value : (string) $user->center->status;
+            $centerStatusValue = $user->center->status instanceof CenterStatus ? $user->center->status->value : (string) $user->center->status;
             if (in_array($centerStatusValue, ['inactive', 'suspended', 'rejected'])) {
                 throw ValidationException::withMessages([
                     'identity' => ['Your center is currently ' . $centerStatusValue . '. Please contact administrator.'],

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\Center;
+use App\Models\PatientProfile;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -220,7 +221,7 @@ class AuthTest extends TestCase
         ]);
         $patient->assignRole('patient');
 
-        \App\Models\PatientProfile::create([
+        PatientProfile::create([
             'user_id' => $patient->id,
             'center_id' => $center->id,
             'therapist_id' => $therapist->id,
@@ -266,7 +267,7 @@ class AuthTest extends TestCase
         ]);
         $patient->assignRole('patient');
 
-        \App\Models\PatientProfile::create([
+        PatientProfile::create([
             'user_id' => $patient->id,
             'center_id' => $center->id,
             'therapist_id' => $therapist->id,

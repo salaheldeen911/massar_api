@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\Multitenancy\Jobs\TenantAware;
+use App\Models\Center;
 use Illuminate\Broadcasting\BroadcastEvent;
 use Illuminate\Events\CallQueuedListener;
 use Illuminate\Mail\SendQueuedMailable;
@@ -47,7 +48,7 @@ return [
      * It must  extend `Spatie\Multitenancy\Models\Tenant::class` or
      * implement `Spatie\Multitenancy\Contracts\IsTenant::class` interface
      */
-    'tenant_model' => App\Models\Center::class,
+    'tenant_model' => Center::class,
 
     /*
      * If there is a current tenant when dispatching a job, the id of the current tenant

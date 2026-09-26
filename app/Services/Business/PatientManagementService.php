@@ -8,6 +8,7 @@ use App\Models\PatientProfile;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -158,10 +159,15 @@ class PatientManagementService
 
     private function createPatientProfile(User $user, array $data, ?int $centerId): PatientProfile
     {
+        $therapistId = $data['therapist_id'] ?? null;
+        if (! $therapistId && currentCenter()?->isIndividual()) {
+            $therapistId = currentUser()?->id;
+        }
+
         return PatientProfile::create([
             'user_id' => $user->id,
             'center_id' => $centerId,
-            'therapist_id' => $data['therapist_id'] ?? null,
+            'therapist_id' => $therapistId,
             'birth_date' => $data['birth_date'],
             'current_week' => $data['current_week'] ?? 1,
             'patient_history' => $data['patient_history'] ?? null,
@@ -217,11 +223,11 @@ class PatientManagementService
 
     private function handleMediaAttachments(User $user, PatientProfile $profile, array $data): void
     {
-        if (isset($data['avatar']) && $data['avatar'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['avatar']) && $data['avatar'] instanceof UploadedFile) {
             $user->addMedia($data['avatar'])->toMediaCollection('avatar');
         }
 
-        if (isset($data['special_tests_file']) && $data['special_tests_file'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['special_tests_file']) && $data['special_tests_file'] instanceof UploadedFile) {
             $profile->addMedia($data['special_tests_file'])->toMediaCollection('special_tests');
         }
     }

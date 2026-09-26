@@ -11,6 +11,66 @@
             "description": "Authentication workflow endpoints (Registration, Login, User Details, Logout).",
             "item": [
                 {
+                    "name": "Get Registration Options",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/register/options",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "register",
+                                "options"
+                            ]
+                        },
+                        "description": "Public endpoint to retrieve available registration lookup options, such as center types (individual vs institution) with Arabic/English labels and descriptions."
+                    },
+                    "response": [
+                        {
+                            "name": "200 OK - Options Retrieved Successfully",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/register/options",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "register",
+                                        "options"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Registration options retrieved successfully.\",\n  \"data\": {\n    \"center_types\": [\n      {\n        \"key\": \"individual\",\n        \"label_ar\": \"معالج مستقل / فردي\",\n        \"label_en\": \"Individual Practitioner\",\n        \"description\": \"حساب لشخص واحد ولا يسمح بإضافة معالجين آخرين\"\n      },\n      {\n        \"key\": \"institution\",\n        \"label_ar\": \"مؤسسة / مركز طبي\",\n        \"label_en\": \"Medical Institution\",\n        \"description\": \"مركز طبي كامل يتيح إدارة وإضافة كادر معالجين متعددين\"\n      }\n    ]\n  }\n}"
+                        }
+                    ]
+                },
+                {
                     "name": "Register Center Admin (Pending Application)",
                     "request": {
                         "method": "POST",
@@ -28,7 +88,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"center_name\": \"Hope Medical Center\",\n  \"specialty\": \"Physical Therapy & Rehabilitation\",\n  \"therapists_count\": 5,\n  \"branches_count\": 2,\n  \"referral_source\": \"Facebook Ad\",\n  \"terms_accepted\": true,\n  \"name\": \"Dr. Tarek Admin\",\n  \"email\": \"tarek@hopemedical.com\",\n  \"phone\": \"+201011113333\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}"
+                            "raw": "{\n  \"center_name\": \"Hope Medical Center\",\n  \"type\": \"institution\",\n  \"specialty\": \"Physical Therapy & Rehabilitation\",\n  \"therapists_count\": 5,\n  \"branches_count\": 2,\n  \"referral_source\": \"Facebook Ad\",\n  \"terms_accepted\": true,\n  \"name\": \"Dr. Tarek Admin\",\n  \"email\": \"tarek@hopemedical.com\",\n  \"phone\": \"+201011113333\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}"
                         },
                         "url": {
                             "raw": "{{baseUrl}}/register",

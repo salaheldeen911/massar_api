@@ -2,13 +2,13 @@
 
 namespace App\Services\Landlord;
 
-use Illuminate\Support\Facades\Hash;
-
+use App\Enums\CenterType;
 use App\Models\Center;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class CenterManagementService
 {
@@ -97,6 +97,10 @@ class CenterManagementService
             });
         }
 
+        if (! empty($filters['type'])) {
+            $query->where('type', $filters['type']);
+        }
+
         if (! empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
@@ -111,14 +115,18 @@ class CenterManagementService
      */
     private function saveCenterRecord(array $data): Center
     {
+        $typeValue = isset($data['type']) ? ($data['type'] instanceof CenterType ? $data['type']->value : $data['type']) : 'institution';
+        $isIndividual = $typeValue === CenterType::INDIVIDUAL->value;
+
         return Center::create([
             'name' => $data['name'],
+            'type' => $typeValue,
             'phone' => $data['phone'],
             'specialty' => $data['specialty'] ?? null,
             'country' => $data['country'] ?? 'Egypt',
             'city' => $data['city'] ?? 'Cairo',
-            'therapists_count' => $data['therapists_count'] ?? 1,
-            'branches_count' => $data['branches_count'] ?? 1,
+            'therapists_count' => $isIndividual ? 1 : ($data['therapists_count'] ?? 1),
+            'branches_count' => $isIndividual ? 1 : ($data['branches_count'] ?? 1),
             'referral_source' => $data['referral_source'] ?? null,
             'terms_accepted' => $data['terms_accepted'] ?? true,
             'status' => $data['status'] ?? 'active',
