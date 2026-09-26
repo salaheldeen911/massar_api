@@ -87,6 +87,7 @@ class ExerciseService
 
             return PatientExercise::create([
                 'patient_id' => $patient->id,
+                'center_id' => $patient->center_id,
                 'exercise_id' => $exercise->id,
                 'assigned_by' => $currentUser?->id,
                 'sets' => $data['sets'] ?? $exercise->default_sets,

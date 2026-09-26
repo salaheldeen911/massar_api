@@ -21,6 +21,7 @@ class PatientNutritionPlanService
         return DB::transaction(function () use ($patient, $data, $currentUser) {
             return NutritionPlan::create([
                 'patient_id' => $patient->id,
+                'center_id' => $patient->center_id,
                 'therapist_id' => $currentUser?->id,
                 'breakfast' => $data['breakfast'] ?? null,
                 'lunch' => $data['lunch'] ?? null,

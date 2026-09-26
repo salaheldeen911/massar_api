@@ -36,6 +36,7 @@ class PatientExerciseService
                 'patient_exercise_id' => $patientExercise->id,
                 'patient_id' => $patientUser->id,
                 'logged_at' => $today,
+                'center_id' => $patientUser->center_id,
             ]);
 
             $completedSets = isset($data['completed_sets'])
@@ -87,6 +88,7 @@ class PatientExerciseService
                 'patient_exercise_id' => $patientExercise->id,
                 'patient_id' => $patientUser->id,
                 'logged_at' => $today,
+                'center_id' => $patientUser->center_id,
             ]);
 
             $log->completed_sets = $patientExercise->sets;

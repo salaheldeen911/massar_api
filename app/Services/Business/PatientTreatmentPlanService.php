@@ -21,6 +21,7 @@ class PatientTreatmentPlanService
         return DB::transaction(function () use ($patient, $data, $currentUser) {
             return TreatmentPlan::create([
                 'patient_id' => $patient->id,
+                'center_id' => $patient->center_id,
                 'therapist_id' => $currentUser?->id,
                 'manual_therapy' => $data['manual_therapy'] ?? null,
                 'electrotherapy' => $data['electrotherapy'] ?? null,
