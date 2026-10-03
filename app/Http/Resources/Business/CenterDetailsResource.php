@@ -19,6 +19,8 @@ class CenterDetailsResource extends JsonResource
             'whatsapp' => $this->whatsapp,
             'instagram' => $this->instagram,
             'linkedin' => $this->linkedin,
+            'primary_color' => $this->primary_color ?? '#012053',
+            'secondary_color' => $this->secondary_color ?? '#F05023',
             'logo_url' => $this->getFirstMediaUrl('logo') ?: null,
             'created_at' => $this->created_at?->toISOString(),
             'updated_at' => $this->updated_at?->toISOString(),

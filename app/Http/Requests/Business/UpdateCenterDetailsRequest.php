@@ -24,6 +24,8 @@ class UpdateCenterDetailsRequest extends FormRequest
             'whatsapp' => ['nullable', 'string', 'max:50'],
             'instagram' => ['nullable', 'string', 'max:255'],
             'linkedin' => ['nullable', 'string', 'max:255'],
+            'primary_color' => ['sometimes', 'string', 'regex:/^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/'],
+            'secondary_color' => ['sometimes', 'string', 'regex:/^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/'],
             'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:5120'],
         ];
     }

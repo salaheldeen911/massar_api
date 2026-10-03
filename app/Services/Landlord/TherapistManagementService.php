@@ -4,6 +4,7 @@ namespace App\Services\Landlord;
 
 use Illuminate\Support\Facades\Hash;
 
+use App\Models\Center;
 use App\Models\TherapistProfile;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -29,6 +30,14 @@ class TherapistManagementService
      */
     public function createTherapist(array $data, ?UploadedFile $avatar = null): User
     {
+        $center = Center::findOrFail($data['center_id']);
+
+        if ($center->isIndividual()) {
+            throw ValidationException::withMessages([
+                'center_id' => ['Cannot add additional therapists to an individual practitioner center.'],
+            ]);
+        }
+
         return DB::transaction(function () use ($data, $avatar) {
             $user = $this->saveTherapistUserRecord($data);
 

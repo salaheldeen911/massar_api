@@ -26,7 +26,7 @@ class CenterDetailsService
         $center = $this->getCenterDetails();
 
         return DB::transaction(function () use ($center, $data) {
-            $fields = ['name', 'email', 'phone', 'facebook', 'whatsapp', 'instagram', 'linkedin'];
+            $fields = ['name', 'email', 'phone', 'facebook', 'whatsapp', 'instagram', 'linkedin', 'primary_color', 'secondary_color'];
             $updateData = [];
 
             foreach ($fields as $field) {

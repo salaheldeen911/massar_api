@@ -35,6 +35,8 @@ class CenterResource extends JsonResource
             'whatsapp' => $this->whatsapp,
             'instagram' => $this->instagram,
             'linkedin' => $this->linkedin,
+            'primary_color' => $this->primary_color ?? '#012053',
+            'secondary_color' => $this->secondary_color ?? '#F05023',
             'logo_url' => $this->hasMedia('logo') ? $this->getFirstMediaUrl('logo') : null,
             'license_document_url' => $this->hasMedia('license_document') ? $this->getFirstMediaUrl('license_document') : null,
             'users' => UserResource::collection($this->whenLoaded('users')),

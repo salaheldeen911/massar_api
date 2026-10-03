@@ -25,6 +25,8 @@ class Center extends Tenant implements HasMedia
         'terms_accepted' => true,
         'status' => 'pending',
         'subscription_status' => 'trialing',
+        'primary_color' => '#012053',
+        'secondary_color' => '#F05023',
     ];
 
     protected $fillable = [
@@ -48,6 +50,8 @@ class Center extends Tenant implements HasMedia
         'whatsapp',
         'instagram',
         'linkedin',
+        'primary_color',
+        'secondary_color',
     ];
 
     protected function casts(): array

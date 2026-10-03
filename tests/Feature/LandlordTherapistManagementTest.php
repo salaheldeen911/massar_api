@@ -153,6 +153,33 @@ class LandlordTherapistManagementTest extends TestCase
         ]);
     }
 
+    public function test_landlord_cannot_create_therapist_for_individual_center(): void
+    {
+        $individualCenter = Center::create([
+            'name' => 'Dr. Solo Clinic',
+            'type' => 'individual',
+            'phone' => '+201099887766',
+            'city' => 'Alexandria',
+            'status' => 'active',
+        ]);
+
+        $payload = [
+            'center_id' => $individualCenter->id,
+            'name' => 'Dr. Second Therapist',
+            'email' => 'second@solo.com',
+            'phone' => '+201099885544',
+            'password' => 'secret1234',
+            'status' => 'active',
+        ];
+
+        $response = $this->actingAs($this->landlordUser, 'sanctum')
+            ->postJson('/api/landlord/therapists', $payload);
+
+        $response->assertStatus(422)
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('errors.center_id.0', 'Cannot add additional therapists to an individual practitioner center.');
+    }
+
     public function test_landlord_can_view_single_therapist_details(): void
     {
         $therapist = User::create([

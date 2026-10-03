@@ -54,7 +54,31 @@ class AdminCenterDetailsTest extends TestCase
             ->assertJsonPath('data.name', 'Massar Original Clinic')
             ->assertJsonPath('data.email', 'info@massar.com')
             ->assertJsonPath('data.phone', '+201114543532')
-            ->assertJsonPath('data.facebook', 'https://facebook.com/massar');
+            ->assertJsonPath('data.facebook', 'https://facebook.com/massar')
+            ->assertJsonPath('data.primary_color', '#012053')
+            ->assertJsonPath('data.secondary_color', '#F05023');
+    }
+
+    public function test_admin_can_update_center_theme_colors(): void
+    {
+        $payload = [
+            'primary_color' => '#112233',
+            'secondary_color' => '#FF5500',
+        ];
+
+        $response = $this->actingAs($this->adminUser, 'sanctum')
+            ->postJson('/api/business/center-details', $payload);
+
+        $response->assertStatus(200)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data.primary_color', '#112233')
+            ->assertJsonPath('data.secondary_color', '#FF5500');
+
+        $this->assertDatabaseHas('centers', [
+            'id' => $this->center->id,
+            'primary_color' => '#112233',
+            'secondary_color' => '#FF5500',
+        ]);
     }
 
     public function test_admin_can_update_center_website_info_and_social_links(): void
